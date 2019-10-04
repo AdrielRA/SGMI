@@ -36,19 +36,21 @@
             this.btn_MaxRes = new Bunifu.Framework.UI.BunifuThinButton2();
             this.btn_Minimizar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.pnl_Tela = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.lollipopLabel2 = new LollipopLabel();
+            this.btn_Solicitar = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.btn_Logar = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.txt_User = new Bunifu.Framework.UI.BunifuMaterialTextbox();
+            this.txt_Pass = new Bunifu.Framework.UI.BunifuMaterialTextbox();
+            this.cb_Keep = new LollipopCheckBox();
             this.drag_Login = new AdrielDev.DragControl();
+            this.elip_Tela = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.elip_Login = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuMaterialTextbox1 = new Bunifu.Framework.UI.BunifuMaterialTextbox();
-            this.bunifuMaterialTextbox2 = new Bunifu.Framework.UI.BunifuMaterialTextbox();
-            this.lollipopCheckBox1 = new LollipopCheckBox();
-            this.lollipopLabel1 = new LollipopLabel();
-            this.pnl_Login = new System.Windows.Forms.Panel();
-            this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuFlatButton1 = new Bunifu.Framework.UI.BunifuFlatButton();
-            this.bunifuFlatButton2 = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panelT1 = new AdrielDev.PanelT();
+            this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.pnl_Titulo.SuspendLayout();
             this.pnl_Tela.SuspendLayout();
-            this.pnl_Login.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnl_Titulo
@@ -166,7 +168,15 @@
             // 
             this.pnl_Tela.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Tela.BackgroundImage")));
             this.pnl_Tela.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pnl_Tela.Controls.Add(this.pnl_Login);
+            this.pnl_Tela.Controls.Add(this.bunifuCustomLabel1);
+            this.pnl_Tela.Controls.Add(this.btn_Solicitar);
+            this.pnl_Tela.Controls.Add(this.btn_Logar);
+            this.pnl_Tela.Controls.Add(this.txt_User);
+            this.pnl_Tela.Controls.Add(this.txt_Pass);
+            this.pnl_Tela.Controls.Add(this.cb_Keep);
+            this.pnl_Tela.Controls.Add(this.panelT1);
+            this.pnl_Tela.Controls.Add(this.pictureBox1);
+            this.pnl_Tela.Controls.Add(this.lollipopLabel2);
             this.pnl_Tela.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_Tela.GradientBottomLeft = System.Drawing.Color.Crimson;
             this.pnl_Tela.GradientBottomRight = System.Drawing.Color.Maroon;
@@ -178,193 +188,220 @@
             this.pnl_Tela.Size = new System.Drawing.Size(800, 411);
             this.pnl_Tela.TabIndex = 1;
             // 
+            // lollipopLabel2
+            // 
+            this.lollipopLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lollipopLabel2.ForeColor = System.Drawing.Color.White;
+            this.lollipopLabel2.Location = new System.Drawing.Point(252, 374);
+            this.lollipopLabel2.Name = "lollipopLabel2";
+            this.lollipopLabel2.Size = new System.Drawing.Size(297, 17);
+            this.lollipopLabel2.TabIndex = 5;
+            this.lollipopLabel2.Text = "Todos os direitos reservados - UNIFENAS - 2019";
+            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_Solicitar
+            // 
+            this.btn_Solicitar.Active = false;
+            this.btn_Solicitar.Activecolor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Solicitar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Solicitar.BackColor = System.Drawing.Color.White;
+            this.btn_Solicitar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_Solicitar.BorderRadius = 0;
+            this.btn_Solicitar.ButtonText = "Solicitar Login";
+            this.btn_Solicitar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Solicitar.DisabledColor = System.Drawing.Color.Gray;
+            this.btn_Solicitar.Font = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Bold);
+            this.btn_Solicitar.ForeColor = System.Drawing.Color.Maroon;
+            this.btn_Solicitar.Iconcolor = System.Drawing.Color.Transparent;
+            this.btn_Solicitar.Iconimage = ((System.Drawing.Image)(resources.GetObject("btn_Solicitar.Iconimage")));
+            this.btn_Solicitar.Iconimage_right = null;
+            this.btn_Solicitar.Iconimage_right_Selected = null;
+            this.btn_Solicitar.Iconimage_Selected = null;
+            this.btn_Solicitar.IconMarginLeft = 0;
+            this.btn_Solicitar.IconMarginRight = 0;
+            this.btn_Solicitar.IconRightVisible = false;
+            this.btn_Solicitar.IconRightZoom = 0D;
+            this.btn_Solicitar.IconVisible = false;
+            this.btn_Solicitar.IconZoom = 100D;
+            this.btn_Solicitar.IsTab = false;
+            this.btn_Solicitar.Location = new System.Drawing.Point(253, 295);
+            this.btn_Solicitar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Solicitar.Name = "btn_Solicitar";
+            this.btn_Solicitar.Normalcolor = System.Drawing.Color.White;
+            this.btn_Solicitar.OnHovercolor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Solicitar.OnHoverTextColor = System.Drawing.Color.Maroon;
+            this.btn_Solicitar.selected = false;
+            this.btn_Solicitar.Size = new System.Drawing.Size(295, 32);
+            this.btn_Solicitar.TabIndex = 5;
+            this.btn_Solicitar.Text = "Solicitar Login";
+            this.btn_Solicitar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_Solicitar.Textcolor = System.Drawing.Color.Maroon;
+            this.btn_Solicitar.TextFont = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Bold);
+            this.btn_Solicitar.Click += new System.EventHandler(this.Btn_Solicitar_Click);
+            // 
+            // btn_Logar
+            // 
+            this.btn_Logar.Active = false;
+            this.btn_Logar.Activecolor = System.Drawing.Color.DarkRed;
+            this.btn_Logar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Logar.BackColor = System.Drawing.Color.DarkRed;
+            this.btn_Logar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_Logar.BorderRadius = 0;
+            this.btn_Logar.ButtonText = "LOGAR";
+            this.btn_Logar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Logar.DisabledColor = System.Drawing.Color.Gray;
+            this.btn_Logar.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Logar.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Logar.Iconcolor = System.Drawing.Color.Transparent;
+            this.btn_Logar.Iconimage = ((System.Drawing.Image)(resources.GetObject("btn_Logar.Iconimage")));
+            this.btn_Logar.Iconimage_right = null;
+            this.btn_Logar.Iconimage_right_Selected = null;
+            this.btn_Logar.Iconimage_Selected = null;
+            this.btn_Logar.IconMarginLeft = 0;
+            this.btn_Logar.IconMarginRight = 0;
+            this.btn_Logar.IconRightVisible = false;
+            this.btn_Logar.IconRightZoom = 0D;
+            this.btn_Logar.IconVisible = false;
+            this.btn_Logar.IconZoom = 100D;
+            this.btn_Logar.IsTab = false;
+            this.btn_Logar.Location = new System.Drawing.Point(253, 229);
+            this.btn_Logar.Margin = new System.Windows.Forms.Padding(5);
+            this.btn_Logar.Name = "btn_Logar";
+            this.btn_Logar.Normalcolor = System.Drawing.Color.DarkRed;
+            this.btn_Logar.OnHovercolor = System.Drawing.Color.Maroon;
+            this.btn_Logar.OnHoverTextColor = System.Drawing.Color.White;
+            this.btn_Logar.selected = false;
+            this.btn_Logar.Size = new System.Drawing.Size(295, 50);
+            this.btn_Logar.TabIndex = 4;
+            this.btn_Logar.Text = "LOGAR";
+            this.btn_Logar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_Logar.Textcolor = System.Drawing.Color.White;
+            this.btn_Logar.TextFont = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold);
+            this.btn_Logar.Click += new System.EventHandler(this.Btn_Logar_Click);
+            // 
+            // txt_User
+            // 
+            this.txt_User.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_User.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txt_User.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txt_User.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txt_User.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_User.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_User.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            this.txt_User.ForeColor = System.Drawing.Color.Maroon;
+            this.txt_User.HintForeColor = System.Drawing.Color.Empty;
+            this.txt_User.HintText = "Nome de Usuário";
+            this.txt_User.isPassword = false;
+            this.txt_User.LineFocusedColor = System.Drawing.Color.Maroon;
+            this.txt_User.LineIdleColor = System.Drawing.Color.Silver;
+            this.txt_User.LineMouseHoverColor = System.Drawing.Color.IndianRed;
+            this.txt_User.LineThickness = 3;
+            this.txt_User.Location = new System.Drawing.Point(253, 95);
+            this.txt_User.Margin = new System.Windows.Forms.Padding(0);
+            this.txt_User.MaxLength = 50;
+            this.txt_User.Name = "txt_User";
+            this.txt_User.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_User.Size = new System.Drawing.Size(295, 33);
+            this.txt_User.TabIndex = 0;
+            this.txt_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            // 
+            // txt_Pass
+            // 
+            this.txt_Pass.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_Pass.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txt_Pass.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txt_Pass.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txt_Pass.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_Pass.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_Pass.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            this.txt_Pass.ForeColor = System.Drawing.Color.Maroon;
+            this.txt_Pass.HintForeColor = System.Drawing.Color.Empty;
+            this.txt_Pass.HintText = "Senha";
+            this.txt_Pass.isPassword = true;
+            this.txt_Pass.LineFocusedColor = System.Drawing.Color.Maroon;
+            this.txt_Pass.LineIdleColor = System.Drawing.Color.Silver;
+            this.txt_Pass.LineMouseHoverColor = System.Drawing.Color.IndianRed;
+            this.txt_Pass.LineThickness = 3;
+            this.txt_Pass.Location = new System.Drawing.Point(253, 144);
+            this.txt_Pass.Margin = new System.Windows.Forms.Padding(0);
+            this.txt_Pass.MaxLength = 50;
+            this.txt_Pass.Name = "txt_Pass";
+            this.txt_Pass.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_Pass.Size = new System.Drawing.Size(295, 33);
+            this.txt_Pass.TabIndex = 1;
+            this.txt_Pass.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            // 
+            // cb_Keep
+            // 
+            this.cb_Keep.AutoSize = true;
+            this.cb_Keep.BackColor = System.Drawing.Color.Maroon;
+            this.cb_Keep.CheckColor = "#800000";
+            this.cb_Keep.Location = new System.Drawing.Point(255, 193);
+            this.cb_Keep.Margin = new System.Windows.Forms.Padding(0);
+            this.cb_Keep.Name = "cb_Keep";
+            this.cb_Keep.Size = new System.Drawing.Size(157, 20);
+            this.cb_Keep.TabIndex = 2;
+            this.cb_Keep.Text = "Manter-se Conectado";
+            this.cb_Keep.UseVisualStyleBackColor = false;
+            // 
             // drag_Login
             // 
             this.drag_Login.Activate = true;
             this.drag_Login.Target = this.pnl_Titulo;
             // 
+            // elip_Tela
+            // 
+            this.elip_Tela.ElipseRadius = 10;
+            this.elip_Tela.TargetControl = this;
+            // 
             // elip_Login
             // 
             this.elip_Login.ElipseRadius = 10;
-            this.elip_Login.TargetControl = this;
             // 
-            // bunifuMaterialTextbox1
+            // pictureBox1
             // 
-            this.bunifuMaterialTextbox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bunifuMaterialTextbox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
-            this.bunifuMaterialTextbox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
-            this.bunifuMaterialTextbox1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.bunifuMaterialTextbox1.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.bunifuMaterialTextbox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.bunifuMaterialTextbox1.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            this.bunifuMaterialTextbox1.ForeColor = System.Drawing.Color.Maroon;
-            this.bunifuMaterialTextbox1.HintForeColor = System.Drawing.Color.Empty;
-            this.bunifuMaterialTextbox1.HintText = "Nome de Usuário";
-            this.bunifuMaterialTextbox1.isPassword = false;
-            this.bunifuMaterialTextbox1.LineFocusedColor = System.Drawing.Color.Maroon;
-            this.bunifuMaterialTextbox1.LineIdleColor = System.Drawing.Color.Silver;
-            this.bunifuMaterialTextbox1.LineMouseHoverColor = System.Drawing.Color.IndianRed;
-            this.bunifuMaterialTextbox1.LineThickness = 3;
-            this.bunifuMaterialTextbox1.Location = new System.Drawing.Point(21, 23);
-            this.bunifuMaterialTextbox1.Margin = new System.Windows.Forms.Padding(0);
-            this.bunifuMaterialTextbox1.MaxLength = 50;
-            this.bunifuMaterialTextbox1.Name = "bunifuMaterialTextbox1";
-            this.bunifuMaterialTextbox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bunifuMaterialTextbox1.Size = new System.Drawing.Size(295, 33);
-            this.bunifuMaterialTextbox1.TabIndex = 0;
-            this.bunifuMaterialTextbox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            // 
-            // bunifuMaterialTextbox2
-            // 
-            this.bunifuMaterialTextbox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bunifuMaterialTextbox2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
-            this.bunifuMaterialTextbox2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
-            this.bunifuMaterialTextbox2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.bunifuMaterialTextbox2.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.bunifuMaterialTextbox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.bunifuMaterialTextbox2.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            this.bunifuMaterialTextbox2.ForeColor = System.Drawing.Color.Maroon;
-            this.bunifuMaterialTextbox2.HintForeColor = System.Drawing.Color.Empty;
-            this.bunifuMaterialTextbox2.HintText = "Senha";
-            this.bunifuMaterialTextbox2.isPassword = true;
-            this.bunifuMaterialTextbox2.LineFocusedColor = System.Drawing.Color.Maroon;
-            this.bunifuMaterialTextbox2.LineIdleColor = System.Drawing.Color.Silver;
-            this.bunifuMaterialTextbox2.LineMouseHoverColor = System.Drawing.Color.IndianRed;
-            this.bunifuMaterialTextbox2.LineThickness = 3;
-            this.bunifuMaterialTextbox2.Location = new System.Drawing.Point(21, 67);
-            this.bunifuMaterialTextbox2.Margin = new System.Windows.Forms.Padding(0);
-            this.bunifuMaterialTextbox2.MaxLength = 50;
-            this.bunifuMaterialTextbox2.Name = "bunifuMaterialTextbox2";
-            this.bunifuMaterialTextbox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bunifuMaterialTextbox2.Size = new System.Drawing.Size(295, 33);
-            this.bunifuMaterialTextbox2.TabIndex = 1;
-            this.bunifuMaterialTextbox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            // 
-            // lollipopCheckBox1
-            // 
-            this.lollipopCheckBox1.AutoSize = true;
-            this.lollipopCheckBox1.BackColor = System.Drawing.Color.Maroon;
-            this.lollipopCheckBox1.CheckColor = "#800000";
-            this.lollipopCheckBox1.Location = new System.Drawing.Point(21, 114);
-            this.lollipopCheckBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.lollipopCheckBox1.Name = "lollipopCheckBox1";
-            this.lollipopCheckBox1.Size = new System.Drawing.Size(20, 20);
-            this.lollipopCheckBox1.TabIndex = 2;
-            this.lollipopCheckBox1.UseVisualStyleBackColor = false;
-            // 
-            // lollipopLabel1
-            // 
-            this.lollipopLabel1.AutoSize = true;
-            this.lollipopLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.lollipopLabel1.Font = new System.Drawing.Font("Roboto Medium", 10F);
-            this.lollipopLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(130)))), ((int)(((byte)(130)))));
-            this.lollipopLabel1.Location = new System.Drawing.Point(44, 115);
-            this.lollipopLabel1.Name = "lollipopLabel1";
-            this.lollipopLabel1.Size = new System.Drawing.Size(142, 19);
-            this.lollipopLabel1.TabIndex = 3;
-            this.lollipopLabel1.Text = "Manter-se conectado";
-            // 
-            // pnl_Login
-            // 
-            this.pnl_Login.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnl_Login.Controls.Add(this.bunifuFlatButton2);
-            this.pnl_Login.Controls.Add(this.bunifuFlatButton1);
-            this.pnl_Login.Controls.Add(this.bunifuMaterialTextbox1);
-            this.pnl_Login.Controls.Add(this.lollipopLabel1);
-            this.pnl_Login.Controls.Add(this.bunifuMaterialTextbox2);
-            this.pnl_Login.Controls.Add(this.lollipopCheckBox1);
-            this.pnl_Login.Location = new System.Drawing.Point(232, 47);
-            this.pnl_Login.Name = "pnl_Login";
-            this.pnl_Login.Size = new System.Drawing.Size(337, 305);
-            this.pnl_Login.TabIndex = 4;
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::SGMI.Properties.Resources.Banner;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(800, 328);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
             // 
-            // bunifuElipse1
+            // panelT1
             // 
-            this.bunifuElipse1.ElipseRadius = 10;
-            this.bunifuElipse1.TargetControl = this.pnl_Login;
-            // 
-            // bunifuFlatButton1
-            // 
-            this.bunifuFlatButton1.Active = false;
-            this.bunifuFlatButton1.Activecolor = System.Drawing.Color.DarkRed;
-            this.bunifuFlatButton1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelT1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.bunifuFlatButton1.BackColor = System.Drawing.Color.DarkRed;
-            this.bunifuFlatButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.bunifuFlatButton1.BorderRadius = 5;
-            this.bunifuFlatButton1.ButtonText = "LOGAR";
-            this.bunifuFlatButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuFlatButton1.DisabledColor = System.Drawing.Color.Gray;
-            this.bunifuFlatButton1.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuFlatButton1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.bunifuFlatButton1.Iconcolor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton1.Iconimage = ((System.Drawing.Image)(resources.GetObject("bunifuFlatButton1.Iconimage")));
-            this.bunifuFlatButton1.Iconimage_right = null;
-            this.bunifuFlatButton1.Iconimage_right_Selected = null;
-            this.bunifuFlatButton1.Iconimage_Selected = null;
-            this.bunifuFlatButton1.IconMarginLeft = 0;
-            this.bunifuFlatButton1.IconMarginRight = 0;
-            this.bunifuFlatButton1.IconRightVisible = true;
-            this.bunifuFlatButton1.IconRightZoom = 0D;
-            this.bunifuFlatButton1.IconVisible = false;
-            this.bunifuFlatButton1.IconZoom = 100D;
-            this.bunifuFlatButton1.IsTab = false;
-            this.bunifuFlatButton1.Location = new System.Drawing.Point(21, 154);
-            this.bunifuFlatButton1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.bunifuFlatButton1.Name = "bunifuFlatButton1";
-            this.bunifuFlatButton1.Normalcolor = System.Drawing.Color.DarkRed;
-            this.bunifuFlatButton1.OnHovercolor = System.Drawing.Color.Maroon;
-            this.bunifuFlatButton1.OnHoverTextColor = System.Drawing.Color.White;
-            this.bunifuFlatButton1.selected = false;
-            this.bunifuFlatButton1.Size = new System.Drawing.Size(295, 50);
-            this.bunifuFlatButton1.TabIndex = 4;
-            this.bunifuFlatButton1.Text = "LOGAR";
-            this.bunifuFlatButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.bunifuFlatButton1.Textcolor = System.Drawing.Color.White;
-            this.bunifuFlatButton1.TextFont = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold);
+            this.panelT1.Location = new System.Drawing.Point(232, 45);
+            this.panelT1.Name = "panelT1";
+            this.panelT1.Size = new System.Drawing.Size(337, 305);
+            this.panelT1.TabIndex = 7;
+            this.panelT1.Transparency = 75;
             // 
-            // bunifuFlatButton2
+            // bunifuCustomLabel1
             // 
-            this.bunifuFlatButton2.Active = false;
-            this.bunifuFlatButton2.Activecolor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.bunifuCustomLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.bunifuFlatButton2.BackColor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.bunifuFlatButton2.BorderRadius = 0;
-            this.bunifuFlatButton2.ButtonText = "Solicitar Login";
-            this.bunifuFlatButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuFlatButton2.DisabledColor = System.Drawing.Color.Gray;
-            this.bunifuFlatButton2.Font = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Bold);
-            this.bunifuFlatButton2.ForeColor = System.Drawing.Color.Maroon;
-            this.bunifuFlatButton2.Iconcolor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton2.Iconimage = ((System.Drawing.Image)(resources.GetObject("bunifuFlatButton2.Iconimage")));
-            this.bunifuFlatButton2.Iconimage_right = null;
-            this.bunifuFlatButton2.Iconimage_right_Selected = null;
-            this.bunifuFlatButton2.Iconimage_Selected = null;
-            this.bunifuFlatButton2.IconMarginLeft = 0;
-            this.bunifuFlatButton2.IconMarginRight = 0;
-            this.bunifuFlatButton2.IconRightVisible = true;
-            this.bunifuFlatButton2.IconRightZoom = 0D;
-            this.bunifuFlatButton2.IconVisible = false;
-            this.bunifuFlatButton2.IconZoom = 100D;
-            this.bunifuFlatButton2.IsTab = false;
-            this.bunifuFlatButton2.Location = new System.Drawing.Point(21, 224);
-            this.bunifuFlatButton2.Name = "bunifuFlatButton2";
-            this.bunifuFlatButton2.Normalcolor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton2.OnHovercolor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton2.OnHoverTextColor = System.Drawing.Color.Maroon;
-            this.bunifuFlatButton2.selected = false;
-            this.bunifuFlatButton2.Size = new System.Drawing.Size(295, 21);
-            this.bunifuFlatButton2.TabIndex = 5;
-            this.bunifuFlatButton2.Text = "Solicitar Login";
-            this.bunifuFlatButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.bunifuFlatButton2.Textcolor = System.Drawing.Color.Maroon;
-            this.bunifuFlatButton2.TextFont = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Bold);
+            this.bunifuCustomLabel1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.Maroon;
+            this.bunifuCustomLabel1.Location = new System.Drawing.Point(233, 45);
+            this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
+            this.bunifuCustomLabel1.Size = new System.Drawing.Size(336, 36);
+            this.bunifuCustomLabel1.TabIndex = 8;
+            this.bunifuCustomLabel1.Text = "Login";
+            this.bunifuCustomLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frm_Login
             // 
@@ -381,8 +418,8 @@
             this.pnl_Titulo.ResumeLayout(false);
             this.pnl_Titulo.PerformLayout();
             this.pnl_Tela.ResumeLayout(false);
-            this.pnl_Login.ResumeLayout(false);
-            this.pnl_Login.PerformLayout();
+            this.pnl_Tela.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -396,15 +433,17 @@
         private Bunifu.Framework.UI.BunifuThinButton2 btn_MaxRes;
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Minimizar;
         private AdrielDev.DragControl drag_Login;
-        private Bunifu.Framework.UI.BunifuMaterialTextbox bunifuMaterialTextbox1;
+        private Bunifu.Framework.UI.BunifuMaterialTextbox txt_User;
+        private Bunifu.Framework.UI.BunifuElipse elip_Tela;
+        private Bunifu.Framework.UI.BunifuMaterialTextbox txt_Pass;
+        private LollipopCheckBox cb_Keep;
         private Bunifu.Framework.UI.BunifuElipse elip_Login;
-        private Bunifu.Framework.UI.BunifuMaterialTextbox bunifuMaterialTextbox2;
-        private LollipopCheckBox lollipopCheckBox1;
-        private LollipopLabel lollipopLabel1;
-        private System.Windows.Forms.Panel pnl_Login;
-        private Bunifu.Framework.UI.BunifuElipse bunifuElipse1;
-        private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton2;
-        private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton1;
+        private Bunifu.Framework.UI.BunifuFlatButton btn_Solicitar;
+        private Bunifu.Framework.UI.BunifuFlatButton btn_Logar;
+        private LollipopLabel lollipopLabel2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
+        private AdrielDev.PanelT panelT1;
     }
 }
 
