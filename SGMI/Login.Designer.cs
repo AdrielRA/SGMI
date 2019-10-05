@@ -36,18 +36,18 @@
             this.btn_MaxRes = new Bunifu.Framework.UI.BunifuThinButton2();
             this.btn_Minimizar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.pnl_Tela = new Bunifu.Framework.UI.BunifuGradientPanel();
-            this.lollipopLabel2 = new LollipopLabel();
+            this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.btn_Solicitar = new Bunifu.Framework.UI.BunifuFlatButton();
             this.btn_Logar = new Bunifu.Framework.UI.BunifuFlatButton();
             this.txt_User = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.txt_Pass = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.cb_Keep = new LollipopCheckBox();
+            this.panelT1 = new AdrielDev.PanelT();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lollipopLabel2 = new LollipopLabel();
             this.drag_Login = new AdrielDev.DragControl();
             this.elip_Tela = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.elip_Login = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panelT1 = new AdrielDev.PanelT();
-            this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.pnl_Titulo.SuspendLayout();
             this.pnl_Tela.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -80,7 +80,7 @@
             this.btn_Fechar.ActiveForecolor = System.Drawing.Color.White;
             this.btn_Fechar.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_Fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Fechar.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Fechar.BackColor = System.Drawing.SystemColors.Control;
             this.btn_Fechar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Fechar.BackgroundImage")));
             this.btn_Fechar.ButtonText = "🗙";
             this.btn_Fechar.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -118,7 +118,7 @@
             this.btn_MaxRes.ActiveForecolor = System.Drawing.Color.White;
             this.btn_MaxRes.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_MaxRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_MaxRes.BackColor = System.Drawing.Color.Transparent;
+            this.btn_MaxRes.BackColor = System.Drawing.SystemColors.Control;
             this.btn_MaxRes.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_MaxRes.BackgroundImage")));
             this.btn_MaxRes.ButtonText = "🗖";
             this.btn_MaxRes.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -145,7 +145,7 @@
             this.btn_Minimizar.ActiveForecolor = System.Drawing.Color.White;
             this.btn_Minimizar.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_Minimizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Minimizar.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Minimizar.BackColor = System.Drawing.SystemColors.Control;
             this.btn_Minimizar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Minimizar.BackgroundImage")));
             this.btn_Minimizar.ButtonText = "🗕";
             this.btn_Minimizar.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -188,19 +188,18 @@
             this.pnl_Tela.Size = new System.Drawing.Size(800, 411);
             this.pnl_Tela.TabIndex = 1;
             // 
-            // lollipopLabel2
+            // bunifuCustomLabel1
             // 
-            this.lollipopLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.bunifuCustomLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lollipopLabel2.ForeColor = System.Drawing.Color.White;
-            this.lollipopLabel2.Location = new System.Drawing.Point(252, 374);
-            this.lollipopLabel2.Name = "lollipopLabel2";
-            this.lollipopLabel2.Size = new System.Drawing.Size(297, 17);
-            this.lollipopLabel2.TabIndex = 5;
-            this.lollipopLabel2.Text = "Todos os direitos reservados - UNIFENAS - 2019";
-            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bunifuCustomLabel1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.Maroon;
+            this.bunifuCustomLabel1.Location = new System.Drawing.Point(233, 45);
+            this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
+            this.bunifuCustomLabel1.Size = new System.Drawing.Size(336, 36);
+            this.bunifuCustomLabel1.TabIndex = 8;
+            this.bunifuCustomLabel1.Text = "Login";
+            this.bunifuCustomLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btn_Solicitar
             // 
@@ -351,19 +350,16 @@
             this.cb_Keep.Text = "Manter-se Conectado";
             this.cb_Keep.UseVisualStyleBackColor = false;
             // 
-            // drag_Login
+            // panelT1
             // 
-            this.drag_Login.Activate = true;
-            this.drag_Login.Target = this.pnl_Titulo;
-            // 
-            // elip_Tela
-            // 
-            this.elip_Tela.ElipseRadius = 10;
-            this.elip_Tela.TargetControl = this;
-            // 
-            // elip_Login
-            // 
-            this.elip_Login.ElipseRadius = 10;
+            this.panelT1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelT1.Location = new System.Drawing.Point(232, 45);
+            this.panelT1.Name = "panelT1";
+            this.panelT1.Size = new System.Drawing.Size(337, 305);
+            this.panelT1.TabIndex = 7;
+            this.panelT1.Transparency = 75;
             // 
             // pictureBox1
             // 
@@ -379,29 +375,34 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
-            // panelT1
+            // lollipopLabel2
             // 
-            this.panelT1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lollipopLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelT1.Location = new System.Drawing.Point(232, 45);
-            this.panelT1.Name = "panelT1";
-            this.panelT1.Size = new System.Drawing.Size(337, 305);
-            this.panelT1.TabIndex = 7;
-            this.panelT1.Transparency = 75;
+            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lollipopLabel2.ForeColor = System.Drawing.Color.White;
+            this.lollipopLabel2.Location = new System.Drawing.Point(252, 374);
+            this.lollipopLabel2.Name = "lollipopLabel2";
+            this.lollipopLabel2.Size = new System.Drawing.Size(297, 17);
+            this.lollipopLabel2.TabIndex = 5;
+            this.lollipopLabel2.Text = "Todos os direitos reservados - UNIFENAS - 2019";
+            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // bunifuCustomLabel1
+            // drag_Login
             // 
-            this.bunifuCustomLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bunifuCustomLabel1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.Maroon;
-            this.bunifuCustomLabel1.Location = new System.Drawing.Point(233, 45);
-            this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
-            this.bunifuCustomLabel1.Size = new System.Drawing.Size(336, 36);
-            this.bunifuCustomLabel1.TabIndex = 8;
-            this.bunifuCustomLabel1.Text = "Login";
-            this.bunifuCustomLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.drag_Login.Activate = true;
+            this.drag_Login.Target = this.pnl_Titulo;
+            // 
+            // elip_Tela
+            // 
+            this.elip_Tela.ElipseRadius = 10;
+            this.elip_Tela.TargetControl = this;
+            // 
+            // elip_Login
+            // 
+            this.elip_Login.ElipseRadius = 10;
+            this.elip_Login.TargetControl = this;
             // 
             // frm_Login
             // 
