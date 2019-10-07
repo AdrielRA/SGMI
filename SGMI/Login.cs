@@ -63,7 +63,9 @@ namespace SGMI
 
         private void Btn_Solicitar_Click(object sender, EventArgs e)
         {
-             Forms_Controller.Abrir(new frm_SignUp());
+            //Hide();
+            new frm_SignUp().ShowDialog();
+            Show();
         }
     }
 }

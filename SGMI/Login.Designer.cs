@@ -80,7 +80,7 @@
             this.btn_Fechar.ActiveForecolor = System.Drawing.Color.White;
             this.btn_Fechar.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_Fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Fechar.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_Fechar.BackColor = System.Drawing.Color.Transparent;
             this.btn_Fechar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Fechar.BackgroundImage")));
             this.btn_Fechar.ButtonText = "🗙";
             this.btn_Fechar.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -118,7 +118,7 @@
             this.btn_MaxRes.ActiveForecolor = System.Drawing.Color.White;
             this.btn_MaxRes.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_MaxRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_MaxRes.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_MaxRes.BackColor = System.Drawing.Color.Transparent;
             this.btn_MaxRes.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_MaxRes.BackgroundImage")));
             this.btn_MaxRes.ButtonText = "🗖";
             this.btn_MaxRes.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -145,7 +145,7 @@
             this.btn_Minimizar.ActiveForecolor = System.Drawing.Color.White;
             this.btn_Minimizar.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_Minimizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Minimizar.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_Minimizar.BackColor = System.Drawing.Color.Transparent;
             this.btn_Minimizar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Minimizar.BackgroundImage")));
             this.btn_Minimizar.ButtonText = "🗕";
             this.btn_Minimizar.Cursor = System.Windows.Forms.Cursors.Hand;

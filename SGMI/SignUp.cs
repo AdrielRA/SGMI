@@ -16,5 +16,16 @@ namespace SGMI
         {
             InitializeComponent();
         }
+
+        private void Btn_Fechar_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void Frm_SignUp_Load(object sender, EventArgs e)
+        {
+            btn_Fechar.BackColor = Color.Transparent;
+            btn_Fechar.Refresh();
+        }
     }
 }
