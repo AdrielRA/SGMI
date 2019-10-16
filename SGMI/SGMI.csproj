@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CadastroMenor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CadastroMenor.Designer.cs">
+      <DependentUpon>CadastroMenor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data_Controller.cs" />
     <Compile Include="Forms_Controller.cs" />
     <Compile Include="Login.cs">
@@ -78,6 +84,9 @@
       <DependentUpon>SignUp.cs</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
+    <EmbeddedResource Include="CadastroMenor.resx">
+      <DependentUpon>CadastroMenor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

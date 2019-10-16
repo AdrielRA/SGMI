@@ -10,16 +10,13 @@ using System.Windows.Forms;
 
 namespace SGMI
 {
-    public partial class frm_Menu : Form
+    public partial class frm_CadastroMenor : Form
     {
-        public frm_Menu()
+        public frm_CadastroMenor()
         {
             InitializeComponent();
         }
 
-        private void Btn_Fechar_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        
     }
 }
