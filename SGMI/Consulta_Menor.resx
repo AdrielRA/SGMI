@@ -117,83 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="bunifuElipse2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>142, 17</value>
-  </metadata>
-  <metadata name="bunifuElipse3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>265, 17</value>
-  </metadata>
-  <metadata name="bunifuElipse4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>389, 17</value>
-  </metadata>
-  <metadata name="bunifuElipse5.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>513, 17</value>
-  </metadata>
-  <metadata name="bunifuElipse6.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>637, 17</value>
-  </metadata>
-  <metadata name="bunifuElipse7.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
-  </metadata>
-  <metadata name="bunifuElipse8.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>141, 56</value>
-  </metadata>
-  <metadata name="bunifuElipse9.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>265, 56</value>
-  </metadata>
-  <metadata name="bunifuElipse10.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>389, 56</value>
-  </metadata>
-  <metadata name="bunifuElipse11.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>520, 56</value>
-  </metadata>
-  <metadata name="bunifuElipse12.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>651, 56</value>
-  </metadata>
-  <metadata name="bunifuElipse13.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 95</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="bunifuGradientPanel1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAUSURBVChTY/hPJBhViBdQW+H//wAj+46A3TfWvAAAAABJ
-        RU5ErkJggg==
-</value>
-  </data>
-  <data name="bunifuThinButton21.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAHoAAAA/CAYAAAAvzNw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKQSURBVHhe7Z2/SxthHMYzujk6ZtNNNzdxEhfBRXBw8G9w
-        c0uGYoYOBYUUhBBEJYJCFksKEQItVCqUiApBCgYViaKQgEMGh68+b86zIdfMufd5PvBAILlbPvf+uMA9
-        l2i1Wqb4H4kmiUSTRKJJItEkkWiS9BX9dH9vv3M521tYsNzUlH1JJi2dSCgDEviAl525OfuVzdrD9XWk
-        R+S/ok8PDtyJ9hcX7bxQsHqlYs163cTgAB/wUisWrbi87HxBeJTPHtG4KvaXlmx7dtaeG43glCIOtJtN
-        J3xrZsbuLi+7vHaJhuTs+LhV8/ngUBFH/pZKtjk5aTdnZ9GiMZIl2Q8wpWP97hGNNRnTtfCHo9VVO0qn
-        P0Rjd42FXGuyX7y02/Z1YsKuTk46orFTwyIu/ONnJmPfVlY6onEfhi268I9Gteo22E70+uioPdZqwVfC
-        JzB9fxoa6ojODA+7ezDhJ/gXzYnGB+EvEk2CRJMg0SRINAkSTYJEkyDRJEg0CRJNgkSTINEkSDQJEk2C
-        RJMg0SRINAkSTYJEkyDRJEg0CRJNgkSTINEkSDQJEk2CRJMg0SRINAkSTUIoGs/P4jla4SehaPSXqCzO
-        X0LRKCBDN5XwDzRZoNHCiS6nUq6qSPgHeuPQH+dEo2FuY2xM67SHFObn7c/ubkc08v1tRFfeRrbwB5T1
-        opkZfkPRKJVDpeDt8XHwMxFnUA6IWfq92jkUjaBhDk1zqqKKN5Ccn562i8PD0G2XaKRWLrsCsh9ra8Fh
-        Ik6gGBAj+V/JSI9oBNM4agVxVWDXpo7QwQYdcViPUaKPFsioJv5I0e/BVYGt+eeREXfTrQxmUAiITRde
-        ixHlEekrWvEnEk0SiSaJRJNEoinSsldJ1IdmuGgwRgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="bunifuGradientPanel4.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVChTjc7bBkAhFITh9ehJki1Jko6S9Jyzb7uJdf/5
-        Z0gIASkllFLQWsMYg+/7YK2Fcw7ee4QQQBwUYwRxUEoJxEE5ZxAH1VpBHNR7B71QKQWtNYwxMOcEvUo3
-        WmuBXnM32nuDXp9udM7BDzt1DvQwJ47hAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="bunifuGradientPanel3.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVChTjc7bBkAhFITh9ehJki1Jko6S9Jyzb7uJdf/5
-        Z0gIASkllFLQWsMYg+/7YK2Fcw7ee4QQQBwUYwRxUEoJxEE5ZxAH1VpBHNR7B71QKQWtNYwxMOcEvUo3
-        WmuBXnM32nuDXp9udM7BDzt1DvQwJ47hAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="bunifuGradientPanel2.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -211,7 +135,18 @@
         937M023lmsDOE0gnkC3yBQbrqXmn5sT4AAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>78</value>
-  </metadata>
+  <data name="bunifuGradientPanel1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAUSURBVChTY/hPJBhViBdQW+H//wAj+46A3TfWvAAAAABJ
+        RU5ErkJggg==
+</value>
+  </data>
+  <data name="bunifuGradientPanel3.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAUSURBVChTY/hPJBhViBdQW+H//wAj+46A3TfWvAAAAABJ
+        RU5ErkJggg==
+</value>
+  </data>
 </root>

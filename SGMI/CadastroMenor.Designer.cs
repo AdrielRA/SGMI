@@ -30,13 +30,28 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_CadastroMenor));
+            this.bunifuElipse2 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse3 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse4 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse5 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse6 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse7 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse8 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse9 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse10 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse11 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse12 = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.bunifuElipse13 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.bunifuGradientPanel1 = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.bunifuThinButton21 = new Bunifu.Framework.UI.BunifuThinButton2();
             this.bunifuGradientPanel4 = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.dateDesc = new System.Windows.Forms.DateTimePicker();
             this.txtDescricaoInfracao = new AdrielDev.TextBoxRounded();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.bunifuGradientPanel3 = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.dateNasc = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtUF = new AdrielDev.TextBoxRounded();
             this.label11 = new System.Windows.Forms.Label();
@@ -58,28 +73,73 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.bunifuGradientPanel2 = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.label1 = new System.Windows.Forms.Label();
-            this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse2 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse3 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse4 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse5 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse6 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse7 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse8 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse9 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse10 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse11 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse12 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuElipse13 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.bunifuThinButton21 = new Bunifu.Framework.UI.BunifuThinButton2();
-            this.dateNasc = new System.Windows.Forms.DateTimePicker();
-            this.dateDesc = new System.Windows.Forms.DateTimePicker();
             this.bunifuGradientPanel1.SuspendLayout();
             this.bunifuGradientPanel4.SuspendLayout();
             this.bunifuGradientPanel3.SuspendLayout();
             this.bunifuGradientPanel2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // bunifuElipse2
+            // 
+            this.bunifuElipse2.ElipseRadius = 18;
+            this.bunifuElipse2.TargetControl = this.txtBairro;
+            // 
+            // bunifuElipse3
+            // 
+            this.bunifuElipse3.ElipseRadius = 18;
+            this.bunifuElipse3.TargetControl = this.txtCidade;
+            // 
+            // bunifuElipse4
+            // 
+            this.bunifuElipse4.ElipseRadius = 18;
+            this.bunifuElipse4.TargetControl = this.txtCPF;
+            // 
+            // bunifuElipse5
+            // 
+            this.bunifuElipse5.ElipseRadius = 18;
+            this.bunifuElipse5.TargetControl = this.dateDesc;
+            // 
+            // bunifuElipse6
+            // 
+            this.bunifuElipse6.ElipseRadius = 18;
+            this.bunifuElipse6.TargetControl = this.txtDescricaoInfracao;
+            // 
+            // bunifuElipse7
+            // 
+            this.bunifuElipse7.ElipseRadius = 18;
+            this.bunifuElipse7.TargetControl = this.txtLogradouro;
+            // 
+            // bunifuElipse8
+            // 
+            this.bunifuElipse8.ElipseRadius = 18;
+            this.bunifuElipse8.TargetControl = this.dateNasc;
+            // 
+            // bunifuElipse9
+            // 
+            this.bunifuElipse9.ElipseRadius = 18;
+            this.bunifuElipse9.TargetControl = this.txtNome;
+            // 
+            // bunifuElipse10
+            // 
+            this.bunifuElipse10.ElipseRadius = 18;
+            this.bunifuElipse10.TargetControl = this.txtNomeMae;
+            // 
+            // bunifuElipse11
+            // 
+            this.bunifuElipse11.ElipseRadius = 18;
+            this.bunifuElipse11.TargetControl = this.txtRG;
+            // 
+            // bunifuElipse12
+            // 
+            this.bunifuElipse12.ElipseRadius = 18;
+            this.bunifuElipse12.TargetControl = this.txtSexo;
+            // 
+            // bunifuElipse13
+            // 
+            this.bunifuElipse13.ElipseRadius = 18;
+            this.bunifuElipse13.TargetControl = this.txtUF;
             // 
             // bunifuGradientPanel1
             // 
@@ -100,6 +160,31 @@
             this.bunifuGradientPanel1.Size = new System.Drawing.Size(801, 451);
             this.bunifuGradientPanel1.TabIndex = 0;
             // 
+            // bunifuThinButton21
+            // 
+            this.bunifuThinButton21.ActiveBorderThickness = 1;
+            this.bunifuThinButton21.ActiveCornerRadius = 1;
+            this.bunifuThinButton21.ActiveFillColor = System.Drawing.Color.Maroon;
+            this.bunifuThinButton21.ActiveForecolor = System.Drawing.Color.White;
+            this.bunifuThinButton21.ActiveLineColor = System.Drawing.Color.Maroon;
+            this.bunifuThinButton21.BackColor = System.Drawing.SystemColors.Control;
+            this.bunifuThinButton21.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuThinButton21.BackgroundImage")));
+            this.bunifuThinButton21.ButtonText = "SALVAR";
+            this.bunifuThinButton21.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bunifuThinButton21.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuThinButton21.ForeColor = System.Drawing.Color.Maroon;
+            this.bunifuThinButton21.IdleBorderThickness = 1;
+            this.bunifuThinButton21.IdleCornerRadius = 20;
+            this.bunifuThinButton21.IdleFillColor = System.Drawing.Color.White;
+            this.bunifuThinButton21.IdleForecolor = System.Drawing.Color.Maroon;
+            this.bunifuThinButton21.IdleLineColor = System.Drawing.Color.Maroon;
+            this.bunifuThinButton21.Location = new System.Drawing.Point(338, 383);
+            this.bunifuThinButton21.Margin = new System.Windows.Forms.Padding(5);
+            this.bunifuThinButton21.Name = "bunifuThinButton21";
+            this.bunifuThinButton21.Size = new System.Drawing.Size(122, 63);
+            this.bunifuThinButton21.TabIndex = 3;
+            this.bunifuThinButton21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // bunifuGradientPanel4
             // 
             this.bunifuGradientPanel4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel4.BackgroundImage")));
@@ -113,11 +198,18 @@
             this.bunifuGradientPanel4.GradientBottomRight = System.Drawing.Color.DarkGray;
             this.bunifuGradientPanel4.GradientTopLeft = System.Drawing.Color.Gray;
             this.bunifuGradientPanel4.GradientTopRight = System.Drawing.Color.DarkGray;
-            this.bunifuGradientPanel4.Location = new System.Drawing.Point(463, 77);
+            this.bunifuGradientPanel4.Location = new System.Drawing.Point(454, 87);
             this.bunifuGradientPanel4.Name = "bunifuGradientPanel4";
             this.bunifuGradientPanel4.Quality = 10;
             this.bunifuGradientPanel4.Size = new System.Drawing.Size(299, 151);
             this.bunifuGradientPanel4.TabIndex = 2;
+            // 
+            // dateDesc
+            // 
+            this.dateDesc.Location = new System.Drawing.Point(56, 43);
+            this.dateDesc.Name = "dateDesc";
+            this.dateDesc.Size = new System.Drawing.Size(78, 20);
+            this.dateDesc.TabIndex = 21;
             // 
             // txtDescricaoInfracao
             // 
@@ -148,7 +240,7 @@
             this.label14.BackColor = System.Drawing.Color.Transparent;
             this.label14.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(2)))), ((int)(((byte)(24)))));
-            this.label14.Location = new System.Drawing.Point(4, 10);
+            this.label14.Location = new System.Drawing.Point(3, 10);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(200, 19);
             this.label14.TabIndex = 21;
@@ -195,11 +287,18 @@
             this.bunifuGradientPanel3.GradientBottomRight = System.Drawing.Color.DarkGray;
             this.bunifuGradientPanel3.GradientTopLeft = System.Drawing.Color.Gray;
             this.bunifuGradientPanel3.GradientTopRight = System.Drawing.Color.DarkGray;
-            this.bunifuGradientPanel3.Location = new System.Drawing.Point(30, 77);
+            this.bunifuGradientPanel3.Location = new System.Drawing.Point(18, 87);
             this.bunifuGradientPanel3.Name = "bunifuGradientPanel3";
             this.bunifuGradientPanel3.Quality = 10;
             this.bunifuGradientPanel3.Size = new System.Drawing.Size(299, 303);
             this.bunifuGradientPanel3.TabIndex = 1;
+            // 
+            // dateNasc
+            // 
+            this.dateNasc.Location = new System.Drawing.Point(106, 117);
+            this.dateNasc.Name = "dateNasc";
+            this.dateNasc.Size = new System.Drawing.Size(78, 20);
+            this.dateNasc.TabIndex = 4;
             // 
             // label12
             // 
@@ -427,6 +526,7 @@
             // 
             this.bunifuGradientPanel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel2.BackgroundImage")));
             this.bunifuGradientPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bunifuGradientPanel2.Controls.Add(this.btn_Fechar);
             this.bunifuGradientPanel2.Controls.Add(this.label1);
             this.bunifuGradientPanel2.GradientBottomLeft = System.Drawing.Color.Crimson;
             this.bunifuGradientPanel2.GradientBottomRight = System.Drawing.Color.Maroon;
@@ -438,6 +538,32 @@
             this.bunifuGradientPanel2.Size = new System.Drawing.Size(801, 71);
             this.bunifuGradientPanel2.TabIndex = 0;
             // 
+            // btn_Fechar
+            // 
+            this.btn_Fechar.ActiveBorderThickness = 1;
+            this.btn_Fechar.ActiveCornerRadius = 1;
+            this.btn_Fechar.ActiveFillColor = System.Drawing.Color.Crimson;
+            this.btn_Fechar.ActiveForecolor = System.Drawing.Color.White;
+            this.btn_Fechar.ActiveLineColor = System.Drawing.Color.Crimson;
+            this.btn_Fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Fechar.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_Fechar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Fechar.BackgroundImage")));
+            this.btn_Fechar.ButtonText = "🗙";
+            this.btn_Fechar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Fechar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Fechar.ForeColor = System.Drawing.Color.Crimson;
+            this.btn_Fechar.IdleBorderThickness = 1;
+            this.btn_Fechar.IdleCornerRadius = 1;
+            this.btn_Fechar.IdleFillColor = System.Drawing.Color.White;
+            this.btn_Fechar.IdleForecolor = System.Drawing.Color.Crimson;
+            this.btn_Fechar.IdleLineColor = System.Drawing.Color.Crimson;
+            this.btn_Fechar.Location = new System.Drawing.Point(756, 0);
+            this.btn_Fechar.Margin = new System.Windows.Forms.Padding(5);
+            this.btn_Fechar.Name = "btn_Fechar";
+            this.btn_Fechar.Size = new System.Drawing.Size(40, 40);
+            this.btn_Fechar.TabIndex = 5;
+            this.btn_Fechar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -448,110 +574,6 @@
             this.label1.Size = new System.Drawing.Size(305, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "CADASTRO DE MENOR";
-            // 
-            // bunifuElipse1
-            // 
-            this.bunifuElipse1.ElipseRadius = 20;
-            this.bunifuElipse1.TargetControl = this;
-            // 
-            // bunifuElipse2
-            // 
-            this.bunifuElipse2.ElipseRadius = 18;
-            this.bunifuElipse2.TargetControl = this.txtBairro;
-            // 
-            // bunifuElipse3
-            // 
-            this.bunifuElipse3.ElipseRadius = 18;
-            this.bunifuElipse3.TargetControl = this.txtCidade;
-            // 
-            // bunifuElipse4
-            // 
-            this.bunifuElipse4.ElipseRadius = 18;
-            this.bunifuElipse4.TargetControl = this.txtCPF;
-            // 
-            // bunifuElipse5
-            // 
-            this.bunifuElipse5.ElipseRadius = 18;
-            this.bunifuElipse5.TargetControl = this.dateDesc;
-            // 
-            // bunifuElipse6
-            // 
-            this.bunifuElipse6.ElipseRadius = 18;
-            this.bunifuElipse6.TargetControl = this.txtDescricaoInfracao;
-            // 
-            // bunifuElipse7
-            // 
-            this.bunifuElipse7.ElipseRadius = 18;
-            this.bunifuElipse7.TargetControl = this.txtLogradouro;
-            // 
-            // bunifuElipse8
-            // 
-            this.bunifuElipse8.ElipseRadius = 18;
-            this.bunifuElipse8.TargetControl = this.dateNasc;
-            // 
-            // bunifuElipse9
-            // 
-            this.bunifuElipse9.ElipseRadius = 18;
-            this.bunifuElipse9.TargetControl = this.txtNome;
-            // 
-            // bunifuElipse10
-            // 
-            this.bunifuElipse10.ElipseRadius = 18;
-            this.bunifuElipse10.TargetControl = this.txtNomeMae;
-            // 
-            // bunifuElipse11
-            // 
-            this.bunifuElipse11.ElipseRadius = 18;
-            this.bunifuElipse11.TargetControl = this.txtRG;
-            // 
-            // bunifuElipse12
-            // 
-            this.bunifuElipse12.ElipseRadius = 18;
-            this.bunifuElipse12.TargetControl = this.txtSexo;
-            // 
-            // bunifuElipse13
-            // 
-            this.bunifuElipse13.ElipseRadius = 18;
-            this.bunifuElipse13.TargetControl = this.txtUF;
-            // 
-            // bunifuThinButton21
-            // 
-            this.bunifuThinButton21.ActiveBorderThickness = 1;
-            this.bunifuThinButton21.ActiveCornerRadius = 1;
-            this.bunifuThinButton21.ActiveFillColor = System.Drawing.Color.Maroon;
-            this.bunifuThinButton21.ActiveForecolor = System.Drawing.Color.White;
-            this.bunifuThinButton21.ActiveLineColor = System.Drawing.Color.Maroon;
-            this.bunifuThinButton21.BackColor = System.Drawing.SystemColors.Control;
-            this.bunifuThinButton21.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuThinButton21.BackgroundImage")));
-            this.bunifuThinButton21.ButtonText = "SALVAR";
-            this.bunifuThinButton21.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuThinButton21.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuThinButton21.ForeColor = System.Drawing.Color.Maroon;
-            this.bunifuThinButton21.IdleBorderThickness = 1;
-            this.bunifuThinButton21.IdleCornerRadius = 20;
-            this.bunifuThinButton21.IdleFillColor = System.Drawing.Color.White;
-            this.bunifuThinButton21.IdleForecolor = System.Drawing.Color.Maroon;
-            this.bunifuThinButton21.IdleLineColor = System.Drawing.Color.Maroon;
-            this.bunifuThinButton21.Location = new System.Drawing.Point(337, 383);
-            this.bunifuThinButton21.Margin = new System.Windows.Forms.Padding(5);
-            this.bunifuThinButton21.Name = "bunifuThinButton21";
-            this.bunifuThinButton21.Size = new System.Drawing.Size(122, 63);
-            this.bunifuThinButton21.TabIndex = 3;
-            this.bunifuThinButton21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dateNasc
-            // 
-            this.dateNasc.Location = new System.Drawing.Point(106, 117);
-            this.dateNasc.Name = "dateNasc";
-            this.dateNasc.Size = new System.Drawing.Size(78, 20);
-            this.dateNasc.TabIndex = 4;
-            // 
-            // dateDesc
-            // 
-            this.dateDesc.Location = new System.Drawing.Point(56, 43);
-            this.dateDesc.Name = "dateDesc";
-            this.dateDesc.Size = new System.Drawing.Size(78, 20);
-            this.dateDesc.TabIndex = 21;
             // 
             // frm_CadastroMenor
             // 
@@ -604,7 +626,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private Bunifu.Framework.UI.BunifuElipse bunifuElipse1;
         private Bunifu.Framework.UI.BunifuElipse bunifuElipse2;
         private Bunifu.Framework.UI.BunifuElipse bunifuElipse3;
         private Bunifu.Framework.UI.BunifuElipse bunifuElipse4;
@@ -620,5 +641,6 @@
         private Bunifu.Framework.UI.BunifuThinButton2 bunifuThinButton21;
         private System.Windows.Forms.DateTimePicker dateDesc;
         private System.Windows.Forms.DateTimePicker dateNasc;
+        private Bunifu.Framework.UI.BunifuThinButton2 btn_Fechar;
     }
 }
