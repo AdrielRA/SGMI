@@ -40,10 +40,8 @@
             this.btn_Salvar = new Bunifu.Framework.UI.BunifuFlatButton();
             this.txt_Pass = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.panelT1 = new AdrielDev.PanelT();
-            this.lollipopLabel2 = new LollipopLabel();
-            this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.pnl_Titulo = new Bunifu.Framework.UI.BunifuGradientPanel();
-            this.btn_MaxRes = new Bunifu.Framework.UI.BunifuThinButton2();
+            this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.pnl_Tela.SuspendLayout();
             this.pnl_Titulo.SuspendLayout();
             this.SuspendLayout();
@@ -62,16 +60,15 @@
             this.pnl_Tela.Controls.Add(this.btn_Salvar);
             this.pnl_Tela.Controls.Add(this.txt_Pass);
             this.pnl_Tela.Controls.Add(this.panelT1);
-            this.pnl_Tela.Controls.Add(this.lollipopLabel2);
             this.pnl_Tela.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_Tela.GradientBottomLeft = System.Drawing.Color.Crimson;
             this.pnl_Tela.GradientBottomRight = System.Drawing.Color.Maroon;
             this.pnl_Tela.GradientTopLeft = System.Drawing.Color.Crimson;
             this.pnl_Tela.GradientTopRight = System.Drawing.Color.Maroon;
-            this.pnl_Tela.Location = new System.Drawing.Point(2, 42);
+            this.pnl_Tela.Location = new System.Drawing.Point(0, 40);
             this.pnl_Tela.Name = "pnl_Tela";
             this.pnl_Tela.Quality = 10;
-            this.pnl_Tela.Size = new System.Drawing.Size(390, 406);
+            this.pnl_Tela.Size = new System.Drawing.Size(394, 370);
             this.pnl_Tela.TabIndex = 3;
             // 
             // comboBox1
@@ -97,9 +94,9 @@
             "Juiz",
             "Promotor",
             "Delegado"});
-            this.comboBox1.Location = new System.Drawing.Point(31, 99);
+            this.comboBox1.Location = new System.Drawing.Point(31, 86);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(333, 29);
+            this.comboBox1.Size = new System.Drawing.Size(337, 29);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.Tag = "Categoria";
             // 
@@ -121,12 +118,12 @@
             this.txt_UserName.LineIdleColor = System.Drawing.Color.Silver;
             this.txt_UserName.LineMouseHoverColor = System.Drawing.Color.IndianRed;
             this.txt_UserName.LineThickness = 3;
-            this.txt_UserName.Location = new System.Drawing.Point(31, 63);
+            this.txt_UserName.Location = new System.Drawing.Point(31, 50);
             this.txt_UserName.Margin = new System.Windows.Forms.Padding(0);
             this.txt_UserName.MaxLength = 50;
             this.txt_UserName.Name = "txt_UserName";
             this.txt_UserName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_UserName.Size = new System.Drawing.Size(333, 33);
+            this.txt_UserName.Size = new System.Drawing.Size(337, 33);
             this.txt_UserName.TabIndex = 1;
             this.txt_UserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
@@ -148,12 +145,12 @@
             this.bunifuMaterialTextbox5.LineIdleColor = System.Drawing.Color.Silver;
             this.bunifuMaterialTextbox5.LineMouseHoverColor = System.Drawing.Color.IndianRed;
             this.bunifuMaterialTextbox5.LineThickness = 3;
-            this.bunifuMaterialTextbox5.Location = new System.Drawing.Point(31, 204);
+            this.bunifuMaterialTextbox5.Location = new System.Drawing.Point(31, 191);
             this.bunifuMaterialTextbox5.Margin = new System.Windows.Forms.Padding(0);
             this.bunifuMaterialTextbox5.MaxLength = 50;
             this.bunifuMaterialTextbox5.Name = "bunifuMaterialTextbox5";
             this.bunifuMaterialTextbox5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bunifuMaterialTextbox5.Size = new System.Drawing.Size(333, 33);
+            this.bunifuMaterialTextbox5.Size = new System.Drawing.Size(337, 33);
             this.bunifuMaterialTextbox5.TabIndex = 5;
             this.bunifuMaterialTextbox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
@@ -175,12 +172,12 @@
             this.bunifuMaterialTextbox4.LineIdleColor = System.Drawing.Color.Silver;
             this.bunifuMaterialTextbox4.LineMouseHoverColor = System.Drawing.Color.IndianRed;
             this.bunifuMaterialTextbox4.LineThickness = 3;
-            this.bunifuMaterialTextbox4.Location = new System.Drawing.Point(31, 168);
+            this.bunifuMaterialTextbox4.Location = new System.Drawing.Point(31, 155);
             this.bunifuMaterialTextbox4.Margin = new System.Windows.Forms.Padding(0);
             this.bunifuMaterialTextbox4.MaxLength = 50;
             this.bunifuMaterialTextbox4.Name = "bunifuMaterialTextbox4";
             this.bunifuMaterialTextbox4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bunifuMaterialTextbox4.Size = new System.Drawing.Size(333, 33);
+            this.bunifuMaterialTextbox4.Size = new System.Drawing.Size(337, 33);
             this.bunifuMaterialTextbox4.TabIndex = 4;
             this.bunifuMaterialTextbox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
@@ -202,12 +199,12 @@
             this.bunifuMaterialTextbox3.LineIdleColor = System.Drawing.Color.Silver;
             this.bunifuMaterialTextbox3.LineMouseHoverColor = System.Drawing.Color.IndianRed;
             this.bunifuMaterialTextbox3.LineThickness = 3;
-            this.bunifuMaterialTextbox3.Location = new System.Drawing.Point(31, 132);
+            this.bunifuMaterialTextbox3.Location = new System.Drawing.Point(31, 119);
             this.bunifuMaterialTextbox3.Margin = new System.Windows.Forms.Padding(0);
             this.bunifuMaterialTextbox3.MaxLength = 50;
             this.bunifuMaterialTextbox3.Name = "bunifuMaterialTextbox3";
             this.bunifuMaterialTextbox3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bunifuMaterialTextbox3.Size = new System.Drawing.Size(333, 33);
+            this.bunifuMaterialTextbox3.Size = new System.Drawing.Size(337, 33);
             this.bunifuMaterialTextbox3.TabIndex = 3;
             this.bunifuMaterialTextbox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
@@ -229,12 +226,12 @@
             this.bunifuMaterialTextbox1.LineIdleColor = System.Drawing.Color.Silver;
             this.bunifuMaterialTextbox1.LineMouseHoverColor = System.Drawing.Color.IndianRed;
             this.bunifuMaterialTextbox1.LineThickness = 3;
-            this.bunifuMaterialTextbox1.Location = new System.Drawing.Point(31, 240);
+            this.bunifuMaterialTextbox1.Location = new System.Drawing.Point(31, 227);
             this.bunifuMaterialTextbox1.Margin = new System.Windows.Forms.Padding(0);
             this.bunifuMaterialTextbox1.MaxLength = 50;
             this.bunifuMaterialTextbox1.Name = "bunifuMaterialTextbox1";
             this.bunifuMaterialTextbox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.bunifuMaterialTextbox1.Size = new System.Drawing.Size(333, 33);
+            this.bunifuMaterialTextbox1.Size = new System.Drawing.Size(337, 33);
             this.bunifuMaterialTextbox1.TabIndex = 6;
             this.bunifuMaterialTextbox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
@@ -244,9 +241,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bunifuCustomLabel1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.Maroon;
-            this.bunifuCustomLabel1.Location = new System.Drawing.Point(12, 18);
+            this.bunifuCustomLabel1.Location = new System.Drawing.Point(12, 5);
             this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
-            this.bunifuCustomLabel1.Size = new System.Drawing.Size(370, 36);
+            this.bunifuCustomLabel1.Size = new System.Drawing.Size(374, 36);
             this.bunifuCustomLabel1.TabIndex = 8;
             this.bunifuCustomLabel1.Text = "Cadastro";
             this.bunifuCustomLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -255,7 +252,7 @@
             // 
             this.btn_Salvar.Active = false;
             this.btn_Salvar.Activecolor = System.Drawing.Color.DarkRed;
-            this.btn_Salvar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btn_Salvar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Salvar.BackColor = System.Drawing.Color.DarkRed;
             this.btn_Salvar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -277,14 +274,14 @@
             this.btn_Salvar.IconVisible = false;
             this.btn_Salvar.IconZoom = 100D;
             this.btn_Salvar.IsTab = false;
-            this.btn_Salvar.Location = new System.Drawing.Point(31, 317);
+            this.btn_Salvar.Location = new System.Drawing.Point(31, 302);
             this.btn_Salvar.Margin = new System.Windows.Forms.Padding(5);
             this.btn_Salvar.Name = "btn_Salvar";
             this.btn_Salvar.Normalcolor = System.Drawing.Color.DarkRed;
             this.btn_Salvar.OnHovercolor = System.Drawing.Color.Maroon;
             this.btn_Salvar.OnHoverTextColor = System.Drawing.Color.White;
             this.btn_Salvar.selected = false;
-            this.btn_Salvar.Size = new System.Drawing.Size(333, 50);
+            this.btn_Salvar.Size = new System.Drawing.Size(337, 50);
             this.btn_Salvar.TabIndex = 8;
             this.btn_Salvar.Text = "ENVIAR";
             this.btn_Salvar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -309,12 +306,12 @@
             this.txt_Pass.LineIdleColor = System.Drawing.Color.Silver;
             this.txt_Pass.LineMouseHoverColor = System.Drawing.Color.IndianRed;
             this.txt_Pass.LineThickness = 3;
-            this.txt_Pass.Location = new System.Drawing.Point(31, 276);
+            this.txt_Pass.Location = new System.Drawing.Point(31, 263);
             this.txt_Pass.Margin = new System.Windows.Forms.Padding(0);
             this.txt_Pass.MaxLength = 50;
             this.txt_Pass.Name = "txt_Pass";
             this.txt_Pass.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_Pass.Size = new System.Drawing.Size(333, 33);
+            this.txt_Pass.Size = new System.Drawing.Size(337, 33);
             this.txt_Pass.TabIndex = 7;
             this.txt_Pass.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
@@ -325,35 +322,37 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelT1.Location = new System.Drawing.Point(11, 18);
             this.panelT1.Name = "panelT1";
-            this.panelT1.Size = new System.Drawing.Size(371, 359);
+            this.panelT1.Size = new System.Drawing.Size(375, 340);
             this.panelT1.TabIndex = 7;
             this.panelT1.Transparency = 75;
             // 
-            // lollipopLabel2
+            // pnl_Titulo
             // 
-            this.lollipopLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lollipopLabel2.ForeColor = System.Drawing.Color.White;
-            this.lollipopLabel2.Location = new System.Drawing.Point(14, 383);
-            this.lollipopLabel2.Name = "lollipopLabel2";
-            this.lollipopLabel2.Size = new System.Drawing.Size(366, 17);
-            this.lollipopLabel2.TabIndex = 5;
-            this.lollipopLabel2.Text = "Todos os direitos reservados - UNIFENAS - 2019";
-            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pnl_Titulo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Titulo.BackgroundImage")));
+            this.pnl_Titulo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pnl_Titulo.Controls.Add(this.btn_Fechar);
+            this.pnl_Titulo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnl_Titulo.GradientBottomLeft = System.Drawing.Color.Crimson;
+            this.pnl_Titulo.GradientBottomRight = System.Drawing.Color.Maroon;
+            this.pnl_Titulo.GradientTopLeft = System.Drawing.Color.Crimson;
+            this.pnl_Titulo.GradientTopRight = System.Drawing.Color.Maroon;
+            this.pnl_Titulo.Location = new System.Drawing.Point(0, 0);
+            this.pnl_Titulo.Name = "pnl_Titulo";
+            this.pnl_Titulo.Quality = 10;
+            this.pnl_Titulo.Size = new System.Drawing.Size(394, 40);
+            this.pnl_Titulo.TabIndex = 2;
             // 
             // btn_Fechar
             // 
             this.btn_Fechar.ActiveBorderThickness = 1;
-            this.btn_Fechar.ActiveCornerRadius = 2;
+            this.btn_Fechar.ActiveCornerRadius = 1;
             this.btn_Fechar.ActiveFillColor = System.Drawing.Color.Crimson;
             this.btn_Fechar.ActiveForecolor = System.Drawing.Color.White;
             this.btn_Fechar.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_Fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Fechar.BackColor = System.Drawing.Color.Transparent;
             this.btn_Fechar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Fechar.BackgroundImage")));
-            this.btn_Fechar.ButtonText = "🗙";
+            this.btn_Fechar.ButtonText = "VOLTAR";
             this.btn_Fechar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_Fechar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Fechar.ForeColor = System.Drawing.Color.Crimson;
@@ -362,69 +361,24 @@
             this.btn_Fechar.IdleFillColor = System.Drawing.Color.White;
             this.btn_Fechar.IdleForecolor = System.Drawing.Color.Crimson;
             this.btn_Fechar.IdleLineColor = System.Drawing.Color.Crimson;
-            this.btn_Fechar.Location = new System.Drawing.Point(347, 0);
+            this.btn_Fechar.Location = new System.Drawing.Point(291, 0);
             this.btn_Fechar.Margin = new System.Windows.Forms.Padding(0);
             this.btn_Fechar.Name = "btn_Fechar";
             this.btn_Fechar.Padding = new System.Windows.Forms.Padding(3, 0, 0, 2);
-            this.btn_Fechar.Size = new System.Drawing.Size(36, 40);
+            this.btn_Fechar.Size = new System.Drawing.Size(95, 40);
             this.btn_Fechar.TabIndex = 9;
             this.btn_Fechar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btn_Fechar.Click += new System.EventHandler(this.Btn_Fechar_Click);
             // 
-            // pnl_Titulo
-            // 
-            this.pnl_Titulo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Titulo.BackgroundImage")));
-            this.pnl_Titulo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pnl_Titulo.Controls.Add(this.btn_MaxRes);
-            this.pnl_Titulo.Controls.Add(this.btn_Fechar);
-            this.pnl_Titulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnl_Titulo.GradientBottomLeft = System.Drawing.Color.Crimson;
-            this.pnl_Titulo.GradientBottomRight = System.Drawing.Color.Maroon;
-            this.pnl_Titulo.GradientTopLeft = System.Drawing.Color.Crimson;
-            this.pnl_Titulo.GradientTopRight = System.Drawing.Color.Maroon;
-            this.pnl_Titulo.Location = new System.Drawing.Point(2, 2);
-            this.pnl_Titulo.Name = "pnl_Titulo";
-            this.pnl_Titulo.Quality = 10;
-            this.pnl_Titulo.Size = new System.Drawing.Size(390, 40);
-            this.pnl_Titulo.TabIndex = 2;
-            // 
-            // btn_MaxRes
-            // 
-            this.btn_MaxRes.ActiveBorderThickness = 1;
-            this.btn_MaxRes.ActiveCornerRadius = 1;
-            this.btn_MaxRes.ActiveFillColor = System.Drawing.Color.Crimson;
-            this.btn_MaxRes.ActiveForecolor = System.Drawing.Color.White;
-            this.btn_MaxRes.ActiveLineColor = System.Drawing.Color.Crimson;
-            this.btn_MaxRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_MaxRes.BackColor = System.Drawing.Color.Transparent;
-            this.btn_MaxRes.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_MaxRes.BackgroundImage")));
-            this.btn_MaxRes.ButtonText = "🗖";
-            this.btn_MaxRes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_MaxRes.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_MaxRes.ForeColor = System.Drawing.Color.Crimson;
-            this.btn_MaxRes.IdleBorderThickness = 1;
-            this.btn_MaxRes.IdleCornerRadius = 1;
-            this.btn_MaxRes.IdleFillColor = System.Drawing.Color.White;
-            this.btn_MaxRes.IdleForecolor = System.Drawing.Color.Crimson;
-            this.btn_MaxRes.IdleLineColor = System.Drawing.Color.Crimson;
-            this.btn_MaxRes.Location = new System.Drawing.Point(308, 0);
-            this.btn_MaxRes.Margin = new System.Windows.Forms.Padding(5);
-            this.btn_MaxRes.Name = "btn_MaxRes";
-            this.btn_MaxRes.Size = new System.Drawing.Size(40, 40);
-            this.btn_MaxRes.TabIndex = 11;
-            this.btn_MaxRes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btn_MaxRes.Click += new System.EventHandler(this.Btn_MaxRes_Click);
-            // 
             // frm_SignUp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(394, 450);
+            this.ClientSize = new System.Drawing.Size(394, 410);
             this.Controls.Add(this.pnl_Tela);
             this.Controls.Add(this.pnl_Titulo);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frm_SignUp";
-            this.Padding = new System.Windows.Forms.Padding(2);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SignUp";
             this.Load += new System.EventHandler(this.Frm_SignUp_Load);
@@ -441,7 +395,6 @@
         private Bunifu.Framework.UI.BunifuFlatButton btn_Salvar;
         private Bunifu.Framework.UI.BunifuMaterialTextbox txt_Pass;
         private AdrielDev.PanelT panelT1;
-        private LollipopLabel lollipopLabel2;
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Fechar;
         private Bunifu.Framework.UI.BunifuGradientPanel pnl_Titulo;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -450,6 +403,5 @@
         private Bunifu.Framework.UI.BunifuMaterialTextbox bunifuMaterialTextbox4;
         private Bunifu.Framework.UI.BunifuMaterialTextbox bunifuMaterialTextbox3;
         private Bunifu.Framework.UI.BunifuMaterialTextbox bunifuMaterialTextbox1;
-        private Bunifu.Framework.UI.BunifuThinButton2 btn_MaxRes;
     }
 }

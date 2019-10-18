@@ -25,6 +25,7 @@ namespace SGMI
             form.Size = container.Size;
             forms_abertos.Push(form);
             container.Controls.Add(form);
+            form.Size = container.Size;
             form.Show();
         }
 

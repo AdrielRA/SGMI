@@ -117,17 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="elip_Pesquisa.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>20, 20</value>
-  </metadata>
-  <metadata name="elip_Item.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>144, 20</value>
-  </metadata>
-  <metadata name="elip_2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>268, 20</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="bunifuGradientPanel2.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="pnl_Titulo.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACSSURBVChTY7gjYvP/urDl/8tCZv/PCRr/Pylg8P8ov+7/
@@ -138,11 +129,41 @@
   </data>
   <data name="btn_Fechar.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAHEAAAAoCAYAAADJ/xXvAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACKSURBVHhe7dFBDQJBAATBFYELkIAH0HHu8HPJ4QSy90AD
-        26lK5jHvHgAA8F+O62PbL/ePrbfZ7ow4D2ua7URcnIgBIgaIGCBigIgBIgaIGCBigIgBIgaIGCBigIgB
-        IgaIGCBigIgBIgaIGCBigIgBIgaIGCBigIgBv4jv2/M1j6232e6MCACwvjG+btmWD1BJsZEAAAAASUVO
-        RK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABjSURBVFhH7c4xDYBAEAXRFYELTgIeQAfu8HMJOIHsFXRU
+        02zIvOQXv5uQ9AfnvO59Wu5qy64RmKei7DKQMJAykDKQMpAykDKQMpAykDKQMpAykDKQegOvth15qi27
+        RqCkLxEPZj6qdfKfWT4AAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="btn_MaxRes.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABjSURBVFhH7c4xDYBAEAXRFYELTgIeQAfu8HMJOIHsFXRU
+        02zIvOQXv5uQ9AfnvO59Wu5qy64RmKei7DKQMJAykDKQMpAykDKQMpAykDKQMpAykDKQegOvth15qi27
+        RqCkLxEPZj6qdfKfWT4AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btn_Minimizar.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABjSURBVFhH7c4xDYBAEAXRFYELTgIeQAfu8HMJOIHsFXRU
+        02zIvOQXv5uQ9AfnvO59Wu5qy64RmKei7DKQMJAykDKQMpAykDKQMpAykDKQMpAykDKQegOvth15qi27
+        RqCkLxEPZj6qdfKfWT4AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="pnl_Tela.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACSSURBVChTY7gjYvP/urDl/8tCZv/PCRr/Pylg8P8ov+7/
+        A3xa//fwqv/fzqPyfxO34n8GYhSt45L7zwBTdAqLos1QRSs5pf8zoJu0G80kkKIlHBL/GYhRtIBd9D8D
+        LjeBFC2FKprNJvSfgRhF01n5/zNgczhM0RyookksPP8ZcLkJZhJIUS8z538GYhR1MrH9BwAMy7p5uREA
+        rQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="drag_Login.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="elip_Tela.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>117, 17</value>
+  </metadata>
 </root>

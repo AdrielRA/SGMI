@@ -17,6 +17,10 @@ namespace SGMI
             InitializeComponent();
         }
 
-        
+        private void Btn_Fechar_Click(object sender, EventArgs e)
+        {
+            Forms_Controller.Fechar_Recente();
+            Forms_Controller.Abrir_Anterior();
+        }
     }
 }
