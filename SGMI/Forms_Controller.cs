@@ -39,7 +39,6 @@ namespace SGMI
                 if (!container.Controls.Contains(form)) container.Controls.Add(form);
                 form.Show();
             }
-            else { /*Abrir(new frm_Dashboard()); frm_MENU.pnl_Op.Location = new Point(0, 34);*/ }
         }
 
         public static void Esconder(Form form) { form.Hide(); }

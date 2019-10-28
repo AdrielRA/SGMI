@@ -28,5 +28,41 @@ namespace SGMI
             btn_Fechar.BackColor = Color.Transparent;
             btn_Fechar.Refresh();
         }
+
+        private void btn_Salvar_Click(object sender, EventArgs e)
+        {
+            User new_user = new User();
+            new_user.Name = txt_UserName.Text;
+            new_user.Credentials = cmb_Credencial.SelectedItem.ToString();
+            new_user.Telefone = txt_Telefone.Text;
+            new_user.Email = txt_Email.Text;
+            new_user.Passpassword = txt_ConformaSenha.Text;
+
+            Data_Controller.Add_User(new_user);
+
+            MessageBox.Show("Usuário Salvo");
+            foreach (Control c in pnl_Tela.Controls)
+            {
+                if (c is Bunifu.Framework.UI.BunifuMaterialTextbox)
+                {
+                    Bunifu.Framework.UI.BunifuMaterialTextbox txtBox = c as Bunifu.Framework.UI.BunifuMaterialTextbox;
+                    txtBox.Text = txtBox.HintText;
+                }
+                else if (c is ComboBox) { (c as ComboBox).SelectedIndex = -1; }
+            }
+            txt_UserName.Focus();
+        }
+
+        private void txt_Email_Changed(object sender, EventArgs e) { Validar(); }
+        private void txt_Senha_Changed(object sender, EventArgs e) { Validar(); }
+        private void txt_Nome_Changed(object sender, EventArgs e) { Validar(); }
+        private void cmb_Credential_Changed(object sender, EventArgs e) { Validar();  }
+
+        private void Validar()
+        {
+            btn_Salvar.Visible = !string.IsNullOrEmpty(txt_UserName.Text) && cmb_Credencial.SelectedIndex >= 0
+                && txt_Email.Text == txt_ConfirmaEmail.Text && !string.IsNullOrEmpty(txt_Senha.Text)
+                && !string.IsNullOrEmpty(txt_ConformaSenha.Text) && txt_Senha.Text == txt_ConformaSenha.Text;
+        }
     }
 }

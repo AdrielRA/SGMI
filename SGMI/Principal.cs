@@ -16,6 +16,7 @@ namespace SGMI
         {
             InitializeComponent();
             Forms_Controller.Start_Controller(pnl_Tela);
+            Data_Controller.Start_Controller();
             Forms_Controller.Abrir(new frm_Login());
         }
 

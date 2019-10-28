@@ -33,15 +33,15 @@
             this.drag_Login = new AdrielDev.DragControl();
             this.elip_Login = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_Tela = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.cb_KeepConnection = new LollipopCheckBox();
             this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.btn_Solicitar = new Bunifu.Framework.UI.BunifuFlatButton();
-            this.lollipopLabel2 = new LollipopLabel();
+            this.txt_Pass = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.btn_Logar = new Bunifu.Framework.UI.BunifuFlatButton();
             this.txt_User = new Bunifu.Framework.UI.BunifuMaterialTextbox();
-            this.txt_Pass = new Bunifu.Framework.UI.BunifuMaterialTextbox();
+            this.lollipopLabel2 = new LollipopLabel();
             this.panelT1 = new AdrielDev.PanelT();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.cb_KeepConnection = new LollipopCheckBox();
             this.pnl_Tela.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -49,6 +49,7 @@
             // drag_Login
             // 
             this.drag_Login.Activate = true;
+            this.drag_Login.Target = null;
             // 
             // elip_Login
             // 
@@ -78,6 +79,17 @@
             this.pnl_Tela.Quality = 10;
             this.pnl_Tela.Size = new System.Drawing.Size(785, 370);
             this.pnl_Tela.TabIndex = 1;
+            // 
+            // cb_KeepConnection
+            // 
+            this.cb_KeepConnection.AutoSize = true;
+            this.cb_KeepConnection.CheckColor = "#800000";
+            this.cb_KeepConnection.Location = new System.Drawing.Point(255, 180);
+            this.cb_KeepConnection.Name = "cb_KeepConnection";
+            this.cb_KeepConnection.Size = new System.Drawing.Size(157, 20);
+            this.cb_KeepConnection.TabIndex = 9;
+            this.cb_KeepConnection.Text = "Manter-se Conectado";
+            this.cb_KeepConnection.UseVisualStyleBackColor = true;
             // 
             // bunifuCustomLabel1
             // 
@@ -134,19 +146,32 @@
             this.btn_Solicitar.TextFont = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Bold);
             this.btn_Solicitar.Click += new System.EventHandler(this.Btn_Solicitar_Click);
             // 
-            // lollipopLabel2
+            // txt_Pass
             // 
-            this.lollipopLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txt_Pass.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lollipopLabel2.ForeColor = System.Drawing.Color.White;
-            this.lollipopLabel2.Location = new System.Drawing.Point(253, 344);
-            this.lollipopLabel2.Name = "lollipopLabel2";
-            this.lollipopLabel2.Size = new System.Drawing.Size(282, 17);
-            this.lollipopLabel2.TabIndex = 5;
-            this.lollipopLabel2.Text = "Todos os direitos reservados - UNIFENAS - 2019";
-            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txt_Pass.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txt_Pass.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txt_Pass.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txt_Pass.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_Pass.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_Pass.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            this.txt_Pass.ForeColor = System.Drawing.Color.Maroon;
+            this.txt_Pass.HintForeColor = System.Drawing.Color.Empty;
+            this.txt_Pass.HintText = "Senha";
+            this.txt_Pass.isPassword = true;
+            this.txt_Pass.LineFocusedColor = System.Drawing.Color.Maroon;
+            this.txt_Pass.LineIdleColor = System.Drawing.Color.Silver;
+            this.txt_Pass.LineMouseHoverColor = System.Drawing.Color.IndianRed;
+            this.txt_Pass.LineThickness = 3;
+            this.txt_Pass.Location = new System.Drawing.Point(255, 132);
+            this.txt_Pass.Margin = new System.Windows.Forms.Padding(0);
+            this.txt_Pass.MaxLength = 50;
+            this.txt_Pass.Name = "txt_Pass";
+            this.txt_Pass.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_Pass.Size = new System.Drawing.Size(280, 33);
+            this.txt_Pass.TabIndex = 1;
+            this.txt_Pass.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // btn_Logar
             // 
@@ -216,32 +241,19 @@
             this.txt_User.TabIndex = 0;
             this.txt_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
-            // txt_Pass
+            // lollipopLabel2
             // 
-            this.txt_Pass.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lollipopLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Pass.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
-            this.txt_Pass.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
-            this.txt_Pass.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txt_Pass.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.txt_Pass.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txt_Pass.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            this.txt_Pass.ForeColor = System.Drawing.Color.Maroon;
-            this.txt_Pass.HintForeColor = System.Drawing.Color.Empty;
-            this.txt_Pass.HintText = "Senha";
-            this.txt_Pass.isPassword = true;
-            this.txt_Pass.LineFocusedColor = System.Drawing.Color.Maroon;
-            this.txt_Pass.LineIdleColor = System.Drawing.Color.Silver;
-            this.txt_Pass.LineMouseHoverColor = System.Drawing.Color.IndianRed;
-            this.txt_Pass.LineThickness = 3;
-            this.txt_Pass.Location = new System.Drawing.Point(255, 132);
-            this.txt_Pass.Margin = new System.Windows.Forms.Padding(0);
-            this.txt_Pass.MaxLength = 50;
-            this.txt_Pass.Name = "txt_Pass";
-            this.txt_Pass.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_Pass.Size = new System.Drawing.Size(280, 33);
-            this.txt_Pass.TabIndex = 1;
-            this.txt_Pass.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lollipopLabel2.ForeColor = System.Drawing.Color.White;
+            this.lollipopLabel2.Location = new System.Drawing.Point(253, 344);
+            this.lollipopLabel2.Name = "lollipopLabel2";
+            this.lollipopLabel2.Size = new System.Drawing.Size(282, 17);
+            this.lollipopLabel2.TabIndex = 5;
+            this.lollipopLabel2.Text = "Todos os direitos reservados - UNIFENAS - 2019";
+            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelT1
             // 
@@ -266,17 +278,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
-            // 
-            // cb_KeepConnection
-            // 
-            this.cb_KeepConnection.AutoSize = true;
-            this.cb_KeepConnection.CheckColor = "#800000";
-            this.cb_KeepConnection.Location = new System.Drawing.Point(255, 180);
-            this.cb_KeepConnection.Name = "cb_KeepConnection";
-            this.cb_KeepConnection.Size = new System.Drawing.Size(157, 20);
-            this.cb_KeepConnection.TabIndex = 9;
-            this.cb_KeepConnection.Text = "Manter-se Conectado";
-            this.cb_KeepConnection.UseVisualStyleBackColor = true;
             // 
             // frm_Login
             // 

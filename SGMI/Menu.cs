@@ -19,6 +19,11 @@ namespace SGMI
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
+            if (Data_Controller.keep_login)
+            {
+                var result = MessageBox.Show("Deseja Manter\nLogin Automático?", "Atenção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if(result == DialogResult.No) { Data_Controller.Reset_Saved_Login(); }
+            }
             Forms_Controller.Fechar_Recente();
             Forms_Controller.Abrir_Anterior();
         }
