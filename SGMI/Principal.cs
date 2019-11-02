@@ -17,7 +17,6 @@ namespace SGMI
             InitializeComponent();
             Forms_Controller.Start_Controller(pnl_Tela);
             Data_Controller.Start_Controller();
-            Forms_Controller.Abrir(new frm_Login());
         }
 
         #region botões_controle_janela
@@ -50,5 +49,10 @@ namespace SGMI
             Forms_Controller.Redimensionar_Janelas();
         }
         #endregion
+
+        private void frm_Principal_Load(object sender, EventArgs e)
+        {
+            Forms_Controller.Abrir(new frm_Login());
+        }
     }
 }

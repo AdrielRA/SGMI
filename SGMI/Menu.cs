@@ -15,15 +15,12 @@ namespace SGMI
         public frm_Menu()
         {
             InitializeComponent();
+            lbl_Bemvindo.Text = lbl_Bemvindo.Text.Replace("USER", Data_Controller.user_logged.Name.ToUpper());
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
-            if (Data_Controller.keep_login)
-            {
-                var result = MessageBox.Show("Deseja Manter\nLogin Automático?", "Atenção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if(result == DialogResult.No) { Data_Controller.Reset_Saved_Login(); }
-            }
+            Data_Controller.Reset_Saved_Login();
             Forms_Controller.Fechar_Recente();
             Forms_Controller.Abrir_Anterior();
         }
@@ -31,7 +28,7 @@ namespace SGMI
         private void Btn_Cadastrar_Click(object sender, EventArgs e)
         {
             Forms_Controller.Esconder(this);
-            Forms_Controller.Abrir(new frm_CadastroMenor());
+            Forms_Controller.Abrir(new frm_CadastroMenor(null));
         }
 
         private void Btn_Consultar_Click(object sender, EventArgs e)

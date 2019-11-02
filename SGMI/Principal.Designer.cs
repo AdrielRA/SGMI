@@ -191,6 +191,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SGMI";
+            this.Load += new System.EventHandler(this.frm_Principal_Load);
             this.pnl_Titulo.ResumeLayout(false);
             this.pnl_Titulo.PerformLayout();
             this.ResumeLayout(false);

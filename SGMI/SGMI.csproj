@@ -72,6 +72,8 @@
     </Compile>
     <Compile Include="Data_Controller.cs" />
     <Compile Include="Forms_Controller.cs" />
+    <Compile Include="Infrator.cs" />
+    <Compile Include="Infração.cs" />
     <Compile Include="Principal.cs">
       <SubType>Form</SubType>
     </Compile>

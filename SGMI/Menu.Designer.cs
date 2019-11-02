@@ -35,6 +35,7 @@
             this.btn_Cadastrar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.lbl_Bemvindo = new System.Windows.Forms.Label();
             this.bunifuGradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -46,6 +47,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bunifuGradientPanel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel1.BackgroundImage")));
             this.bunifuGradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bunifuGradientPanel1.Controls.Add(this.lbl_Bemvindo);
             this.bunifuGradientPanel1.Controls.Add(this.btn_Fechar);
             this.bunifuGradientPanel1.Controls.Add(this.btn_Consultar);
             this.bunifuGradientPanel1.Controls.Add(this.btn_Cadastrar);
@@ -108,7 +110,7 @@
             this.btn_Consultar.IdleFillColor = System.Drawing.Color.White;
             this.btn_Consultar.IdleForecolor = System.Drawing.Color.Maroon;
             this.btn_Consultar.IdleLineColor = System.Drawing.Color.Maroon;
-            this.btn_Consultar.Location = new System.Drawing.Point(441, 277);
+            this.btn_Consultar.Location = new System.Drawing.Point(441, 286);
             this.btn_Consultar.Margin = new System.Windows.Forms.Padding(5);
             this.btn_Consultar.Name = "btn_Consultar";
             this.btn_Consultar.Size = new System.Drawing.Size(130, 50);
@@ -134,7 +136,7 @@
             this.btn_Cadastrar.IdleFillColor = System.Drawing.Color.White;
             this.btn_Cadastrar.IdleForecolor = System.Drawing.Color.Maroon;
             this.btn_Cadastrar.IdleLineColor = System.Drawing.Color.Maroon;
-            this.btn_Cadastrar.Location = new System.Drawing.Point(223, 277);
+            this.btn_Cadastrar.Location = new System.Drawing.Point(223, 286);
             this.btn_Cadastrar.Margin = new System.Windows.Forms.Padding(5);
             this.btn_Cadastrar.Name = "btn_Cadastrar";
             this.btn_Cadastrar.Size = new System.Drawing.Size(130, 50);
@@ -149,7 +151,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(209, 58);
+            this.pictureBox1.Location = new System.Drawing.Point(209, 67);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(378, 339);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -161,14 +163,28 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(331, 14);
+            this.label1.Location = new System.Drawing.Point(331, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 42);
             this.label1.TabIndex = 0;
             this.label1.Text = "INICIO";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Bemvindo
+            // 
+            this.lbl_Bemvindo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Bemvindo.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Bemvindo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Bemvindo.ForeColor = System.Drawing.Color.White;
+            this.lbl_Bemvindo.Location = new System.Drawing.Point(209, 42);
+            this.lbl_Bemvindo.Name = "lbl_Bemvindo";
+            this.lbl_Bemvindo.Size = new System.Drawing.Size(378, 23);
+            this.lbl_Bemvindo.TabIndex = 5;
+            this.lbl_Bemvindo.Text = "BEM-VINDO, USER!";
+            this.lbl_Bemvindo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frm_Menu
             // 
@@ -193,5 +209,6 @@
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Consultar;
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Cadastrar;
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Fechar;
+        private System.Windows.Forms.Label lbl_Bemvindo;
     }
 }

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,8 +20,11 @@ namespace SGMI
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
-            Forms_Controller.Fechar_Recente();
-            Forms_Controller.Abrir_Anterior();
+            Invoke((MethodInvoker)delegate
+            {
+                Forms_Controller.Fechar_Recente();
+                Forms_Controller.Abrir_Anterior();
+            });
         }
 
         private void Frm_SignUp_Load(object sender, EventArgs e)
@@ -31,26 +35,33 @@ namespace SGMI
 
         private void btn_Salvar_Click(object sender, EventArgs e)
         {
-            User new_user = new User();
-            new_user.Name = txt_UserName.Text;
-            new_user.Credentials = cmb_Credencial.SelectedItem.ToString();
-            new_user.Telefone = txt_Telefone.Text;
-            new_user.Email = txt_Email.Text;
-            new_user.Passpassword = txt_ConformaSenha.Text;
-
-            Data_Controller.Add_User(new_user);
-
-            MessageBox.Show("Usuário Salvo");
-            foreach (Control c in pnl_Tela.Controls)
+            try
             {
-                if (c is Bunifu.Framework.UI.BunifuMaterialTextbox)
-                {
-                    Bunifu.Framework.UI.BunifuMaterialTextbox txtBox = c as Bunifu.Framework.UI.BunifuMaterialTextbox;
-                    txtBox.Text = txtBox.HintText;
-                }
-                else if (c is ComboBox) { (c as ComboBox).SelectedIndex = -1; }
+                User new_user = new User();
+                new_user.Name = txt_UserName.Text;
+                new_user.Credentials = cmb_Credencial.SelectedItem.ToString();
+                new_user.Telefone = txt_Telefone.Text;
+                new_user.Email = txt_Email.Text;
+                new_user.Passpassword = txt_ConformaSenha.Text;
+
+                Data_Controller.Add_User(new_user);
+
+                MessageBox.Show("Usuário Salvo!");
+
+                new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
             }
-            txt_UserName.Focus();
+            catch { MessageBox.Show("Usuário Não Foi Salvo!"); }
+
+            //foreach (Control c in pnl_Tela.Controls)
+            //{
+            //    if (c is Bunifu.Framework.UI.BunifuMaterialTextbox)
+            //    {
+            //        Bunifu.Framework.UI.BunifuMaterialTextbox txtBox = c as Bunifu.Framework.UI.BunifuMaterialTextbox;
+            //        txtBox.Text = txtBox.HintText;
+            //    }
+            //    else if (c is ComboBox) { (c as ComboBox).SelectedIndex = -1; }
+            //}
+            //txt_UserName.Focus();
         }
 
         private void txt_Email_Changed(object sender, EventArgs e) { Validar(); }

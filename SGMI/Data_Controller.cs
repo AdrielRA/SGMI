@@ -11,20 +11,25 @@ namespace SGMI
     public class Data_Controller
     {
         public static List<User> users;
+        public static List<Infrator> infratores;
         public static User user_logged;
         public static bool keep_login;
         public static string user_logged_save;
-        private static string path, path_data, path_users, path_infos;
+        private static string path, path_data, path_users, path_infratores, path_infos;
 
         public static void Start_Controller()
         {
             path = Application.StartupPath + "\\";
             path_data = path + "files\\data\\";
             path_users = path_data + "users.json";
+            path_infratores = path_data + "infratores.json";
             path_infos = path_data + "infos.json";
 
             users = Load_Users();
             if (users == null) users = new List<User>();
+
+            infratores = Load_Infratores();
+            if (infratores == null) infratores = new List<Infrator>();
 
             if (File.Exists(path_infos))
             {
@@ -103,6 +108,34 @@ namespace SGMI
         {
             Create_Dir_data();
             File.WriteAllText(path_users, JsonConvert.SerializeObject(users));
+        }
+
+        private static List<Infrator> Load_Infratores()
+        {
+            if (File.Exists(path_infratores))
+            {
+                using (StreamReader r = new StreamReader(path_infratores))
+                {
+                    string json = r.ReadToEnd();
+                    return JsonConvert.DeserializeObject<List<Infrator>>(json);
+                }
+            }
+            return null;
+        }
+        public static void Add_Infrator(Infrator infrator)
+        {
+            if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
+            Save_Infrator_To_Storage();
+        }
+        public static void Remove_Infrator(Infrator infrator)
+        {
+            infratores.Remove(infrator);
+            Save_Infrator_To_Storage();
+        }
+        public static void Save_Infrator_To_Storage()
+        {
+            Create_Dir_data();
+            File.WriteAllText(path_infratores, JsonConvert.SerializeObject(infratores));
         }
 
         public static bool Validate_Login(User user)

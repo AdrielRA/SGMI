@@ -10,9 +10,9 @@ namespace SGMI
         public static bool maximizado;
         public static Size screen_size;
 
-        private static Stack<Form> forms_abertos = null;
         private static Panel container = null;
-
+        internal static Stack<Form> forms_abertos = null;
+        
         public static void Start_Controller(Panel container_)
         {
             forms_abertos = new Stack<Form>();
@@ -21,12 +21,15 @@ namespace SGMI
 
         public static void Abrir(Form form)
         {
-            form.TopLevel = false;
-            form.Size = container.Size;
-            forms_abertos.Push(form);
-            container.Controls.Add(form);
-            form.Size = container.Size;
-            form.Show();
+            if (form != null)
+            {
+                form.TopLevel = false;
+                form.Size = container.Size;
+                forms_abertos.Push(form);
+                container.Controls.Add(form);
+                form.Size = container.Size;
+                form.Show();
+            }
         }
 
         public static void Abrir_Anterior()

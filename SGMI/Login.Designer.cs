@@ -290,6 +290,7 @@
             this.Name = "frm_Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SGMI";
+            this.Load += new System.EventHandler(this.frm_Login_Load);
             this.pnl_Tela.ResumeLayout(false);
             this.pnl_Tela.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
