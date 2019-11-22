@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,15 +18,23 @@ namespace SGMI
         public static User user_logged;
         public static bool keep_login;
         public static string user_logged_save;
-        private static string path, path_data, path_users, path_infratores, path_infos;
+        private static string path, path_data, /*path_users, path_infratores,*/ path_infos;
+
+        public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
+        private static MongoClient client;
+        private static IMongoDatabase database;
+        private static IMongoCollection<Infrator> collection_infratores;
+        private static IMongoCollection<User> collection_users;
 
         public static void Start_Controller()
         {
             path = Application.StartupPath + "\\";
             path_data = path + "files\\data\\";
-            path_users = path_data + "users.json";
-            path_infratores = path_data + "infratores.json";
+            //path_users = path_data + "users.json";
+            //path_infratores = path_data + "infratores.json";
             path_infos = path_data + "infos.json";
+
+            Connect_To_Mongo();
 
             users = Load_Users();
             if (users == null) users = new List<User>();
@@ -52,11 +63,23 @@ namespace SGMI
                 }
             }
             else { Save_Infos_To_Storage(); }
+
+            //infratores[0].Infrações.Add(new Infração() { Descrição = "Infração 1", Data_ocorrência = DateTime.Now });
+            //infratores[0].Infrações.Add(new Infração() { Descrição = "Infração 2", Data_ocorrência = DateTime.Now });
+            //Add_Infrator(infratores[0]);
+        }
+
+        private static void Connect_To_Mongo()
+        {
+            client = new MongoClient(str_Connection);
+            database = client.GetDatabase("SGMI");
+            collection_infratores = database.GetCollection<Infrator>("infratores");
+            collection_users = database.GetCollection<User>("users");
         }
 
         public static void Save_Logged_User(User user)
         {
-            keep_login = true; user_logged_save = user.Name; user_logged = user;
+            keep_login = true; user_logged_save = user.Name;
             Save_Infos_To_Storage();
         }
         public static void Reset_Saved_Login()
@@ -65,7 +88,6 @@ namespace SGMI
             user_logged_save = "";
             Save_Infos_To_Storage();
         }
-
         public static void Save_Infos_To_Storage()
         {
             JObject json = new JObject();
@@ -82,65 +104,104 @@ namespace SGMI
             myFile.Attributes |= FileAttributes.Hidden;
         }
 
-        private static List<User> Load_Users()
-        {
-            if (File.Exists(path_users))
-            {
-                using (StreamReader r = new StreamReader(path_users))
-                {
-                    string json = r.ReadToEnd();
-                    return JsonConvert.DeserializeObject<List<User>>(json);
-                }
-            }
-            return null;
-        }
+        private static List<User> Load_Users() { return collection_users.Find(new BsonDocument()).ToList(); }
         public static void Add_User(User user)
         {
+            var filter = Builders<User>.Filter.Eq("Name", user.Name);
+            bool new_user = !collection_users.Find(filter).Any();
+
+            if (new_user) { collection_users.InsertOne(user); }
+            else
+            {
+                var update = Builders<User>.Update
+                    .Set("Name", user.Name)
+                    .Set("Email", user.Email)
+                    .Set("Telefone", user.Telefone)
+                    .Set("Credentials", user.Credentials)
+                    .Set("Passpassword", user.Passpassword);
+
+                collection_users.UpdateOne(filter, update);
+            }
             if (!users.Contains(user)) { users.Add(user); }
-            Save_User_To_Storage();
+            //Save_User_To_Storage();
         }
         public static void Remove_User(User user)
         {
-            users.Remove(user);
-            Save_User_To_Storage();
-        }
-        public static void Save_User_To_Storage()
-        {
-            Create_Dir_data();
-            File.WriteAllText(path_users, JsonConvert.SerializeObject(users));
-        }
-
-        private static List<Infrator> Load_Infratores()
-        {
-            if (File.Exists(path_infratores))
+            bool exists = !collection_users.Find(Builders<User>.Filter.Eq("Name", user.Name)).Any();
+            if (exists)
             {
-                using (StreamReader r = new StreamReader(path_infratores))
-                {
-                    string json = r.ReadToEnd();
-                    return JsonConvert.DeserializeObject<List<Infrator>>(json);
-                }
+                var deleteFilter = Builders<User>.Filter.Eq("Name", user.Name);
+                collection_users.DeleteOne(deleteFilter);
             }
-            return null;
+            //users.Remove(user);
+            //Save_User_To_Storage();
         }
+        //public static void Save_User_To_Storage()
+        //{
+        //    Create_Dir_data();
+        //    File.WriteAllText(path_users, JsonConvert.SerializeObject(users));
+        //}
+
+        private static List<Infrator> Load_Infratores() { return collection_infratores.Find(new BsonDocument()).ToList(); }
         public static void Add_Infrator(Infrator infrator)
         {
+            var filter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
+            bool new_user = !collection_infratores.Find(filter).Any();
+
+            if (new_user) { collection_infratores.InsertOne(infrator); }
+            else
+            {
+                BsonArray infracoes_ = new BsonArray();
+                foreach (var infra in infrator.Infrações)
+                {
+                    infracoes_.Add(new BsonDocument
+                    {
+                       { "Descrição", infra.Descrição},
+                       { "Data_ocorrência", infra.Data_ocorrência },
+                       { "Data_registro", infra.Data_registro }
+                    });
+                }
+
+                var update = Builders<Infrator>.Update
+                    .Set("Nome", infrator.Nome)
+                    .Set("Cpf", infrator.Cpf)
+                    .Set("Mãe", infrator.Mãe)
+                    .Set("Logradouro", infrator.Logradouro)
+                    .Set("Num_residência", infrator.Num_residência)
+                    .Set("Bairro", infrator.Bairro)
+                    .Set("Cidade", infrator.Cidade)
+                    .Set("Uf", infrator.Uf)
+                    .Set("Sexo", infrator.Sexo)
+                    .Set("Data_nascimento", infrator.Data_nascimento)
+                    .Set("Data_registro", infrator.Data_registro)
+                    .Set("Infrações", infracoes_);
+
+                collection_infratores.UpdateOne(filter, update);
+            }
             if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
-            Save_Infrator_To_Storage();
+            //Save_Infrator_To_Storage();
         }
         public static void Remove_Infrator(Infrator infrator)
         {
-            infratores.Remove(infrator);
-            Save_Infrator_To_Storage();
+            bool exists = !collection_infratores.Find(Builders<Infrator>.Filter.Eq("Rg", infrator.Rg)).Any();
+            if (exists)
+            {
+                var deleteFilter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
+                collection_infratores.DeleteOne(deleteFilter);
+            }
+            //infratores.Remove(infrator);
+            //Save_Infrator_To_Storage();
         }
-        public static void Save_Infrator_To_Storage()
-        {
-            Create_Dir_data();
-            File.WriteAllText(path_infratores, JsonConvert.SerializeObject(infratores));
-        }
+        //public static void Save_Infrator_To_Storage()
+        //{
+        //    Create_Dir_data();
+        //    File.WriteAllText(path_infratores, JsonConvert.SerializeObject(infratores));
+        //}
 
         public static bool Validate_Login(User user)
         {
-            return users.FirstOrDefault(u => u.Name == user.Name && u.Passpassword == user.Passpassword) != null;
+            user_logged = users.FirstOrDefault(u => u.Name == user.Name && u.Passpassword == user.Passpassword);
+            return user_logged != null;
         }
 
         public static void Create_Dir_data()

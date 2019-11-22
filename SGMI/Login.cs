@@ -17,7 +17,7 @@ namespace SGMI
             InitializeComponent();
             VisibleChanged += Visible_Changed;
         }
-        
+
         private void Visible_Changed(object sender, EventArgs e)
         {
             if (Visible)
@@ -28,7 +28,7 @@ namespace SGMI
                 cb_KeepConnection.Checked = false;
             }
         }
-        
+
         private void Btn_Logar_Click(object sender, EventArgs e)
         {
             User user = new User();

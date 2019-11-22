@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,13 @@ namespace SGMI
     {
         private string name, email, telefone, credentials, passpassword;
 
+        private ObjectId id;
+
         public string Name { get => name; set => name = value; }
         public string Email { get => email; set => email = value; }
         public string Telefone { get => telefone; set => telefone = value; }
         public string Credentials { get => credentials; set => credentials = value; }
         public string Passpassword { get => passpassword; set => passpassword = value; }
+        public ObjectId Id { get => id; set => id = value; }
     }
 }
