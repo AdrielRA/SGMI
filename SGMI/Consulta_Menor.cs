@@ -16,7 +16,7 @@ namespace SGMI
         {
             InitializeComponent();
         }
-
+        Infrator infrator = null;
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
             Forms_Controller.Fechar_Recente();
@@ -24,7 +24,7 @@ namespace SGMI
         }
         private void PictureBox1_Click(object sender, EventArgs e)
         {
-            Infrator infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == txtRG.Text);
+            infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == txtRG.Text);
 
             lbl_DataUltima.Text = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList()[0].Data_ocorrência.ToString("dd/MM/yyyy");
             lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : "Incidente";
@@ -81,6 +81,13 @@ namespace SGMI
             MessageBox.Show(infração.Descrição);
         }
 
-        
+        private void PictureBox2_Click(object sender, EventArgs e)
+        {
+            if (infrator != null)
+            {
+                Forms_Controller.Esconder(this);
+                Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
+            }
+        }
     }
 }
