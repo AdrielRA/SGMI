@@ -46,6 +46,9 @@
             this.btn_Voltar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.label1 = new System.Windows.Forms.Label();
             this.pnl_Tela = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.btn_RemInfra = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.btn_AddInfra = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.lb_Infrações = new System.Windows.Forms.ListBox();
             this.btn_Salvar = new Bunifu.Framework.UI.BunifuFlatButton();
             this.txt_Descri_Infra = new WindowsFormsControlLibrary1.BunifuCustomTextbox();
             this.date_Infra = new Bunifu.Framework.UI.BunifuDatepicker();
@@ -57,6 +60,7 @@
             this.txt_Logradouro = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.txt_Sexo = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.txt_Mãe = new Bunifu.Framework.UI.BunifuMaterialTextbox();
+            this.txt_CPF = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.txt_RG = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.txt_Nome = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.date_Niver = new Bunifu.Framework.UI.BunifuDatepicker();
@@ -65,10 +69,6 @@
             this.panelT1 = new AdrielDev.PanelT();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.panelT2 = new AdrielDev.PanelT();
-            this.txt_CPF = new Bunifu.Framework.UI.BunifuMaterialTextbox();
-            this.lb_Infrações = new System.Windows.Forms.ListBox();
-            this.btn_AddInfra = new Bunifu.Framework.UI.BunifuFlatButton();
-            this.btn_RemInfra = new Bunifu.Framework.UI.BunifuFlatButton();
             this.bunifuGradientPanel2.SuspendLayout();
             this.pnl_Tela.SuspendLayout();
             this.SuspendLayout();
@@ -229,6 +229,100 @@
             this.pnl_Tela.Quality = 10;
             this.pnl_Tela.Size = new System.Drawing.Size(800, 370);
             this.pnl_Tela.TabIndex = 4;
+            // 
+            // btn_RemInfra
+            // 
+            this.btn_RemInfra.Active = false;
+            this.btn_RemInfra.Activecolor = System.Drawing.Color.DarkRed;
+            this.btn_RemInfra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_RemInfra.BackColor = System.Drawing.Color.DarkRed;
+            this.btn_RemInfra.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_RemInfra.BorderRadius = 0;
+            this.btn_RemInfra.ButtonText = "REMOVER";
+            this.btn_RemInfra.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_RemInfra.DisabledColor = System.Drawing.Color.Gray;
+            this.btn_RemInfra.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_RemInfra.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_RemInfra.Iconcolor = System.Drawing.Color.Transparent;
+            this.btn_RemInfra.Iconimage = ((System.Drawing.Image)(resources.GetObject("btn_RemInfra.Iconimage")));
+            this.btn_RemInfra.Iconimage_right = null;
+            this.btn_RemInfra.Iconimage_right_Selected = null;
+            this.btn_RemInfra.Iconimage_Selected = null;
+            this.btn_RemInfra.IconMarginLeft = 0;
+            this.btn_RemInfra.IconMarginRight = 0;
+            this.btn_RemInfra.IconRightVisible = false;
+            this.btn_RemInfra.IconRightZoom = 0D;
+            this.btn_RemInfra.IconVisible = false;
+            this.btn_RemInfra.IconZoom = 100D;
+            this.btn_RemInfra.IsTab = false;
+            this.btn_RemInfra.Location = new System.Drawing.Point(619, 181);
+            this.btn_RemInfra.Margin = new System.Windows.Forms.Padding(5);
+            this.btn_RemInfra.Name = "btn_RemInfra";
+            this.btn_RemInfra.Normalcolor = System.Drawing.Color.DarkRed;
+            this.btn_RemInfra.OnHovercolor = System.Drawing.Color.Maroon;
+            this.btn_RemInfra.OnHoverTextColor = System.Drawing.Color.White;
+            this.btn_RemInfra.selected = false;
+            this.btn_RemInfra.Size = new System.Drawing.Size(164, 28);
+            this.btn_RemInfra.TabIndex = 42;
+            this.btn_RemInfra.Text = "REMOVER";
+            this.btn_RemInfra.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_RemInfra.Textcolor = System.Drawing.Color.White;
+            this.btn_RemInfra.TextFont = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_RemInfra.Click += new System.EventHandler(this.btn_RemInfra_Click);
+            // 
+            // btn_AddInfra
+            // 
+            this.btn_AddInfra.Active = false;
+            this.btn_AddInfra.Activecolor = System.Drawing.Color.DarkRed;
+            this.btn_AddInfra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_AddInfra.BackColor = System.Drawing.Color.DarkRed;
+            this.btn_AddInfra.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_AddInfra.BorderRadius = 0;
+            this.btn_AddInfra.ButtonText = "ADICIONAR";
+            this.btn_AddInfra.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_AddInfra.DisabledColor = System.Drawing.Color.Gray;
+            this.btn_AddInfra.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_AddInfra.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_AddInfra.Iconcolor = System.Drawing.Color.Transparent;
+            this.btn_AddInfra.Iconimage = ((System.Drawing.Image)(resources.GetObject("btn_AddInfra.Iconimage")));
+            this.btn_AddInfra.Iconimage_right = null;
+            this.btn_AddInfra.Iconimage_right_Selected = null;
+            this.btn_AddInfra.Iconimage_Selected = null;
+            this.btn_AddInfra.IconMarginLeft = 0;
+            this.btn_AddInfra.IconMarginRight = 0;
+            this.btn_AddInfra.IconRightVisible = false;
+            this.btn_AddInfra.IconRightZoom = 0D;
+            this.btn_AddInfra.IconVisible = false;
+            this.btn_AddInfra.IconZoom = 100D;
+            this.btn_AddInfra.IsTab = false;
+            this.btn_AddInfra.Location = new System.Drawing.Point(449, 181);
+            this.btn_AddInfra.Margin = new System.Windows.Forms.Padding(5);
+            this.btn_AddInfra.Name = "btn_AddInfra";
+            this.btn_AddInfra.Normalcolor = System.Drawing.Color.DarkRed;
+            this.btn_AddInfra.OnHovercolor = System.Drawing.Color.Maroon;
+            this.btn_AddInfra.OnHoverTextColor = System.Drawing.Color.White;
+            this.btn_AddInfra.selected = false;
+            this.btn_AddInfra.Size = new System.Drawing.Size(164, 28);
+            this.btn_AddInfra.TabIndex = 41;
+            this.btn_AddInfra.Text = "ADICIONAR";
+            this.btn_AddInfra.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_AddInfra.Textcolor = System.Drawing.Color.White;
+            this.btn_AddInfra.TextFont = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // lb_Infrações
+            // 
+            this.lb_Infrações.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lb_Infrações.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lb_Infrações.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lb_Infrações.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lb_Infrações.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Infrações.ForeColor = System.Drawing.Color.Maroon;
+            this.lb_Infrações.FormattingEnabled = true;
+            this.lb_Infrações.Location = new System.Drawing.Point(449, 216);
+            this.lb_Infrações.Name = "lb_Infrações";
+            this.lb_Infrações.Size = new System.Drawing.Size(334, 78);
+            this.lb_Infrações.TabIndex = 40;
+            this.lb_Infrações.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lb_Infrações_DrawItem);
             // 
             // btn_Salvar
             // 
@@ -500,6 +594,31 @@
             this.txt_Mãe.TabIndex = 28;
             this.txt_Mãe.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
+            // txt_CPF
+            // 
+            this.txt_CPF.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txt_CPF.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txt_CPF.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txt_CPF.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_CPF.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_CPF.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            this.txt_CPF.ForeColor = System.Drawing.Color.Maroon;
+            this.txt_CPF.HintForeColor = System.Drawing.Color.Empty;
+            this.txt_CPF.HintText = "CPF";
+            this.txt_CPF.isPassword = false;
+            this.txt_CPF.LineFocusedColor = System.Drawing.Color.Maroon;
+            this.txt_CPF.LineIdleColor = System.Drawing.Color.Silver;
+            this.txt_CPF.LineMouseHoverColor = System.Drawing.Color.IndianRed;
+            this.txt_CPF.LineThickness = 3;
+            this.txt_CPF.Location = new System.Drawing.Point(224, 103);
+            this.txt_CPF.Margin = new System.Windows.Forms.Padding(0);
+            this.txt_CPF.MaxLength = 14;
+            this.txt_CPF.Name = "txt_CPF";
+            this.txt_CPF.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_CPF.Size = new System.Drawing.Size(204, 33);
+            this.txt_CPF.TabIndex = 26;
+            this.txt_CPF.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            // 
             // txt_RG
             // 
             this.txt_RG.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
@@ -624,124 +743,6 @@
             this.panelT2.Size = new System.Drawing.Size(345, 343);
             this.panelT2.TabIndex = 34;
             this.panelT2.Transparency = 75;
-            // 
-            // txt_CPF
-            // 
-            this.txt_CPF.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
-            this.txt_CPF.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
-            this.txt_CPF.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txt_CPF.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.txt_CPF.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txt_CPF.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            this.txt_CPF.ForeColor = System.Drawing.Color.Maroon;
-            this.txt_CPF.HintForeColor = System.Drawing.Color.Empty;
-            this.txt_CPF.HintText = "CPF";
-            this.txt_CPF.isPassword = false;
-            this.txt_CPF.LineFocusedColor = System.Drawing.Color.Maroon;
-            this.txt_CPF.LineIdleColor = System.Drawing.Color.Silver;
-            this.txt_CPF.LineMouseHoverColor = System.Drawing.Color.IndianRed;
-            this.txt_CPF.LineThickness = 3;
-            this.txt_CPF.Location = new System.Drawing.Point(224, 103);
-            this.txt_CPF.Margin = new System.Windows.Forms.Padding(0);
-            this.txt_CPF.MaxLength = 14;
-            this.txt_CPF.Name = "txt_CPF";
-            this.txt_CPF.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_CPF.Size = new System.Drawing.Size(204, 33);
-            this.txt_CPF.TabIndex = 26;
-            this.txt_CPF.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            // 
-            // lb_Infrações
-            // 
-            this.lb_Infrações.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lb_Infrações.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lb_Infrações.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lb_Infrações.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.lb_Infrações.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_Infrações.ForeColor = System.Drawing.Color.Maroon;
-            this.lb_Infrações.FormattingEnabled = true;
-            this.lb_Infrações.Location = new System.Drawing.Point(449, 216);
-            this.lb_Infrações.Name = "lb_Infrações";
-            this.lb_Infrações.Size = new System.Drawing.Size(334, 78);
-            this.lb_Infrações.TabIndex = 40;
-            this.lb_Infrações.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lb_Infrações_DrawItem);
-            // 
-            // btn_AddInfra
-            // 
-            this.btn_AddInfra.Active = false;
-            this.btn_AddInfra.Activecolor = System.Drawing.Color.DarkRed;
-            this.btn_AddInfra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_AddInfra.BackColor = System.Drawing.Color.DarkRed;
-            this.btn_AddInfra.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_AddInfra.BorderRadius = 0;
-            this.btn_AddInfra.ButtonText = "ADICIONAR";
-            this.btn_AddInfra.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_AddInfra.DisabledColor = System.Drawing.Color.Gray;
-            this.btn_AddInfra.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_AddInfra.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_AddInfra.Iconcolor = System.Drawing.Color.Transparent;
-            this.btn_AddInfra.Iconimage = ((System.Drawing.Image)(resources.GetObject("btn_AddInfra.Iconimage")));
-            this.btn_AddInfra.Iconimage_right = null;
-            this.btn_AddInfra.Iconimage_right_Selected = null;
-            this.btn_AddInfra.Iconimage_Selected = null;
-            this.btn_AddInfra.IconMarginLeft = 0;
-            this.btn_AddInfra.IconMarginRight = 0;
-            this.btn_AddInfra.IconRightVisible = false;
-            this.btn_AddInfra.IconRightZoom = 0D;
-            this.btn_AddInfra.IconVisible = false;
-            this.btn_AddInfra.IconZoom = 100D;
-            this.btn_AddInfra.IsTab = false;
-            this.btn_AddInfra.Location = new System.Drawing.Point(449, 181);
-            this.btn_AddInfra.Margin = new System.Windows.Forms.Padding(5);
-            this.btn_AddInfra.Name = "btn_AddInfra";
-            this.btn_AddInfra.Normalcolor = System.Drawing.Color.DarkRed;
-            this.btn_AddInfra.OnHovercolor = System.Drawing.Color.Maroon;
-            this.btn_AddInfra.OnHoverTextColor = System.Drawing.Color.White;
-            this.btn_AddInfra.selected = false;
-            this.btn_AddInfra.Size = new System.Drawing.Size(164, 28);
-            this.btn_AddInfra.TabIndex = 41;
-            this.btn_AddInfra.Text = "ADICIONAR";
-            this.btn_AddInfra.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btn_AddInfra.Textcolor = System.Drawing.Color.White;
-            this.btn_AddInfra.TextFont = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            // 
-            // btn_RemInfra
-            // 
-            this.btn_RemInfra.Active = false;
-            this.btn_RemInfra.Activecolor = System.Drawing.Color.DarkRed;
-            this.btn_RemInfra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_RemInfra.BackColor = System.Drawing.Color.DarkRed;
-            this.btn_RemInfra.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_RemInfra.BorderRadius = 0;
-            this.btn_RemInfra.ButtonText = "REMOVER";
-            this.btn_RemInfra.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_RemInfra.DisabledColor = System.Drawing.Color.Gray;
-            this.btn_RemInfra.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_RemInfra.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_RemInfra.Iconcolor = System.Drawing.Color.Transparent;
-            this.btn_RemInfra.Iconimage = ((System.Drawing.Image)(resources.GetObject("btn_RemInfra.Iconimage")));
-            this.btn_RemInfra.Iconimage_right = null;
-            this.btn_RemInfra.Iconimage_right_Selected = null;
-            this.btn_RemInfra.Iconimage_Selected = null;
-            this.btn_RemInfra.IconMarginLeft = 0;
-            this.btn_RemInfra.IconMarginRight = 0;
-            this.btn_RemInfra.IconRightVisible = false;
-            this.btn_RemInfra.IconRightZoom = 0D;
-            this.btn_RemInfra.IconVisible = false;
-            this.btn_RemInfra.IconZoom = 100D;
-            this.btn_RemInfra.IsTab = false;
-            this.btn_RemInfra.Location = new System.Drawing.Point(619, 181);
-            this.btn_RemInfra.Margin = new System.Windows.Forms.Padding(5);
-            this.btn_RemInfra.Name = "btn_RemInfra";
-            this.btn_RemInfra.Normalcolor = System.Drawing.Color.DarkRed;
-            this.btn_RemInfra.OnHovercolor = System.Drawing.Color.Maroon;
-            this.btn_RemInfra.OnHoverTextColor = System.Drawing.Color.White;
-            this.btn_RemInfra.selected = false;
-            this.btn_RemInfra.Size = new System.Drawing.Size(164, 28);
-            this.btn_RemInfra.TabIndex = 42;
-            this.btn_RemInfra.Text = "REMOVER";
-            this.btn_RemInfra.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btn_RemInfra.Textcolor = System.Drawing.Color.White;
-            this.btn_RemInfra.TextFont = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // frm_CadastroMenor
             // 

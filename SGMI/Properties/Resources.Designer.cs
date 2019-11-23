@@ -83,9 +83,9 @@ namespace SGMI.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap edit {
+        internal static System.Drawing.Bitmap edit_icon {
             get {
-                object obj = ResourceManager.GetObject("edit", resourceCulture);
+                object obj = ResourceManager.GetObject("edit-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

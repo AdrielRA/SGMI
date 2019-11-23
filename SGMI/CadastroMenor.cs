@@ -22,7 +22,11 @@ namespace SGMI
             date_Infra.Value = DateTime.Today;
             btn_AddInfra.Click += (sender, EventArgs) => { btn_AddInfra_Click(sender, EventArgs, null); };
             if (infrator == null) { this.infrator = new Infrator(); }
-            else { Load_Infos(); }
+            else
+            {
+                txt_RG.Enabled = false;
+                Load_Infos();
+            }
         }
 
         private void Load_Infos()
@@ -120,6 +124,16 @@ namespace SGMI
                 itemTextColorBrush.Dispose();
             }
             e.DrawFocusRectangle();
+        }
+
+        private void btn_RemInfra_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                infrator.Infrações.RemoveAt(lb_Infrações.SelectedIndex);
+                lb_Infrações.Items.Remove(lb_Infrações.SelectedItem);
+            }
+            catch { }
         }
     }
 }
