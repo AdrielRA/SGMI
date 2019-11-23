@@ -33,6 +33,7 @@
             this.txtRG = new AdrielDev.TextBoxRounded();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.elip_Pesquisa = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbl_Status = new System.Windows.Forms.Label();
@@ -42,23 +43,22 @@
             this.label4 = new System.Windows.Forms.Label();
             this.elip_Item = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lbl_RG = new System.Windows.Forms.Label();
+            this.lbl_CPF = new System.Windows.Forms.Label();
+            this.lbl_Nome = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.elip_2 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.pnl_Infrações = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
             this.bunifuGradientPanel2 = new Bunifu.Framework.UI.BunifuGradientPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lbl_Nome = new System.Windows.Forms.Label();
-            this.lbl_CPF = new System.Windows.Forms.Label();
-            this.lbl_RG = new System.Windows.Forms.Label();
+            this.pnl_InfInfra = new System.Windows.Forms.Panel();
+            this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.pnl_Infrações.SuspendLayout();
             this.bunifuGradientPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +76,6 @@
             this.txtRG.Radius = 0;
             this.txtRG.Size = new System.Drawing.Size(299, 34);
             this.txtRG.TabIndex = 16;
-            this.txtRG.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TxtRG_KeyUp);
             // 
             // label3
             // 
@@ -96,12 +95,26 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.txtRG);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(12, 55);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(349, 35);
             this.panel1.TabIndex = 17;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Image = global::SGMI.Properties.Resources.lupa__2_;
+            this.pictureBox1.Location = new System.Drawing.Point(308, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(38, 34);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 17;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1_Click);
             // 
             // elip_Pesquisa
             // 
@@ -194,46 +207,70 @@
             this.panel3.Size = new System.Drawing.Size(349, 100);
             this.panel3.TabIndex = 19;
             // 
+            // lbl_RG
+            // 
+            this.lbl_RG.AutoSize = true;
+            this.lbl_RG.ForeColor = System.Drawing.Color.White;
+            this.lbl_RG.Location = new System.Drawing.Point(81, 69);
+            this.lbl_RG.Name = "lbl_RG";
+            this.lbl_RG.Size = new System.Drawing.Size(107, 21);
+            this.lbl_RG.TabIndex = 8;
+            this.lbl_RG.Text = "MG-1234567";
+            // 
+            // lbl_CPF
+            // 
+            this.lbl_CPF.AutoSize = true;
+            this.lbl_CPF.ForeColor = System.Drawing.Color.White;
+            this.lbl_CPF.Location = new System.Drawing.Point(81, 42);
+            this.lbl_CPF.Name = "lbl_CPF";
+            this.lbl_CPF.Size = new System.Drawing.Size(109, 21);
+            this.lbl_CPF.TabIndex = 7;
+            this.lbl_CPF.Text = "12345678910";
+            // 
+            // lbl_Nome
+            // 
+            this.lbl_Nome.AutoSize = true;
+            this.lbl_Nome.ForeColor = System.Drawing.Color.White;
+            this.lbl_Nome.Location = new System.Drawing.Point(81, 15);
+            this.lbl_Nome.Name = "lbl_Nome";
+            this.lbl_Nome.Size = new System.Drawing.Size(113, 21);
+            this.lbl_Nome.TabIndex = 4;
+            this.lbl_Nome.Text = "Fulano de Tal";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(14, 69);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(38, 21);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "RG:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(14, 42);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 21);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "CPF:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(14, 15);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(61, 21);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Nome:";
+            // 
             // elip_2
             // 
             this.elip_2.ElipseRadius = 30;
             this.elip_2.TargetControl = this.panel3;
-            // 
-            // pnl_Infrações
-            // 
-            this.pnl_Infrações.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnl_Infrações.BackColor = System.Drawing.Color.Silver;
-            this.pnl_Infrações.Controls.Add(this.panel7);
-            this.pnl_Infrações.Controls.Add(this.panel6);
-            this.pnl_Infrações.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnl_Infrações.Location = new System.Drawing.Point(12, 276);
-            this.pnl_Infrações.Name = "pnl_Infrações";
-            this.pnl_Infrações.Size = new System.Drawing.Size(349, 162);
-            this.pnl_Infrações.TabIndex = 20;
-            // 
-            // panel7
-            // 
-            this.panel7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel7.BackColor = System.Drawing.Color.White;
-            this.panel7.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel7.Location = new System.Drawing.Point(3, 75);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(343, 64);
-            this.panel7.TabIndex = 21;
-            // 
-            // panel6
-            // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel6.BackColor = System.Drawing.Color.White;
-            this.panel6.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel6.Location = new System.Drawing.Point(3, 5);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(343, 64);
-            this.panel6.TabIndex = 20;
             // 
             // bunifuGradientPanel2
             // 
@@ -292,72 +329,31 @@
             this.btn_Fechar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btn_Fechar.Click += new System.EventHandler(this.Btn_Fechar_Click);
             // 
-            // label5
+            // pnl_InfInfra
             // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(14, 15);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(61, 21);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Nome:";
+            this.pnl_InfInfra.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnl_InfInfra.AutoScroll = true;
+            this.pnl_InfInfra.BackColor = System.Drawing.Color.Silver;
+            this.pnl_InfInfra.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnl_InfInfra.Location = new System.Drawing.Point(12, 286);
+            this.pnl_InfInfra.Name = "pnl_InfInfra";
+            this.pnl_InfInfra.Size = new System.Drawing.Size(349, 152);
+            this.pnl_InfInfra.TabIndex = 21;
             // 
-            // label6
+            // bunifuElipse1
             // 
-            this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(14, 42);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 21);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "CPF:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(14, 69);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 21);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "RG:";
-            // 
-            // lbl_Nome
-            // 
-            this.lbl_Nome.AutoSize = true;
-            this.lbl_Nome.ForeColor = System.Drawing.Color.White;
-            this.lbl_Nome.Location = new System.Drawing.Point(81, 15);
-            this.lbl_Nome.Name = "lbl_Nome";
-            this.lbl_Nome.Size = new System.Drawing.Size(113, 21);
-            this.lbl_Nome.TabIndex = 4;
-            this.lbl_Nome.Text = "Fulano de Tal";
-            // 
-            // lbl_CPF
-            // 
-            this.lbl_CPF.AutoSize = true;
-            this.lbl_CPF.ForeColor = System.Drawing.Color.White;
-            this.lbl_CPF.Location = new System.Drawing.Point(81, 42);
-            this.lbl_CPF.Name = "lbl_CPF";
-            this.lbl_CPF.Size = new System.Drawing.Size(109, 21);
-            this.lbl_CPF.TabIndex = 7;
-            this.lbl_CPF.Text = "12345678910";
-            // 
-            // lbl_RG
-            // 
-            this.lbl_RG.AutoSize = true;
-            this.lbl_RG.ForeColor = System.Drawing.Color.White;
-            this.lbl_RG.Location = new System.Drawing.Point(81, 69);
-            this.lbl_RG.Name = "lbl_RG";
-            this.lbl_RG.Size = new System.Drawing.Size(107, 21);
-            this.lbl_RG.TabIndex = 8;
-            this.lbl_RG.Text = "MG-1234567";
+            this.bunifuElipse1.ElipseRadius = 20;
+            this.bunifuElipse1.TargetControl = this.pnl_InfInfra;
             // 
             // frmConsulta_Menor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(373, 450);
-            this.Controls.Add(this.pnl_Infrações);
+            this.Controls.Add(this.pnl_InfInfra);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -368,11 +364,11 @@
             this.Text = "Consulta_Menor";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.pnl_Infrações.ResumeLayout(false);
             this.bunifuGradientPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -390,9 +386,6 @@
         private Bunifu.Framework.UI.BunifuElipse elip_Item;
         private System.Windows.Forms.Panel panel3;
         private Bunifu.Framework.UI.BunifuElipse elip_2;
-        private System.Windows.Forms.Panel pnl_Infrações;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel4;
@@ -405,5 +398,8 @@
         private System.Windows.Forms.Label lbl_Nome;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel pnl_InfInfra;
+        private Bunifu.Framework.UI.BunifuElipse bunifuElipse1;
     }
 }
