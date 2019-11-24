@@ -101,6 +101,12 @@
     </Compile>
     <Compile Include="Data_Controller.cs" />
     <Compile Include="Forms_Controller.cs" />
+    <Compile Include="frm_Detalhes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Detalhes.Designer.cs">
+      <DependentUpon>frm_Detalhes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Infrator.cs" />
     <Compile Include="Infração.cs" />
     <Compile Include="Principal.cs">
@@ -140,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Consulta_Menor.resx">
       <DependentUpon>Consulta_Menor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Detalhes.resx">
+      <DependentUpon>frm_Detalhes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

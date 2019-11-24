@@ -100,7 +100,8 @@ namespace SGMI
             btn_Mais.Size = new Size(40, 40);
             btn_Mais.SizeMode = PictureBoxSizeMode.Zoom;
             btn_Mais.Cursor = Cursors.Hand;
-            btn_Mais.Location = new Point(lbl_data.Width + 5, 12);
+            btn_Mais.Anchor = (AnchorStyles.Right);
+            btn_Mais.Location = new Point(lbl_data.Width + 20, 12);
             btn_Mais.Click += (sender, EventArgs) => { Ver_Mais_Infra_Click(sender, EventArgs, infração); };
 
             //Adicionando no picturebox
@@ -114,7 +115,8 @@ namespace SGMI
         }
         private void Ver_Mais_Infra_Click(object sender, EventArgs e, Infração infração)
         {
-            MessageBox.Show(infração.Descrição);
+            frm_Detalhes fd = new frm_Detalhes(infração);
+            fd.ShowDialog();
         }
 
         private void pic_Editar_Click(object sender, EventArgs e)
