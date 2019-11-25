@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -47,7 +48,6 @@ namespace SGMI
             {
                 btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf);
             });
-            
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
@@ -134,6 +134,15 @@ namespace SGMI
                 lb_Infrações.Items.Remove(lb_Infrações.SelectedItem);
             }
             catch { }
+        }
+
+        private void lb_Infrações_DoubleClick(object sender, EventArgs e)
+        {
+            if (lb_Infrações.SelectedItem != null)
+            {
+                new frm_Detalhes(infrator.Infrações[lb_Infrações.SelectedIndex]).ShowDialog();
+                
+            }
         }
     }
 }

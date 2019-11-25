@@ -323,6 +323,7 @@
             this.lb_Infrações.Size = new System.Drawing.Size(334, 78);
             this.lb_Infrações.TabIndex = 40;
             this.lb_Infrações.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lb_Infrações_DrawItem);
+            this.lb_Infrações.DoubleClick += new System.EventHandler(this.lb_Infrações_DoubleClick);
             // 
             // btn_Salvar
             // 

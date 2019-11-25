@@ -71,29 +71,46 @@ namespace SGMI
             pnl_BG.Size = new Size(pnl_InfInfra.Width, 67);
             pnl_BG.Dock = DockStyle.Top;
             pnl_BG.BackColor = Color.WhiteSmoke;
-            pnl_BG.ForeColor = Color.Crimson;
             pnl_BG.Margin = new Padding(0);
-            
+
+            Panel pnl_Item = new Panel();
+            pnl_Item.Size = new Size(pnl_InfInfra.Width, 64);
+            pnl_Item.Dock = DockStyle.Top;
+            pnl_Item.BackColor = Color.White;
+            pnl_Item.ForeColor = Color.DarkRed;
+            pnl_Item.Margin = new Padding(0);
+
+            Label lbl_1 = new Label();
+            lbl_1.Text = "Infração:";
+            lbl_1.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+            lbl_1.Size = new Size(80, 32);
+            lbl_1.TextAlign = ContentAlignment.MiddleLeft;
+            lbl_1.Location = new Point(2, 0);
+
             //Criando os dois label
             Label lbl_Infra = new Label();
-            lbl_Infra.Text = "Infração:  " + infração.Descrição;
-            lbl_Infra.BackColor = Color.White;
-            lbl_Infra.Size = new Size(pnl_InfInfra.Width - 70, 32);
+            lbl_Infra.Text = infração.Descrição;
+            lbl_Infra.Size = new Size(pnl_InfInfra.Width - lbl_1.Width - 70, 32);
             lbl_Infra.Margin = new Padding(0);
             lbl_Infra.TextAlign = ContentAlignment.MiddleLeft;
-            lbl_Infra.Location = new Point(2, 0);
-            //lbl_Infra.Dock = DockStyle.Top;
+            lbl_Infra.Location = new Point(lbl_1.Width + 5, 0);
+            lbl_Infra.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 
+            Label lbl_2 = new Label();
+            lbl_2.Text = "Data:";
+            lbl_2.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+            lbl_2.Size = new Size(80, 32);
+            lbl_2.TextAlign = ContentAlignment.MiddleLeft;
+            lbl_2.Location = new Point(2, 32);
 
             Label lbl_data = new Label();
-            lbl_data.Text = "Data:  " + infração.Data_ocorrência.ToString("dd/MM/yyyy");
-            lbl_data.Size = new Size(pnl_InfInfra.Width - 70, 32);
-            lbl_data.BackColor = Color.White;
+            lbl_data.Text = infração.Data_ocorrência.ToString("dd/MM/yyyy");
+            lbl_data.Size = new Size(pnl_InfInfra.Width - lbl_2.Width - 70, 32);
             lbl_data.Margin = new Padding(0);
             lbl_data.TextAlign = ContentAlignment.MiddleLeft;
-            lbl_data.Location = new Point(2, 32);
-            //lbl_data.Dock = DockStyle.Top;
-           
+            lbl_data.Location = new Point(lbl_2.Width + 5, 32);
+            lbl_data.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+
             //Adicionando Imagem +
             PictureBox btn_Mais = new PictureBox();
             btn_Mais.Image = Properties.Resources.btn_MaisDetalhes;
@@ -101,22 +118,22 @@ namespace SGMI
             btn_Mais.SizeMode = PictureBoxSizeMode.Zoom;
             btn_Mais.Cursor = Cursors.Hand;
             btn_Mais.Anchor = (AnchorStyles.Right);
-            btn_Mais.Location = new Point(lbl_data.Width + 20, 12);
+            btn_Mais.Location = new Point(pnl_InfInfra.Width - btn_Mais.Width - 10, 12);
             btn_Mais.Click += (sender, EventArgs) => { Ver_Mais_Infra_Click(sender, EventArgs, infração); };
 
             //Adicionando no picturebox
-            pnl_BG.Controls.Add(lbl_Infra);
-            pnl_BG.Controls.Add(lbl_data);
-            pnl_BG.Controls.Add(btn_Mais);
+            pnl_Item.Controls.Add(lbl_1);
+            pnl_Item.Controls.Add(lbl_Infra);
+            pnl_Item.Controls.Add(lbl_2);
+            pnl_Item.Controls.Add(lbl_data);
+            pnl_Item.Controls.Add(btn_Mais);
+            pnl_BG.Controls.Add(pnl_Item);
             pnl_InfInfra.Controls.Add(pnl_BG);
-
-            btn_Mais.BackColor = Color.White;
 
         }
         private void Ver_Mais_Infra_Click(object sender, EventArgs e, Infração infração)
         {
-            frm_Detalhes fd = new frm_Detalhes(infração);
-            fd.ShowDialog();
+            new frm_Detalhes(infração).ShowDialog();
         }
 
         private void pic_Editar_Click(object sender, EventArgs e)

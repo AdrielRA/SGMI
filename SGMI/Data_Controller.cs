@@ -5,8 +5,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace SGMI
@@ -18,7 +20,7 @@ namespace SGMI
         public static User user_logged;
         public static bool keep_login;
         public static string user_logged_save;
-        private static string path, path_data, /*path_users, path_infratores,*/ path_infos;
+        private static string path, path_data, path_anexos, path_infos;
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
         private static MongoClient client;
@@ -30,8 +32,7 @@ namespace SGMI
         {
             path = Application.StartupPath + "\\";
             path_data = path + "files\\data\\";
-            //path_users = path_data + "users.json";
-            //path_infratores = path_data + "infratores.json";
+            path_anexos = path + "files\\anexos\\";
             path_infos = path_data + "infos.json";
 
             Connect_To_Mongo();
@@ -63,10 +64,6 @@ namespace SGMI
                 }
             }
             else { Save_Infos_To_Storage(); }
-
-            //infratores[0].Infrações.Add(new Infração() { Descrição = "Infração 1", Data_ocorrência = DateTime.Now });
-            //infratores[0].Infrações.Add(new Infração() { Descrição = "Infração 2", Data_ocorrência = DateTime.Now });
-            //Add_Infrator(infratores[0]);
         }
 
         private static void Connect_To_Mongo()
@@ -136,11 +133,6 @@ namespace SGMI
             //users.Remove(user);
             //Save_User_To_Storage();
         }
-        //public static void Save_User_To_Storage()
-        //{
-        //    Create_Dir_data();
-        //    File.WriteAllText(path_users, JsonConvert.SerializeObject(users));
-        //}
 
         private static List<Infrator> Load_Infratores() { return collection_infratores.Find(new BsonDocument()).ToList(); }
         public static void Add_Infrator(Infrator infrator)
@@ -156,6 +148,7 @@ namespace SGMI
                 {
                     infracoes_.Add(new BsonDocument
                     {
+                       { "infração_id", infra.Id},
                        { "Descrição", infra.Descrição},
                        { "Data_ocorrência", infra.Data_ocorrência },
                        { "Data_registro", infra.Data_registro }
@@ -179,7 +172,6 @@ namespace SGMI
                 collection_infratores.UpdateOne(filter, update);
             }
             if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
-            //Save_Infrator_To_Storage();
         }
         public static void Remove_Infrator(Infrator infrator)
         {
@@ -192,11 +184,55 @@ namespace SGMI
             //infratores.Remove(infrator);
             //Save_Infrator_To_Storage();
         }
-        //public static void Save_Infrator_To_Storage()
-        //{
-        //    Create_Dir_data();
-        //    File.WriteAllText(path_infratores, JsonConvert.SerializeObject(infratores));
-        //}
+
+        public static void Add_Anexo(ObjectId id_infração, string fileName, string newFileName)
+        {
+            var fileBytes = File.ReadAllBytes(fileName);
+            var collection = database.GetCollection<BsonDocument>("anexos");
+
+            BsonDocument baseDoc = new BsonDocument();
+            baseDoc.SetElement(new BsonElement("pdfContent", fileBytes));
+
+            baseDoc.SetElement(new BsonElement("_id", Guid.NewGuid()));
+            baseDoc.SetElement(new BsonElement("filename", newFileName));
+            baseDoc.SetElement(new BsonElement("infração_id", id_infração));
+            collection.InsertOne(baseDoc);
+        }
+        public static void Remove_Anexo(ObjectId id_infração, string path_anexo)
+        {
+            string filename = path_anexo.Split('\\').LastOrDefault();
+
+            if (File.Exists(path_anexo)) { File.Delete(path_anexo); }
+            var collection = database.GetCollection<BsonDocument>("anexos");
+            var filter = Builders<BsonDocument>
+                .Filter.And(Builders<BsonDocument>
+                .Filter.Eq("infração_id", id_infração), Builders<BsonDocument>
+                .Filter.Eq("filename", filename));
+
+            collection.DeleteOne(filter);
+        }
+        public static string[] Read_Anexos(ObjectId infração_id)
+        {
+            var collection = database.GetCollection<BsonDocument>("anexos");
+            var filter_id = Builders<BsonDocument>.Filter.Eq("infração_id", infração_id);
+            var docs = collection.Find(filter_id).ToEnumerable();
+
+            List<string> paths = new List<string>();
+
+            if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
+
+            foreach (var doc in docs)
+            {
+                string save_path = path_anexos + doc.GetElement("filename").Value.ToString();
+                if (!File.Exists(save_path))
+                {
+                    byte[] fileArray = doc.GetElement("pdfContent").Value.AsByteArray;
+                    File.WriteAllBytes(save_path, fileArray);
+                }
+                paths.Add(save_path);
+            }
+            return paths.ToArray();
+        }
 
         public static bool Validate_Login(User user)
         {
