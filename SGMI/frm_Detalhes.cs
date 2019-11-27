@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,10 +91,22 @@ namespace SGMI
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    btn_Fechar.Click -= Btn_Fechar_Click;
-                    Data_Controller.Add_Anexo(infração.Id, dialog.FileName, "Anexo - " + DateTime.Now.Ticks + ".pdf");
-                    Load_Anexos();
-                    btn_Fechar.Click += Btn_Fechar_Click;
+                    FileInfo fileInfo = new FileInfo(dialog.FileName);
+
+                    int tam_max = 1; // tamanho em MB
+
+                    if (fileInfo.Length / 1024 <= tam_max * 1024)
+                    {
+                        btn_Fechar.Click -= Btn_Fechar_Click;
+                        Data_Controller.Add_Anexo(infração.Id, dialog.FileName, "Anexo - " + DateTime.Now.Ticks + ".pdf");
+                        Load_Anexos();
+                        btn_Fechar.Click += Btn_Fechar_Click;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Arquivo grande!\n\nLimite de " + tam_max + "MB.", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    
                 }
             }
         }

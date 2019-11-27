@@ -33,6 +33,7 @@
             this.txtRG = new AdrielDev.TextBoxRounded();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pic_Pesquisar = new System.Windows.Forms.PictureBox();
             this.elip_Pesquisa = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_InfosTop = new System.Windows.Forms.Panel();
             this.lbl_Status = new System.Windows.Forms.Label();
@@ -42,6 +43,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.elip_Item = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_InfosBottom = new System.Windows.Forms.Panel();
+            this.pic_Editar = new System.Windows.Forms.PictureBox();
             this.lbl_RG = new System.Windows.Forms.Label();
             this.lbl_CPF = new System.Windows.Forms.Label();
             this.lbl_Nome = new System.Windows.Forms.Label();
@@ -51,16 +53,14 @@
             this.elip_2 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_InfInfra = new System.Windows.Forms.Panel();
             this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.pic_Editar = new System.Windows.Forms.PictureBox();
-            this.pic_Pesquisar = new System.Windows.Forms.PictureBox();
             this.pnl_Titulo = new Bunifu.Framework.UI.BunifuGradientPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Pesquisar)).BeginInit();
             this.pnl_InfosTop.SuspendLayout();
             this.pnl_InfosBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Editar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Pesquisar)).BeginInit();
             this.pnl_Titulo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +79,7 @@
             this.txtRG.Radius = 0;
             this.txtRG.Size = new System.Drawing.Size(299, 34);
             this.txtRG.TabIndex = 16;
+            this.txtRG.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRG_KeyDown);
             // 
             // label3
             // 
@@ -105,6 +106,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(349, 35);
             this.panel1.TabIndex = 17;
+            // 
+            // pic_Pesquisar
+            // 
+            this.pic_Pesquisar.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pic_Pesquisar.BackColor = System.Drawing.Color.White;
+            this.pic_Pesquisar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pic_Pesquisar.Image = global::SGMI.Properties.Resources.lupa__2_;
+            this.pic_Pesquisar.Location = new System.Drawing.Point(308, 0);
+            this.pic_Pesquisar.Name = "pic_Pesquisar";
+            this.pic_Pesquisar.Size = new System.Drawing.Size(38, 34);
+            this.pic_Pesquisar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_Pesquisar.TabIndex = 17;
+            this.pic_Pesquisar.TabStop = false;
+            this.pic_Pesquisar.Click += new System.EventHandler(this.PictureBox1_Click);
             // 
             // elip_Pesquisa
             // 
@@ -204,6 +219,20 @@
             this.pnl_InfosBottom.Size = new System.Drawing.Size(349, 100);
             this.pnl_InfosBottom.TabIndex = 19;
             // 
+            // pic_Editar
+            // 
+            this.pic_Editar.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pic_Editar.BackColor = System.Drawing.Color.Gainsboro;
+            this.pic_Editar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pic_Editar.Image = global::SGMI.Properties.Resources.edit_icon;
+            this.pic_Editar.Location = new System.Drawing.Point(276, 20);
+            this.pic_Editar.Name = "pic_Editar";
+            this.pic_Editar.Size = new System.Drawing.Size(60, 60);
+            this.pic_Editar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_Editar.TabIndex = 18;
+            this.pic_Editar.TabStop = false;
+            this.pic_Editar.Click += new System.EventHandler(this.pic_Editar_Click);
+            // 
             // lbl_RG
             // 
             this.lbl_RG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -299,34 +328,6 @@
             this.bunifuElipse1.ElipseRadius = 20;
             this.bunifuElipse1.TargetControl = this.pnl_InfInfra;
             // 
-            // pic_Editar
-            // 
-            this.pic_Editar.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pic_Editar.BackColor = System.Drawing.Color.Gainsboro;
-            this.pic_Editar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pic_Editar.Image = global::SGMI.Properties.Resources.edit_icon;
-            this.pic_Editar.Location = new System.Drawing.Point(276, 20);
-            this.pic_Editar.Name = "pic_Editar";
-            this.pic_Editar.Size = new System.Drawing.Size(60, 60);
-            this.pic_Editar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_Editar.TabIndex = 18;
-            this.pic_Editar.TabStop = false;
-            this.pic_Editar.Click += new System.EventHandler(this.pic_Editar_Click);
-            // 
-            // pic_Pesquisar
-            // 
-            this.pic_Pesquisar.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pic_Pesquisar.BackColor = System.Drawing.Color.White;
-            this.pic_Pesquisar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pic_Pesquisar.Image = global::SGMI.Properties.Resources.lupa__2_;
-            this.pic_Pesquisar.Location = new System.Drawing.Point(308, 0);
-            this.pic_Pesquisar.Name = "pic_Pesquisar";
-            this.pic_Pesquisar.Size = new System.Drawing.Size(38, 34);
-            this.pic_Pesquisar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_Pesquisar.TabIndex = 17;
-            this.pic_Pesquisar.TabStop = false;
-            this.pic_Pesquisar.Click += new System.EventHandler(this.PictureBox1_Click);
-            // 
             // pnl_Titulo
             // 
             this.pnl_Titulo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Titulo.BackgroundImage")));
@@ -396,15 +397,16 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnl_Titulo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "frmConsulta_Menor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Consulta_Menor";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Pesquisar)).EndInit();
             this.pnl_InfosTop.ResumeLayout(false);
             this.pnl_InfosBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_Editar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Pesquisar)).EndInit();
             this.pnl_Titulo.ResumeLayout(false);
             this.ResumeLayout(false);
 

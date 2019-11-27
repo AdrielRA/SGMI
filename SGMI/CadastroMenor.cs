@@ -15,6 +15,9 @@ namespace SGMI
     public partial class frm_CadastroMenor : Form
     {
         private Infrator infrator;
+        private bool new_infrator = false;
+        private List<int> infrações_to_remove;
+        private List<Infração> infrações_to_add;
 
         public frm_CadastroMenor(Infrator infrator)
         {
@@ -22,7 +25,10 @@ namespace SGMI
             this.infrator = infrator;
             date_Infra.Value = DateTime.Today;
             btn_AddInfra.Click += (sender, EventArgs) => { btn_AddInfra_Click(sender, EventArgs, null); };
-            if (infrator == null) { this.infrator = new Infrator(); }
+            new_infrator = infrator == null;
+            infrações_to_remove = new List<int>();
+            infrações_to_add = new List<Infração>();
+            if (new_infrator) { this.infrator = new Infrator(); }
             else
             {
                 txt_RG.Enabled = false;
@@ -48,6 +54,7 @@ namespace SGMI
             {
                 btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf);
             });
+            infrações_to_add = infrator.Infrações.ToList();
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
@@ -61,30 +68,41 @@ namespace SGMI
 
         private void btn_Salvar_Click(object sender, EventArgs e)
         {
-            try
+            Infrator infrator_original = null;
+            if (!new_infrator)
             {
-                infrator.Nome = txt_Nome.Text;
-                infrator.Rg = txt_RG.Text;
-                infrator.Cpf = txt_CPF.Text;
-                infrator.Data_nascimento = date_Niver.Value;
-                infrator.Sexo = txt_Sexo.Text.ToUpper()[0];
-                infrator.Mãe = txt_Mãe.Text;
-                infrator.Logradouro = txt_Logradouro.Text;
-                infrator.Num_residência = txt_NumRes.Text;
-                infrator.Bairro = txt_Bairro.Text;
-                infrator.Cidade = txt_Cidade.Text;
-                infrator.Uf = txt_UF.Text.ToUpper();
-                infrator.Data_registro = DateTime.Now;
-
-                Data_Controller.Add_Infrator(infrator);
-                MessageBox.Show("Infrator salvo!");
-
-                new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
+                infrator_original = Data_Controller.Clone<Infrator>(infrator);
+                infrator_original.Infrações = infrator.Infrações.ToList();
             }
-            catch
+            else infrator.Data_registro = DateTime.Now;
+
+            infrator.Nome = txt_Nome.Text;
+            infrator.Rg = txt_RG.Text;
+            infrator.Cpf = txt_CPF.Text;
+            infrator.Data_nascimento = date_Niver.Value;
+            infrator.Sexo = txt_Sexo.Text.ToUpper()[0];
+            infrator.Mãe = txt_Mãe.Text;
+            infrator.Logradouro = txt_Logradouro.Text;
+            infrator.Num_residência = txt_NumRes.Text;
+            infrator.Bairro = txt_Bairro.Text;
+            infrator.Cidade = txt_Cidade.Text;
+            infrator.Uf = txt_UF.Text.ToUpper();
+
+            infrator.Infrações = new List<Infração>();
+            foreach (Infração inf in infrações_to_add)
             {
-                MessageBox.Show("Não foi possível salvar!\n\nVerifique todos os\ncampos e tente novamente!");
+                infrator.Infrações.Add(inf);
             }
+
+            for (int i = 0; i< infrações_to_remove.Count; i++)
+            {
+                infrator.Infrações.RemoveAt(infrações_to_remove[i]);
+            }
+                
+
+            Data_Controller.Add_Infrator(infrator, infrator_original);
+
+            new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
         }
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração)
@@ -95,7 +113,9 @@ namespace SGMI
                 infração.Descrição = txt_Descri_Infra.Text;
                 infração.Data_ocorrência = date_Infra.Value;
                 infração.Data_registro = DateTime.Now;
-                infrator.Infrações.Add(infração);
+
+                infrações_to_add.Add(infração);
+                //infrator.Infrações.Add(infração);
                 date_Infra.Value = DateTime.Today;
             }
 
@@ -130,7 +150,8 @@ namespace SGMI
         {
             try
             {
-                infrator.Infrações.RemoveAt(lb_Infrações.SelectedIndex);
+                infrações_to_remove.Add(lb_Infrações.SelectedIndex);
+                //infrator.Infrações.RemoveAt();
                 lb_Infrações.Items.Remove(lb_Infrações.SelectedItem);
             }
             catch { }
@@ -140,7 +161,7 @@ namespace SGMI
         {
             if (lb_Infrações.SelectedItem != null)
             {
-                new frm_Detalhes(infrator.Infrações[lb_Infrações.SelectedIndex]).ShowDialog();
+                new frm_Detalhes(infrações_to_add[lb_Infrações.SelectedIndex]).ShowDialog();
                 
             }
         }

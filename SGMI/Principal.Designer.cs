@@ -95,9 +95,9 @@
             this.lbl_Titulo.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.lbl_Titulo.Location = new System.Drawing.Point(3, 8);
             this.lbl_Titulo.Name = "lbl_Titulo";
-            this.lbl_Titulo.Size = new System.Drawing.Size(365, 25);
+            this.lbl_Titulo.Size = new System.Drawing.Size(383, 25);
             this.lbl_Titulo.TabIndex = 0;
-            this.lbl_Titulo.Text = "SGMI - Gerencia de Menor Infrator";
+            this.lbl_Titulo.Text = "SysGI - Gerenciamento de Infratores";
             // 
             // btn_MaxRes
             // 
@@ -187,10 +187,10 @@
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frm_Principal";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SGMI";
+            this.Text = "SysGI";
             this.Load += new System.EventHandler(this.frm_Principal_Load);
             this.pnl_Titulo.ResumeLayout(false);
             this.pnl_Titulo.PerformLayout();
