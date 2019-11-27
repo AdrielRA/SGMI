@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -80,7 +81,8 @@ namespace SGMI
             infrator.Rg = txt_RG.Text;
             infrator.Cpf = txt_CPF.Text;
             infrator.Data_nascimento = date_Niver.Value;
-            infrator.Sexo = txt_Sexo.Text.ToUpper()[0];
+
+            infrator.Sexo = txt_Sexo.Text != "" ? txt_Sexo.Text.ToUpper()[0] : '-';
             infrator.Mãe = txt_Mãe.Text;
             infrator.Logradouro = txt_Logradouro.Text;
             infrator.Num_residência = txt_NumRes.Text;
@@ -94,15 +96,21 @@ namespace SGMI
                 infrator.Infrações.Add(inf);
             }
 
-            for (int i = 0; i< infrações_to_remove.Count; i++)
+            for (int i = 0; i < infrações_to_remove.Count; i++)
             {
                 infrator.Infrações.RemoveAt(infrações_to_remove[i]);
             }
-                
-
-            Data_Controller.Add_Infrator(infrator, infrator_original);
-
-            new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
+            var filter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
+            Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
+            if (infrator_from_mongo != null)
+            {
+                MessageBox.Show("Já existe infrator com esse RG cadastrado!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                Data_Controller.Add_Infrator(infrator, infrator_original);
+                new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
+            }
         }
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração)
@@ -162,7 +170,7 @@ namespace SGMI
             if (lb_Infrações.SelectedItem != null)
             {
                 new frm_Detalhes(infrações_to_add[lb_Infrações.SelectedIndex]).ShowDialog();
-                
+
             }
         }
     }
