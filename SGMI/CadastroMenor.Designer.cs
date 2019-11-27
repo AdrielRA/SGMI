@@ -187,9 +187,9 @@
             this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(305, 40);
+            this.label1.Size = new System.Drawing.Size(339, 40);
             this.label1.TabIndex = 0;
-            this.label1.Text = "CADASTRO DE MENOR";
+            this.label1.Text = "CADASTRO DE INFRATOR";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnl_Tela

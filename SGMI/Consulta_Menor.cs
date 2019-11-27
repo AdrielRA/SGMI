@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -43,11 +44,35 @@ namespace SGMI
             if (!string.IsNullOrEmpty(txtRG.Text))
             {
                 infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == txtRG.Text);
+
+                try
+                {
+                    var filter = Builders<Infrator>.Filter.Eq("_id", infrator.Id);
+                    Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
+
+                    if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator))
+                    {
+                        int index = Data_Controller.infratores.IndexOf(infrator);
+                        infrator = infrator_from_mongo;
+                        Data_Controller.infratores[index] = infrator_from_mongo;
+                    }
+                }
+                catch { }
+
                 Controle_UI(infrator != null);
                 if (infrator != null)
                 {
-                    lbl_DataUltima.Text = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList()[0].Data_ocorrência.ToString("dd/MM/yyyy");
-                    lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : "Incidente";
+                    Infração ultima_infração = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList().FirstOrDefault();
+                    if (ultima_infração != null)
+                    {
+                        lbl_DataUltima.Text = ultima_infração.Data_ocorrência.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        lbl_DataUltima.Text = "--/--/----";
+                    }
+                    
+                    lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : infrator.Infrações.Count < 1 ? "Nada Consta" : "Incidente";
                     lbl_Nome.Text = infrator.Nome;
                     lbl_CPF.Text = infrator.Cpf;
                     lbl_RG.Text = infrator.Rg;
@@ -142,6 +167,14 @@ namespace SGMI
             {
                 Forms_Controller.Esconder(this);
                 Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
+            }
+        }
+
+        private void txtRG_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                PictureBox1_Click(pic_Pesquisar, new EventArgs());
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace SGMI
 {
     public class Infrator
     {
+        
         private ObjectId id;
         private string nome, cpf, rg, mãe, logradouro, num_residência, bairro, cidade, uf;
         private char sexo;
