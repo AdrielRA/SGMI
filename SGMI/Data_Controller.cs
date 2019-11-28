@@ -348,7 +348,7 @@ namespace SGMI
 
             bool validar = user_logged != null;
 
-            if (validar)
+            if (validar && !keep_login)
             {
                 var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
                 var docs = collection_logged_users.Find(filter_id).ToEnumerable();

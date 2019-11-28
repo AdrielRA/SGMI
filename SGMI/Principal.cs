@@ -22,6 +22,11 @@ namespace SGMI
         #region botões_controle_janela
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
+            if (!Data_Controller.keep_login)
+            {
+                Data_Controller.Reset_Saved_Login();
+            }
+
             Application.Exit();
         }
         private void Btn_Minimizar_Click(object sender, EventArgs e)
