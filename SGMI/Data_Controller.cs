@@ -28,6 +28,7 @@ namespace SGMI
         private static IMongoDatabase database;
         private static IMongoCollection<Infrator> collection_infratores;
         private static IMongoCollection<User> collection_users;
+        private static IMongoCollection<BsonDocument> collection_logged_users;
 
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
@@ -77,6 +78,7 @@ namespace SGMI
                 database = client.GetDatabase("SGMI");
                 collection_infratores = database.GetCollection<Infrator>("infratores");
                 collection_users = database.GetCollection<User>("users");
+                collection_logged_users = database.GetCollection<BsonDocument>("logged_users");
             }
             catch
             {
@@ -94,6 +96,14 @@ namespace SGMI
             keep_login = false;
             user_logged_save = "";
             Save_Infos_To_Storage();
+
+            if (user_logged != null)
+            {
+                var deleteFilter = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
+                collection_logged_users.DeleteOne(deleteFilter);
+            }
+            
+
         }
         public static void Save_Infos_To_Storage()
         {
@@ -335,7 +345,32 @@ namespace SGMI
         public static bool Validate_Login(User user)
         {
             user_logged = users.FirstOrDefault(u => u.Name == user.Name && u.Passpassword == user.Passpassword);
-            return user_logged != null;
+
+            bool validar = user_logged != null;
+
+            if (validar)
+            {
+                var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
+                var docs = collection_logged_users.Find(filter_id).ToEnumerable();
+
+                validar = !(docs.Count() > 0);
+
+                if (docs.Count() > 0)
+                {
+                    MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    // add la
+                    BsonDocument login_user = new BsonDocument();
+                    login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
+
+                    collection_logged_users.InsertOne(login_user);
+
+                }
+            }
+
+            return validar;
         }
 
         public static void Create_Dir_data()
