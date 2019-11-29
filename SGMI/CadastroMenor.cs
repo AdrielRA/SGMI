@@ -97,9 +97,10 @@ namespace SGMI
             }
             var filter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
             Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
-            if (infrator_from_mongo != null)
+
+            if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator_original))
             {
-                MessageBox.Show("Já existe infrator com esse RG cadastrado!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {

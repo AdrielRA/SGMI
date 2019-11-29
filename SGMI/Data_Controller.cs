@@ -88,7 +88,8 @@ namespace SGMI
 
         public static void Save_Logged_User(User user)
         {
-            keep_login = true; user_logged_save = user.Name;
+            keep_login = true;
+            user_logged_save = user.Name;
             Save_Infos_To_Storage();
         }
         public static void Reset_Saved_Login()
