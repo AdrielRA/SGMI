@@ -116,21 +116,27 @@ namespace SGMI
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração)
         {
-            if (infração == null)
-            {
-                infração = new Infração();
-                infração.Descrição = txt_Descri_Infra.Text;
-                infração.Data_ocorrência = date_Infra.Value;
-                infração.Data_registro = DateTime.Now;
+            //if (!string.IsNullOrEmpty(txt_Descri_Infra.Text))
+            //{
+                if (infração == null)
+                {
+                    infração = new Infração();
+                    infração.Descrição = txt_Descri_Infra.Text;
+                    infração.Data_ocorrência = date_Infra.Value;
+                    infração.Data_registro = DateTime.Now;
 
-                infrações_to_add.Add(infração);
-                //infrator.Infrações.Add(infração);
-                date_Infra.Value = DateTime.Today;
-            }
+                    infrações_to_add.Add(infração);
+                    date_Infra.Value = DateTime.Today;
+                }
 
-            lb_Infrações.Items.Add(string.Format("{0:dd/MM/yyyy} | {1, -50}", infração.Data_registro, infração.Descrição.Length <= 50 ? infração.Descrição : infração.Descrição.Substring(0, 47) + "..."));
+                lb_Infrações.Items.Add(string.Format("{0:dd/MM/yyyy} | {1, -50}", infração.Data_registro, infração.Descrição.Length <= 50 ? infração.Descrição : infração.Descrição.Substring(0, 47) + "..."));
 
-            txt_Descri_Infra.Text = "";
+                txt_Descri_Infra.Text = "";
+            //}
+            //else
+            //{
+            //    MessageBox.Show("A descrição não deve estar vazia!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
 
         private void lb_Infrações_DrawItem(object sender, DrawItemEventArgs e)
