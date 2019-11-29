@@ -11,7 +11,7 @@ namespace SGMI
     public partial class frm_CadastroMenor : Form
     {
         private Infrator infrator;
-        private bool new_infrator = false;
+        private bool new_infrator = false,verificar=false;
         private List<int> infrações_to_remove;
         private List<Infração> infrações_to_add;
 
@@ -20,7 +20,7 @@ namespace SGMI
             InitializeComponent();
             this.infrator = infrator;
             date_Infra.Value = DateTime.Today;
-            btn_AddInfra.Click += (sender, EventArgs) => { btn_AddInfra_Click(sender, EventArgs, null); };
+            btn_AddInfra.Click += (sender, EventArgs) => { btn_AddInfra_Click(sender, EventArgs, null,true); };
             new_infrator = infrator == null;
             infrações_to_remove = new List<int>();
             infrações_to_add = new List<Infração>();
@@ -48,7 +48,7 @@ namespace SGMI
 
             infrator.Infrações.ForEach(delegate (Infração inf)
             {
-                btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf);
+                btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf,verificar);
             });
             infrações_to_add = infrator.Infrações.ToList();
         }
@@ -109,10 +109,11 @@ namespace SGMI
             }
         }
 
-        private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração)
+        private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração,bool verificar)
         {
-            //if (!string.IsNullOrEmpty(txt_Descri_Infra.Text))
-            //{
+            txt_Descri_Infra.Text = "";
+            if (!verificar || !string.IsNullOrEmpty(txt_Descri_Infra.Text))
+            {
                 if (infração == null)
                 {
                     infração = new Infração();
@@ -127,11 +128,11 @@ namespace SGMI
                 lb_Infrações.Items.Add(string.Format("{0:dd/MM/yyyy} | {1, -50}", infração.Data_registro, infração.Descrição.Length <= 50 ? infração.Descrição : infração.Descrição.Substring(0, 47) + "..."));
 
                 txt_Descri_Infra.Text = "";
-            //}
-            //else
-            //{
-            //    MessageBox.Show("A descrição não deve estar vazia!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            }
+            else
+            {
+                MessageBox.Show("A descrição não deve estar vazia!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void lb_Infrações_DrawItem(object sender, DrawItemEventArgs e)
