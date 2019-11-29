@@ -43,21 +43,7 @@ namespace SGMI
         {
             if (!string.IsNullOrEmpty(txtRG.Text))
             {
-                infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == txtRG.Text);
-
-                try
-                {
-                    var filter = Builders<Infrator>.Filter.Eq("_id", infrator.Id);
-                    Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
-
-                    if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator))
-                    {
-                        int index = Data_Controller.infratores.IndexOf(infrator);
-                        infrator = infrator_from_mongo;
-                        Data_Controller.infratores[index] = infrator_from_mongo;
-                    }
-                }
-                catch { }
+                infrator = Reload_Infrator(infrator);
 
                 Controle_UI(infrator != null);
                 if (infrator != null)
@@ -88,6 +74,26 @@ namespace SGMI
             }
         }
        
+        private Infrator Reload_Infrator(Infrator infrator)
+        {
+            infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == txtRG.Text);
+
+            try
+            {
+                var filter = Builders<Infrator>.Filter.Eq("_id", infrator.Id);
+                Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
+
+                if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator))
+                {
+                    int index = Data_Controller.infratores.IndexOf(infrator);
+                    infrator = infrator_from_mongo;
+                    Data_Controller.infratores[index] = infrator_from_mongo;
+                }
+            }
+            catch { }
+            return infrator;
+        }
+
         private void Cria_Item_Infração(Infração infração)
         {
           
@@ -163,7 +169,9 @@ namespace SGMI
 
         private void pic_Editar_Click(object sender, EventArgs e)
         {
-            if(infrator != null)
+            infrator = Reload_Infrator(infrator);
+
+            if (infrator != null)
             {
                 Forms_Controller.Esconder(this);
                 Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
