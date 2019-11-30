@@ -79,6 +79,7 @@
             this.txtRG.Radius = 0;
             this.txtRG.Size = new System.Drawing.Size(299, 34);
             this.txtRG.TabIndex = 16;
+            this.txtRG.TextChanged += new System.EventHandler(this.txtRG_TextChanged);
             this.txtRG.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRG_KeyDown);
             // 
             // label3

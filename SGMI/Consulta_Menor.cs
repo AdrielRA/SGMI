@@ -41,7 +41,7 @@ namespace SGMI
         }
         private void PictureBox1_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtRG.Text))
+            if (!string.IsNullOrEmpty(Data_Formater.Just_Numbers(txtRG.Text)))
             {
                 infrator = Reload_Infrator(infrator);
 
@@ -60,8 +60,8 @@ namespace SGMI
                     
                     lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : infrator.Infrações.Count < 1 ? "Nada Consta" : "Incidente";
                     lbl_Nome.Text = infrator.Nome;
-                    lbl_CPF.Text = infrator.Cpf;
-                    lbl_RG.Text = infrator.Rg;
+                    lbl_CPF.Text = Data_Formater.Mask_CPF(infrator.Cpf);
+                    lbl_RG.Text = Data_Formater.Mask_RG(infrator.Rg);
                     //Mudando Cor do Panel
                     pnl_InfInfra.Controls.Clear();
                     pnl_InfInfra.BackColor = Color.White;
@@ -76,7 +76,7 @@ namespace SGMI
        
         private Infrator Reload_Infrator(Infrator infrator)
         {
-            infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == txtRG.Text);
+            infrator = Data_Controller.infratores.FirstOrDefault(i => i.Rg == Data_Formater.Just_Numbers(txtRG.Text));
 
             try
             {
@@ -183,6 +183,17 @@ namespace SGMI
             if (e.KeyCode == Keys.Enter)
             {
                 PictureBox1_Click(pic_Pesquisar, new EventArgs());
+            }
+        }
+
+        private void txtRG_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRG.Text))
+            {
+                txtRG.TextChanged -= txtRG_TextChanged;
+                txtRG.Text = Data_Formater.Mask_RG(txtRG.Text);
+                SendKeys.Send("{END}");
+                txtRG.TextChanged += txtRG_TextChanged;
             }
         }
     }

@@ -11,7 +11,7 @@ namespace SGMI
     public partial class frm_CadastroMenor : Form
     {
         private Infrator infrator;
-        private bool new_infrator = false,verificar=false;
+        private bool new_infrator = false;
         private List<int> infrações_to_remove;
         private List<Infração> infrações_to_add;
 
@@ -20,7 +20,7 @@ namespace SGMI
             InitializeComponent();
             this.infrator = infrator;
             date_Infra.Value = DateTime.Today;
-            btn_AddInfra.Click += (sender, EventArgs) => { btn_AddInfra_Click(sender, EventArgs, null,true); };
+            btn_AddInfra.Click += (sender, EventArgs) => { btn_AddInfra_Click(sender, EventArgs, null, true); };
             new_infrator = infrator == null;
             infrações_to_remove = new List<int>();
             infrações_to_add = new List<Infração>();
@@ -48,7 +48,7 @@ namespace SGMI
 
             infrator.Infrações.ForEach(delegate (Infração inf)
             {
-                btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf,verificar);
+                btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf, false);
             });
             infrações_to_add = infrator.Infrações.ToList();
         }
@@ -73,8 +73,8 @@ namespace SGMI
             else infrator.Data_registro = DateTime.Now;
 
             infrator.Nome = txt_Nome.Text;
-            infrator.Rg = txt_RG.Text;
-            infrator.Cpf = txt_CPF.Text;
+            infrator.Rg = Data_Formater.Just_Numbers(txt_RG.Text);
+            infrator.Cpf = Data_Formater.Just_Numbers(txt_CPF.Text);
             infrator.Data_nascimento = date_Niver.Value;
 
             infrator.Sexo = txt_Sexo.Text != "" ? txt_Sexo.Text.ToUpper()[0] : '-';
@@ -175,6 +175,56 @@ namespace SGMI
                 new frm_Detalhes(infrações_to_add[lb_Infrações.SelectedIndex]).ShowDialog();
 
             }
+        }
+
+        // >>>>> Formatação dos valores dos campos <<<<<
+        private void txt_OnValueChanged(object sender, EventArgs e)
+        {
+            Bunifu.Framework.UI.BunifuMaterialTextbox txtBox = sender as Bunifu.Framework.UI.BunifuMaterialTextbox;
+            if (!string.IsNullOrEmpty(txtBox.Text))
+            {
+                txtBox.OnValueChanged -= txt_OnValueChanged;
+                if (txtBox.Name.Contains("CPF")) { txtBox.Text = Data_Formater.Mask_CPF(txtBox.Text); }
+                else { txtBox.Text = Data_Formater.Mask_RG(txtBox.Text); }
+                SendKeys.Send("{END}");
+                txtBox.OnValueChanged += txt_OnValueChanged;
+            }
+        }
+        private void txt_Upper_OnValueChanged(object sender, EventArgs e)
+        {
+            Bunifu.Framework.UI.BunifuMaterialTextbox txtBox = sender as Bunifu.Framework.UI.BunifuMaterialTextbox;
+            if (!string.IsNullOrEmpty(txtBox.Text))
+            {
+                txtBox.OnValueChanged -= txt_Upper_OnValueChanged;
+                txtBox.Text = txtBox.Text.ToUpper();
+                SendKeys.Send("{END}");
+                txtBox.OnValueChanged += txt_Upper_OnValueChanged;
+            }
+        }
+
+        private void txt_CPF_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Data_Formater.Limiter_Number(txt_CPF, e);
+        }
+        private void txt_RG_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Data_Formater.Limiter_Number(txt_RG, e);
+        }
+        private void txt_NumRes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Data_Formater.Limiter_Number(txt_NumRes, e);
+        }
+        private void txt_Sexo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Data_Formater.Limiter_Sexo(txt_Sexo, e);
+        }
+        private void txt_Text_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Data_Formater.Limiter_Text(sender, e, true);
+        }
+        private void txt_UF_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Data_Formater.Limiter_Text(sender, e, false);
         }
     }
 }

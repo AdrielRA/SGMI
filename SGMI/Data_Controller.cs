@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Bunifu.Framework.UI;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SGMI
@@ -103,7 +105,7 @@ namespace SGMI
                 var deleteFilter = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
                 collection_logged_users.DeleteOne(deleteFilter);
             }
-            
+
 
         }
         public static void Save_Infos_To_Storage()
@@ -181,7 +183,7 @@ namespace SGMI
         }
         public static void Add_Infrator(Infrator infrator, Infrator infrator_original)
         {
-            bool new_user = infrator_original == null;            
+            bool new_user = infrator_original == null;
 
             if (new_user)
             {
@@ -240,7 +242,7 @@ namespace SGMI
                 {
                     MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                
+
             }
             if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
         }
@@ -257,7 +259,7 @@ namespace SGMI
         }
         public static bool isEquals(Infrator infrator_from_mongo, Infrator infrator_original)
         {
-            bool result =  infrator_original != null &&
+            bool result = infrator_original != null &&
                     infrator_original.Nome == infrator_from_mongo.Nome &&
                     infrator_original.Cpf == infrator_from_mongo.Cpf &&
                     infrator_original.Rg == infrator_from_mongo.Rg &&
@@ -397,6 +399,97 @@ namespace SGMI
             }
 
             return clone;
+        }
+    }
+
+    public class Data_Formater
+    {
+        public static void Limiter_Number(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.End)
+            {
+                e.Handled = true;
+            }
+        }
+        public static void Limiter_Sexo(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 'F' &&
+                e.KeyChar != 'f' &&
+                e.KeyChar != 'M' &&
+                e.KeyChar != 'm' &&
+                e.KeyChar != (char)Keys.Back &&
+                e.KeyChar != (char)Keys.End) { e.Handled = true; }
+        }
+        public static void Limiter_Text(object sender, KeyPressEventArgs e, bool with_points)
+        {
+            if (!char.IsLetter(e.KeyChar) && (!with_points || e.KeyChar != '-' && e.KeyChar != '.') && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.End)
+            {
+                e.Handled = true;
+            }
+        }
+
+        public static string Mask_CPF(string cpf) { return Dynamic_Mask(cpf, "000.000.000-00", 11); }
+        public static string Mask_RG(string rg) { return Dynamic_Mask(rg, "00.000.000", 7); }
+        public static string Mask_Tel(string tel)
+        {
+            return Dynamic_Mask(tel, "(00) 0 0000-0000", 11);
+        }
+        public static string Just_Numbers(string str)
+        {
+            return Regex.Replace(str, "[^0-9]", string.Empty);
+        }
+        private static string Dynamic_Mask(string str, string mask, int digits)
+        {
+
+            if (!string.IsNullOrEmpty(str))
+            {
+                string numbers = Just_Numbers(str);
+                if (numbers.Length > 0)
+                {
+
+                    if (numbers.Length <= digits)
+                    {
+                        int pos = 0;
+                        string result = "";
+                        try
+                        {
+                            foreach (char c in mask)
+                            {
+                                if (c == '0')
+                                {
+                                    result += numbers[pos];
+                                    pos++;
+                                }
+                                else result += c;
+                            }
+                        }
+                        catch
+                        {
+                            try
+                            {
+                                while (result.Last() == '.' || result.Last() == '-' || result.Last() == '(' || result.Last() == ')' ||result.Last() == ' ')
+                                {
+                                    result = result.Remove(result.LastIndexOf(result.Last()));
+                                }
+                            }
+                            catch { }
+                        }
+                        return result;
+                    }
+                    return str;
+                }
+                return "";
+            }
+            return str;
+        }
+    }
+
+    public class Data_Validate
+    {
+        public static bool Email(string email)
+        {
+            Regex rg = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            return rg.IsMatch(email);
         }
     }
 }

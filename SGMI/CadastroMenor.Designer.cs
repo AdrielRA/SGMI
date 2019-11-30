@@ -436,6 +436,8 @@
             this.txt_UF.Size = new System.Drawing.Size(116, 33);
             this.txt_UF.TabIndex = 33;
             this.txt_UF.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_UF.OnValueChanged += new System.EventHandler(this.txt_Upper_OnValueChanged);
+            this.txt_UF.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_UF_KeyPress);
             // 
             // txt_Cidade
             // 
@@ -463,6 +465,7 @@
             this.txt_Cidade.Size = new System.Drawing.Size(292, 33);
             this.txt_Cidade.TabIndex = 32;
             this.txt_Cidade.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_Cidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Text_KeyPress);
             // 
             // txt_Bairro
             // 
@@ -515,6 +518,7 @@
             this.txt_NumRes.Size = new System.Drawing.Size(115, 33);
             this.txt_NumRes.TabIndex = 30;
             this.txt_NumRes.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_NumRes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_NumRes_KeyPress);
             // 
             // txt_Logradouro
             // 
@@ -567,6 +571,8 @@
             this.txt_Sexo.Size = new System.Drawing.Size(135, 33);
             this.txt_Sexo.TabIndex = 27;
             this.txt_Sexo.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_Sexo.OnValueChanged += new System.EventHandler(this.txt_Upper_OnValueChanged);
+            this.txt_Sexo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_UF_KeyPress);
             // 
             // txt_Mãe
             // 
@@ -594,6 +600,7 @@
             this.txt_Mãe.Size = new System.Drawing.Size(411, 33);
             this.txt_Mãe.TabIndex = 28;
             this.txt_Mãe.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_Mãe.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Text_KeyPress);
             // 
             // txt_CPF
             // 
@@ -619,6 +626,8 @@
             this.txt_CPF.Size = new System.Drawing.Size(204, 33);
             this.txt_CPF.TabIndex = 26;
             this.txt_CPF.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_CPF.OnValueChanged += new System.EventHandler(this.txt_OnValueChanged);
+            this.txt_CPF.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_CPF_KeyPress);
             // 
             // txt_RG
             // 
@@ -638,12 +647,14 @@
             this.txt_RG.LineThickness = 3;
             this.txt_RG.Location = new System.Drawing.Point(17, 103);
             this.txt_RG.Margin = new System.Windows.Forms.Padding(0);
-            this.txt_RG.MaxLength = 15;
+            this.txt_RG.MaxLength = 10;
             this.txt_RG.Name = "txt_RG";
             this.txt_RG.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txt_RG.Size = new System.Drawing.Size(204, 33);
             this.txt_RG.TabIndex = 25;
             this.txt_RG.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_RG.OnValueChanged += new System.EventHandler(this.txt_OnValueChanged);
+            this.txt_RG.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_RG_KeyPress);
             // 
             // txt_Nome
             // 
@@ -671,6 +682,7 @@
             this.txt_Nome.Size = new System.Drawing.Size(411, 33);
             this.txt_Nome.TabIndex = 24;
             this.txt_Nome.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_Nome.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Text_KeyPress);
             // 
             // date_Niver
             // 

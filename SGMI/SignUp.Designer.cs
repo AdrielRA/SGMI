@@ -205,12 +205,14 @@
             this.txt_Telefone.LineThickness = 3;
             this.txt_Telefone.Location = new System.Drawing.Point(31, 119);
             this.txt_Telefone.Margin = new System.Windows.Forms.Padding(0);
-            this.txt_Telefone.MaxLength = 50;
+            this.txt_Telefone.MaxLength = 16;
             this.txt_Telefone.Name = "txt_Telefone";
             this.txt_Telefone.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txt_Telefone.Size = new System.Drawing.Size(337, 33);
             this.txt_Telefone.TabIndex = 3;
             this.txt_Telefone.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_Telefone.OnValueChanged += new System.EventHandler(this.txt_Telefone_OnValueChanged);
+            this.txt_Telefone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Telefone_KeyPress);
             // 
             // txt_Senha
             // 
