@@ -141,8 +141,14 @@ namespace SGMI
         }
         public static void Add_User(User user)
         {
-            var filter = Builders<User>.Filter.Eq("Name", user.Name);
-            bool new_user = !collection_users.Find(filter).Any();
+            var filter = Builders<User>
+                .Filter.And(
+                    Builders<User>.Filter.Eq("Nome", user.Name),
+                    Builders<User>.Filter.Eq("Telefone", user.Telefone),
+                    Builders<User>.Filter.Eq("Email", user.Email),
+                    Builders<User>.Filter.Eq("Passpassoword", user.Passpassword));
+
+            bool new_user = !Exists_User(user);
 
             if (new_user)
             { 
@@ -185,6 +191,25 @@ namespace SGMI
             //users.Remove(user);
             //Save_User_To_Storage();
         }
+        public static bool Exists_User(User user)
+        {
+            bool ja_existe = false;
+            try
+            {
+                var filter = Builders<BsonDocument>
+                .Filter.And(
+                    Builders<BsonDocument>.Filter.Eq("Nome", user.Name),
+                    Builders<BsonDocument>.Filter.Eq("Telefone", user.Telefone),
+                    Builders<BsonDocument>.Filter.Eq("Email", user.Email),
+                    Builders<BsonDocument>.Filter.Eq("Passpassoword", user.Passpassword));
+
+                ja_existe = collection_users.Find(filter.ToBsonDocument()).Any();
+            }
+            catch { }
+
+            return ja_existe;
+        }
+
 
         private static List<Infrator> Load_Infratores()
         {
