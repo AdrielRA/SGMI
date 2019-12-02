@@ -189,14 +189,14 @@ namespace SGMI
             bool ja_existe = false;
             try
             {
-                var filter = Builders<BsonDocument>
-                .Filter.And(
-                    Builders<BsonDocument>.Filter.Eq("Nome", user.Name),
-                    Builders<BsonDocument>.Filter.Eq("Telefone", user.Telefone),
-                    Builders<BsonDocument>.Filter.Eq("Email", user.Email),
-                    Builders<BsonDocument>.Filter.Eq("Passpassoword", user.Passpassword));
+                var filter = /*Builders<User>*/
+                //.Filter.And(
+                Builders<User>.Filter.Eq("Name", user.Name);
+                    //Builders<User>.Filter.Eq(u => u.Telefone == user.Telefone, true),
+                    //Builders<User>.Filter.Eq(u=> u.Email == user.Email, true),
+                    //Builders<User>.Filter.Eq(u => u.Passpassword == user.Passpassword, true));
 
-                ja_existe = collection_users.Find(filter.ToBsonDocument()).Any();
+                ja_existe = collection_users.Find(filter).Any();
             }
             catch { }
 
