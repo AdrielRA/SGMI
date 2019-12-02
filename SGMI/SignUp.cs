@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -43,16 +45,35 @@ namespace SGMI
                 new_user.Telefone = Data_Formater.Just_Numbers(txt_Telefone.Text);
                 new_user.Email = txt_Email.Text;
                 new_user.Passpassword = txt_ConformaSenha.Text;
+                if (!Verific_users(new_user))
+                {
+                    Data_Controller.Add_User(new_user);
 
-                Data_Controller.Add_User(new_user);
+                    MessageBox.Show("Usuário Salvo!");
 
-                MessageBox.Show("Usuário Salvo!");
-
-                new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
+                    new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
+                }
+                else
+                {
+                    MessageBox.Show("Esse usuário já existe");
+                }
             }
             catch { MessageBox.Show("Usuário Não Foi Salvo!"); }
         }
+        public bool Verific_users(User user)
+        {
+            var filter = Builders<BsonDocument>
+                .Filter.And(Builders<BsonDocument>
+                .Filter.Eq("Nome", user.Name), Builders<BsonDocument>
+                .Filter.Eq("Telefone", user.Telefone), Builders<BsonDocument>
+                .Filter.And(Builders<BsonDocument>
+                .Filter.Eq("Email", user.Email)), Builders<BsonDocument>
+                .Filter.Eq("Passpassoword", user.Passpassword));
 
+
+            bool ja_existe = !Data_Controller.collection_users.Find(filter.ToBsonDocument()).Any();
+            return ja_existe;
+        }
         private void txt_Email_Changed(object sender, EventArgs e) { Validar(); }
         private void txt_Senha_Changed(object sender, EventArgs e) { Validar(); }
         private void txt_Nome_Changed(object sender, EventArgs e) { Validar(); }

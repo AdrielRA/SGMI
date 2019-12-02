@@ -29,7 +29,7 @@ namespace SGMI
         private static MongoClient client;
         private static IMongoDatabase database;
         private static IMongoCollection<Infrator> collection_infratores;
-        private static IMongoCollection<User> collection_users;
+        public static IMongoCollection<User> collection_users;
         private static IMongoCollection<BsonDocument> collection_logged_users;
 
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
