@@ -10,9 +10,15 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using EAGetMail;
 
 namespace SGMI
 {
@@ -138,11 +144,17 @@ namespace SGMI
             var filter = Builders<User>.Filter.Eq("Name", user.Name);
             bool new_user = !collection_users.Find(filter).Any();
 
-            if (new_user) { collection_users.InsertOne(user); }
+            if (new_user)
+            { 
+                collection_users.InsertOne(user);
+                Web_Tools.Send_Email(user, "adrieldeveloper@hotmail.com", "Verificação de Usuário - " + user.Id.ToString(), "Deseja liberar o acesso para este usuário?");
+
+                MessageBox.Show("Usuário Salvo!");
+            }
             else
             {
                 User user_from_mongo = collection_users.Find(filter).FirstOrDefault();
-                if (user_from_mongo.Equals(user))
+                if (isEquals(user_from_mongo, user))
                 {
                     var update = Builders<User>.Update
                     .Set("Name", user.Name)
@@ -152,6 +164,8 @@ namespace SGMI
                     .Set("Passpassword", user.Passpassword);
 
                     collection_users.UpdateOne(filter, update);
+
+                    MessageBox.Show("Usuário Liberado!");
                 }
                 else
                 {
@@ -296,6 +310,17 @@ namespace SGMI
 
             return result;
         }
+        public static bool isEquals(User user_from_mongo, User user_original)
+        {
+            bool result = user_original != null &&
+                    user_original.Name == user_from_mongo.Name &&
+                    user_original.Email == user_from_mongo.Email &&
+                    user_original.Telefone == user_from_mongo.Telefone &&
+                    user_original.Passpassword == user_from_mongo.Passpassword;
+
+            return result;
+        }
+
         public static void Add_Anexo(ObjectId id_infração, string fileName, string newFileName)
         {
             var fileBytes = File.ReadAllBytes(fileName);
@@ -353,23 +378,48 @@ namespace SGMI
 
             if (validar && !keep_login)
             {
-                var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
-                var docs = collection_logged_users.Find(filter_id).ToEnumerable();
+                validar = !user_logged.Credentials.Contains(" em Análise");
 
-                validar = !(docs.Count() > 0);
-
-                if (docs.Count() > 0)
+                if (!validar)
                 {
-                    MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string situação = Web_Tools.Verify_User_Email(user_logged);
+
+                    if (situação.ToUpper().Contains("SIM"))
+                    {
+                        user_logged.Credentials = user_logged.Credentials.Replace(" em Análise", "");
+                        Add_User(user_logged); // update
+
+                        validar = true;
+                    }
+                    else if(situação.ToUpper().Contains("NÃO"))
+                    {
+                        Remove_User(user_logged);
+                        MessageBox.Show("Seu acesso não foi liberado!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Este usuário ainda\nnão foi verificado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
-                else
+
+                if (validar)
                 {
-                    // add la
-                    BsonDocument login_user = new BsonDocument();
-                    login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
+                    var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
+                    var docs = collection_logged_users.Find(filter_id).ToEnumerable();
 
-                    collection_logged_users.InsertOne(login_user);
+                    validar = !(docs.Count() > 0);
 
+                    if (docs.Count() > 0)
+                    {
+                        MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        BsonDocument login_user = new BsonDocument();
+                        login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
+
+                        collection_logged_users.InsertOne(login_user);
+                    }
                 }
             }
 
@@ -490,6 +540,107 @@ namespace SGMI
         {
             Regex rg = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             return rg.IsMatch(email);
+        }
+    }
+
+
+    public class Web_Tools
+    {
+        #region check_Connection
+        [DllImport("wininet.dll")]
+        public extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
+        #endregion
+        public static bool Conectado_A_Internet()
+        {
+            bool returnValue;
+            try
+            {
+                int Desc;
+                returnValue = InternetGetConnectedState(out Desc, 0);
+            }
+            catch
+            {
+                returnValue = false;
+            }
+            return returnValue;
+        }
+
+        static public async Task Send_Email(User user, string email_destino, string assunto, string descrição)
+        {
+            bool enviada;
+            if (!Conectado_A_Internet())
+            {
+                MessageBox.Show("Verifique sua conexão\ncom a internet.", "Sem internet!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Enviando solicitação\nde acesso!", "Enviando...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                try
+                {
+                    MailMessage e_mail = new MailMessage("sysGI@hotmail.com", email_destino);
+                    e_mail.Subject = assunto;
+                    e_mail.SubjectEncoding = Encoding.UTF8;
+                    e_mail.IsBodyHtml = false;
+                    e_mail.Body = "Usuário: " + user.Name + "\nContato: " + user.Email + "\nCategoria: " + user.Credentials.Replace(" em Análise", "") + "\n\n" + descrição;
+                    e_mail.BodyEncoding = Encoding.UTF8;
+                    e_mail.Priority = System.Net.Mail.MailPriority.High;
+                    SmtpClient smtp = new SmtpClient("smtp.outlook.com", 587);
+                    smtp.EnableSsl = true;
+                    smtp.Credentials = new NetworkCredential("sysGI@hotmail.com", "@d1minL0gin");
+
+                    await smtp.SendMailAsync(e_mail);
+                    enviada = true;
+                }
+                catch { enviada = false; }
+                if (enviada)
+                {
+                    MessageBox.Show("Recebemos sua requisição.\nAguarde pela liberação.\n\nObrigado pela paciência!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Não foi possivel solicitar.\nVerifique sua conexão com a internet." +
+                        "Tente novamente mais tarde!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        public static string Verify_User_Email(User user)
+        {
+            string result = "";
+            try
+            {
+                MailServer oServer = new MailServer("imap-mail.outlook.com",
+                        "sysGI@hotmail.com",
+                        "@d1minL0gin",
+                        ServerProtocol.Imap4);
+
+                oServer.SSLConnection = true;
+                oServer.Port = 993;
+
+                MailClient oClient = new MailClient("TryIt");
+                oClient.Connect(oServer);
+
+                MailInfo[] infos = oClient.GetMailInfos();
+                for (int i = 0; i < infos.Length; i++)
+                {
+                    MailInfo info = infos[i];
+
+                    Mail oMail = oClient.GetMail(info);
+
+                    if (oMail.Subject.Contains(user.Id))
+                    {
+                        result = oMail.TextBody.ToUpper().Contains("SIM") ? "SIM" : "NÃO";
+                        //if (oMail.HtmlBody.ToUpper().Contains("SIM")) { user.Credentials.Replace(" em Análise", ""); }
+                        //else { /* Eliminar usuário */ }
+
+                        oClient.Delete(info);
+                        break;
+                    }
+                }
+                oClient.Quit();
+            }
+            catch { }
+            return result;
         }
     }
 }

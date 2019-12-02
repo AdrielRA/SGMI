@@ -48,6 +48,9 @@
     <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>packages\DnsClient.1.2.0\lib\net471\DnsClient.dll</HintPath>
     </Reference>
+    <Reference Include="EAGetMail, Version=5.0.0.3, Culture=neutral, PublicKeyToken=e10a0812eb29cf94, processorArchitecture=MSIL">
+      <HintPath>packages\EAGetMail.5.0.0.3\lib\net461\EAGetMail.dll</HintPath>
+    </Reference>
     <Reference Include="LollipoUi">
       <HintPath>.\LollipoUi.dll</HintPath>
     </Reference>
