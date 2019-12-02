@@ -420,9 +420,9 @@ namespace SGMI
                 e.KeyChar != (char)Keys.Back &&
                 e.KeyChar != (char)Keys.End) { e.Handled = true; }
         }
-        public static void Limiter_Text(object sender, KeyPressEventArgs e, bool with_points)
+        public static void Limiter_Text(object sender, KeyPressEventArgs e, bool with_spaces, bool with_points)
         {
-            if (!char.IsLetter(e.KeyChar) && (!with_points || e.KeyChar != '-' && e.KeyChar != '.') && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.End)
+            if (!char.IsLetter(e.KeyChar) && (!with_spaces || e.KeyChar != ' ') && (!with_points || e.KeyChar != '-' && e.KeyChar != '.') && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.End)
             {
                 e.Handled = true;
             }

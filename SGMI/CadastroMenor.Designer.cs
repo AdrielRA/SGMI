@@ -572,7 +572,7 @@
             this.txt_Sexo.TabIndex = 27;
             this.txt_Sexo.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_Sexo.OnValueChanged += new System.EventHandler(this.txt_Upper_OnValueChanged);
-            this.txt_Sexo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_UF_KeyPress);
+            this.txt_Sexo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Sexo_KeyPress);
             // 
             // txt_Mãe
             // 

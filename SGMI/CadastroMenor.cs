@@ -35,7 +35,7 @@ namespace SGMI
         private void Load_Infos()
         {
             txt_Nome.Text = infrator.Nome;
-            txt_RG.Text = infrator.Rg;
+            txt_RG.Text = infrator.Rg/*Data_Formater.Mask_RG(infrator.Rg)*/;
             txt_CPF.Text = infrator.Cpf;
             date_Niver.Value = infrator.Data_nascimento;
             txt_Sexo.Text = infrator.Sexo.ToString();
@@ -111,7 +111,6 @@ namespace SGMI
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração,bool verificar)
         {
-            txt_Descri_Infra.Text = "";
             if (!verificar || !string.IsNullOrEmpty(txt_Descri_Infra.Text))
             {
                 if (infração == null)
@@ -127,7 +126,7 @@ namespace SGMI
 
                 lb_Infrações.Items.Add(string.Format("{0:dd/MM/yyyy} | {1, -50}", infração.Data_registro, infração.Descrição.Length <= 50 ? infração.Descrição : infração.Descrição.Substring(0, 47) + "..."));
 
-                txt_Descri_Infra.Text = "";
+                if (verificar) { txt_Descri_Infra.Text = ""; }
             }
             else
             {
@@ -220,11 +219,11 @@ namespace SGMI
         }
         private void txt_Text_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Data_Formater.Limiter_Text(sender, e, true);
+            Data_Formater.Limiter_Text(sender, e, true, true);
         }
         private void txt_UF_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Data_Formater.Limiter_Text(sender, e, false);
+            Data_Formater.Limiter_Text(sender, e, false, false);
         }
     }
 }
