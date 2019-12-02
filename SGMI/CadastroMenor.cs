@@ -111,7 +111,7 @@ namespace SGMI
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração,bool verificar)
         {
-            txt_Descri_Infra.Text = "";
+            
             if (!verificar || !string.IsNullOrEmpty(txt_Descri_Infra.Text))
             {
                 if (infração == null)
