@@ -34,6 +34,8 @@ namespace SGMI
             User user = new User();
             user.Name = txt_User.Text;
             user.Passpassword = txt_Pass.Text;
+
+            btn_Logar.Text = "AGUARDE...";
             if (Data_Controller.Validate_Login(user))
             {
                 if (cb_KeepConnection.Checked) { Data_Controller.Save_Logged_User(user); }
@@ -41,6 +43,7 @@ namespace SGMI
                 Forms_Controller.Abrir(new frm_Menu());
             }
             else { MessageBox.Show("Não foi possível realizar o login!"); }
+            btn_Logar.Text = "LOGAR";
         }
 
         private void Btn_Solicitar_Click(object sender, EventArgs e)

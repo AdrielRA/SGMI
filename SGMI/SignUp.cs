@@ -39,14 +39,12 @@ namespace SGMI
             {
                 User new_user = new User();
                 new_user.Name = txt_UserName.Text;
-                new_user.Credentials = cmb_Credencial.SelectedItem.ToString();
+                new_user.Credentials = cmb_Credencial.SelectedItem.ToString() + " em Análise";
                 new_user.Telefone = Data_Formater.Just_Numbers(txt_Telefone.Text);
                 new_user.Email = txt_Email.Text;
                 new_user.Passpassword = txt_ConformaSenha.Text;
 
                 Data_Controller.Add_User(new_user);
-
-                MessageBox.Show("Usuário Salvo!");
 
                 new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
             }
