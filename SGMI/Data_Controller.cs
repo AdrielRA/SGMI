@@ -141,16 +141,7 @@ namespace SGMI
         }
         public static void Add_User(User user)
         {
-            var filter = Builders<User>
-                .Filter.And(
-                    Builders<User>.Filter.Eq("Nome", user.Name),
-                    Builders<User>.Filter.Eq("Telefone", user.Telefone),
-                    Builders<User>.Filter.Eq("Email", user.Email),
-                    Builders<User>.Filter.Eq("Passpassoword", user.Passpassword));
-
-            bool new_user = !Exists_User(user);
-
-            if (new_user)
+            if (!Exists_User(user))
             { 
                 collection_users.InsertOne(user);
                 Web_Tools.Send_Email(user, "adrieldeveloper@hotmail.com", "Verificação de Usuário - " + user.Id.ToString(), "Deseja liberar o acesso para este usuário?");
@@ -159,6 +150,8 @@ namespace SGMI
             }
             else
             {
+                var filter = Builders<User>.Filter.Eq("_id", user.Id);
+
                 User user_from_mongo = collection_users.Find(filter).FirstOrDefault();
                 if (isEquals(user_from_mongo, user))
                 {
@@ -209,7 +202,6 @@ namespace SGMI
 
             return ja_existe;
         }
-
 
         private static List<Infrator> Load_Infratores()
         {
