@@ -49,9 +49,14 @@ namespace SGMI
                 {
                     Data_Controller.Add_User(new_user);
 
-                MessageBox.Show("Usuário Salvo!");
+                    MessageBox.Show("Usuário Salvo!");
 
-                new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
+                    new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
+                }
+                else
+                {
+                    MessageBox.Show("Esse usuário já existe");
+                }
             }
             catch { MessageBox.Show("Usuário Não Foi Salvo!"); }
         }
