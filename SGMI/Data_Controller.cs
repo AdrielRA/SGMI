@@ -30,6 +30,7 @@ namespace SGMI
         public static bool keep_login;
         public static string user_logged_save;
         private static string path, path_data, path_anexos, path_infos;
+        private static DateTime last_recheck;
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
         private static MongoClient client;
@@ -40,20 +41,9 @@ namespace SGMI
 
         public static List<string> Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
         
-        //public static Dictionary<int, string> Credenciais = new Dictionary<int, string>
-        //{
-        //    {0, "Indefinido"},
-        //    {1, "Professor"},
-        //    {2, "Advogado"},
-        //    {3, "Policial"},
-        //    {4, "Promotor"},
-        //    {5, "Juíz"},
-        //};
-
         public struct Sys_Email
         {
-            public const string email = "sysGI@hotmail.com",
-                senha = "@d1minL0gin1";
+            public const string email = "sysGI@hotmail.com", senha = "@d1minL0gin1";
         }
         private struct Responsavel
         {
@@ -81,6 +71,8 @@ namespace SGMI
             infratores = Load_Infratores();
             if (infratores == null) infratores = new List<Infrator>();
 
+            last_recheck = DateTime.Now.AddDays(-2);
+
             if (File.Exists(path_infos))
             {
                 using (StreamReader r = new StreamReader(path_infos))
@@ -91,6 +83,7 @@ namespace SGMI
                         dynamic data = JObject.Parse(json);
                         keep_login = data.keep_login;
                         user_logged_save = data.user_logged_save;
+                        last_recheck = data.last_recheck;
 
                         user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save);
                     }
@@ -107,7 +100,8 @@ namespace SGMI
         private static void Load_Responsaveis()
         {
             responsaveis = new List<Responsavel>();
-            responsaveis.Add(new Responsavel() { categoria = 0, email = "adreildeveloper@hotmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 1, email = "adreildeveloper@hotmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 2, email = "lucasrobert994@gmail.com" });
         }
 
         private static void Connect_To_Mongo()
@@ -143,14 +137,13 @@ namespace SGMI
                 var deleteFilter = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
                 collection_logged_users.DeleteOne(deleteFilter);
             }
-
-
         }
         public static void Save_Infos_To_Storage()
         {
             JObject json = new JObject();
             json.Add("keep_login", keep_login);
             json.Add("user_logged_save", user_logged_save);
+            json.Add("last_recheck", last_recheck);
             Create_Dir_data();
             if (!File.Exists(path_data + @"\infos.json")) { FileStream file = File.Create(path_data + @"\infos.json"); file.Close(); }
             FileInfo myFile = new FileInfo(path_data + @"\infos.json");
@@ -402,7 +395,7 @@ namespace SGMI
 
         public static bool Validate_Login(User user)
         {
-            user_logged = users.FirstOrDefault(u => u.Nome == user.Nome && u.Passpassword == user.Passpassword);
+            user_logged = collection_users.Find(u => u.Nome == user.Nome && u.Passpassword == user.Passpassword).SingleOrDefault();
 
             bool validar = user_logged != null;
 
@@ -433,7 +426,28 @@ namespace SGMI
                         }
                         else
                         {
-                            MessageBox.Show("Este usuário ainda\nnão foi verificado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if(last_recheck.ToUniversalTime() <= DateTime.Now.AddDays(-1).ToUniversalTime())
+                            {
+                                var resp = MessageBox.Show("Este usuário ainda\nnão foi verificado!\n\nSolicitar reverificação?", "Alerta:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (resp == DialogResult.Yes)
+                                {
+                                    if (user_logged != null)
+                                    {
+                                        Web_Tools.Send_Email(user_logged, "adrieldeveloper@hotmail.com", "Verificação de Usuário - " + user_logged.Id.ToString(), "Deseja liberar o acesso para este usuário?");
+
+                                        last_recheck = DateTime.Now;
+                                        Save_Infos_To_Storage();
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Não foi possivel solicitar\nsua reverificação pois este\nusúario não consta mais\nna base de dados!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Este usuário ainda\nnão foi verificado!\n\nTente uma reverificação amanhã!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
                     }
 

@@ -44,10 +44,9 @@ namespace SGMI
                     Forms_Controller.Esconder(this);
                     Forms_Controller.Abrir(new frm_Menu());
                 }
-                //else { MessageBox.Show("Não foi possível realizar o login!"); }
                 btn_Logar.Text = "LOGAR";
             }
-            else { MessageBox.Show("Preenchar os campos corretamente!"); }
+            else { MessageBox.Show("Preencha os campos corretamente!"); }
         }
 
         private void Btn_Solicitar_Click(object sender, EventArgs e)
