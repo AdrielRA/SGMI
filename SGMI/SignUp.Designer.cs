@@ -82,18 +82,11 @@
             "Policial",
             "Juiz"});
             this.cmb_Credencial.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cmb_Credencial.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cmb_Credencial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_Credencial.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmb_Credencial.ForeColor = System.Drawing.Color.Maroon;
             this.cmb_Credencial.FormattingEnabled = true;
-            this.cmb_Credencial.Items.AddRange(new object[] {
-            "Categoria",
-            "Professor",
-            "Policial",
-            "Advogado",
-            "Juiz",
-            "Promotor",
-            "Delegado"});
             this.cmb_Credencial.Location = new System.Drawing.Point(31, 86);
             this.cmb_Credencial.Name = "cmb_Credencial";
             this.cmb_Credencial.Size = new System.Drawing.Size(337, 29);
@@ -359,7 +352,7 @@
             this.btn_Fechar.ActiveForecolor = System.Drawing.Color.White;
             this.btn_Fechar.ActiveLineColor = System.Drawing.Color.Crimson;
             this.btn_Fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Fechar.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_Fechar.BackColor = System.Drawing.Color.Transparent;
             this.btn_Fechar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Fechar.BackgroundImage")));
             this.btn_Fechar.ButtonText = "VOLTAR";
             this.btn_Fechar.Cursor = System.Windows.Forms.Cursors.Hand;

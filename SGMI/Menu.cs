@@ -15,7 +15,7 @@ namespace SGMI
         public frm_Menu()
         {
             InitializeComponent();
-            lbl_Bemvindo.Text = lbl_Bemvindo.Text.Replace("USER", Data_Controller.user_logged.Name.ToUpper());
+            lbl_Bemvindo.Text = lbl_Bemvindo.Text.Replace("USER", Data_Controller.user_logged.Nome.ToUpper());
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)

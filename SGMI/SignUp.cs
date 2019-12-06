@@ -18,6 +18,14 @@ namespace SGMI
         public frm_SignUp()
         {
             InitializeComponent();
+
+            cmb_Credencial.Items.Add("SELECIONE");
+            for (int i = 1; i < Data_Controller.Credenciais.Count; i++)
+            {
+                cmb_Credencial.Items.Add(Data_Controller.Credenciais[i]);
+            }
+
+            cmb_Credencial.SelectedIndex = 0;
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
@@ -40,23 +48,17 @@ namespace SGMI
             try
             {
                 User new_user = new User();
-                new_user.Name = txt_UserName.Text;
-                new_user.Credentials = cmb_Credencial.SelectedItem.ToString() + " em Análise";
+                new_user.Nome = txt_UserName.Text;
+                new_user.Credencial = (cmb_Credencial.SelectedIndex) * -1;
                 new_user.Telefone = Data_Formater.Just_Numbers(txt_Telefone.Text);
                 new_user.Email = txt_Email.Text;
                 new_user.Passpassword = txt_ConformaSenha.Text;
                 if (!Data_Controller.Exists_User(new_user))
                 {
                     Data_Controller.Add_User(new_user);
-
-                    MessageBox.Show("Usuário Salvo!");
-
                     new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
                 }
-                else
-                {
-                    MessageBox.Show("Esse usuário já existe");
-                }
+                else { MessageBox.Show("Esse usuário já existe"); }
             }
             catch { MessageBox.Show("Usuário Não Foi Salvo!"); }
         }
@@ -68,7 +70,7 @@ namespace SGMI
 
         private void Validar()
         {
-            btn_Salvar.Visible = !string.IsNullOrEmpty(txt_UserName.Text) && cmb_Credencial.SelectedIndex >= 0
+            btn_Salvar.Visible = !string.IsNullOrEmpty(txt_UserName.Text) && cmb_Credencial.SelectedIndex > 0
                 && Data_Validate.Email(txt_Email.Text)
                 && txt_Email.Text == txt_ConfirmaEmail.Text && !string.IsNullOrEmpty(txt_Senha.Text)
                 && !string.IsNullOrEmpty(txt_ConformaSenha.Text) && txt_Senha.Text == txt_ConformaSenha.Text;

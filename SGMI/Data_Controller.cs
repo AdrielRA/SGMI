@@ -38,6 +38,30 @@ namespace SGMI
         public static IMongoCollection<User> collection_users;
         private static IMongoCollection<BsonDocument> collection_logged_users;
 
+        public static List<string> Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
+        
+        //public static Dictionary<int, string> Credenciais = new Dictionary<int, string>
+        //{
+        //    {0, "Indefinido"},
+        //    {1, "Professor"},
+        //    {2, "Advogado"},
+        //    {3, "Policial"},
+        //    {4, "Promotor"},
+        //    {5, "Juíz"},
+        //};
+
+        public struct Sys_Email
+        {
+            public const string email = "sysGI@hotmail.com",
+                senha = "@d1minL0gin1";
+        }
+        private struct Responsavel
+        {
+            public string email;
+            public int categoria;
+        }
+        private static List<Responsavel> responsaveis;
+
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         public static void Start_Controller()
@@ -46,6 +70,8 @@ namespace SGMI
             path_data = path + "files\\data\\";
             path_anexos = path + "files\\anexos\\";
             path_infos = path_data + "infos.json";
+
+            Load_Responsaveis();
 
             Connect_To_Mongo();
 
@@ -66,7 +92,7 @@ namespace SGMI
                         keep_login = data.keep_login;
                         user_logged_save = data.user_logged_save;
 
-                        user_logged = users.FirstOrDefault(u => u.Name == user_logged_save);
+                        user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save);
                     }
                     catch
                     {
@@ -76,6 +102,12 @@ namespace SGMI
                 }
             }
             else { Save_Infos_To_Storage(); }
+        }
+
+        private static void Load_Responsaveis()
+        {
+            responsaveis = new List<Responsavel>();
+            responsaveis.Add(new Responsavel() { categoria = 0, email = "adreildeveloper@hotmail.com" });
         }
 
         private static void Connect_To_Mongo()
@@ -97,7 +129,7 @@ namespace SGMI
         public static void Save_Logged_User(User user)
         {
             keep_login = true;
-            user_logged_save = user.Name;
+            user_logged_save = user.Nome;
             Save_Infos_To_Storage();
         }
         public static void Reset_Saved_Login()
@@ -142,7 +174,7 @@ namespace SGMI
         public static void Add_User(User user)
         {
             if (!Exists_User(user))
-            { 
+            {
                 collection_users.InsertOne(user);
                 Web_Tools.Send_Email(user, "adrieldeveloper@hotmail.com", "Verificação de Usuário - " + user.Id.ToString(), "Deseja liberar o acesso para este usuário?");
 
@@ -150,20 +182,10 @@ namespace SGMI
             }
             else
             {
-                var filter = Builders<User>.Filter.Eq("_id", user.Id);
-
-                User user_from_mongo = collection_users.Find(filter).FirstOrDefault();
+                User user_from_mongo = collection_users.Find(u => u.Id == user.Id).SingleOrDefault();
                 if (isEquals(user_from_mongo, user))
                 {
-                    var update = Builders<User>.Update
-                    .Set("Name", user.Name)
-                    .Set("Email", user.Email)
-                    .Set("Telefone", user.Telefone)
-                    .Set("Credentials", user.Credentials)
-                    .Set("Passpassword", user.Passpassword);
-
-                    collection_users.UpdateOne(filter, update);
-
+                    collection_users.ReplaceOne(u => u.Id == user.Id, user);
                     MessageBox.Show("Usuário Liberado!");
                 }
                 else
@@ -175,28 +197,21 @@ namespace SGMI
         }
         public static void Remove_User(User user)
         {
-            bool exists = !collection_users.Find(Builders<User>.Filter.Eq("Name", user.Name)).Any();
-            if (exists)
-            {
-                var deleteFilter = Builders<User>.Filter.Eq("Name", user.Name);
-                collection_users.DeleteOne(deleteFilter);
-            }
-            //users.Remove(user);
-            //Save_User_To_Storage();
+            bool exists = collection_users.Find(u => u.Id == user.Id).Any();
+            if (exists) { collection_users.DeleteOne(u => u.Id == user.Id); }
+            if (users.Contains(user)) { users.Remove(user); }
         }
         public static bool Exists_User(User user)
         {
             bool ja_existe = false;
             try
             {
-                var filter = /*Builders<User>*/
-                //.Filter.And(
-                Builders<User>.Filter.Eq("Name", user.Name);
-                    //Builders<User>.Filter.Eq(u => u.Telefone == user.Telefone, true),
-                    //Builders<User>.Filter.Eq(u=> u.Email == user.Email, true),
-                    //Builders<User>.Filter.Eq(u => u.Passpassword == user.Passpassword, true));
-
-                ja_existe = collection_users.Find(filter).Any();
+                ja_existe = collection_users.Find(u =>
+                    u.Nome == user.Nome &&
+                    u.Telefone == user.Telefone &&
+                    u.Email == user.Email &&
+                    u.Passpassword == user.Passpassword
+                ).Any();
             }
             catch { }
 
@@ -285,8 +300,6 @@ namespace SGMI
                 var deleteFilter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
                 collection_infratores.DeleteOne(deleteFilter);
             }
-            //infratores.Remove(infrator);
-            //Save_Infrator_To_Storage();
         }
         public static bool isEquals(Infrator infrator_from_mongo, Infrator infrator_original)
         {
@@ -329,8 +342,8 @@ namespace SGMI
         }
         public static bool isEquals(User user_from_mongo, User user_original)
         {
-            bool result = user_original != null &&
-                    user_original.Name == user_from_mongo.Name &&
+            bool result = user_original != null && user_from_mongo != null &&
+                    user_original.Nome == user_from_mongo.Nome &&
                     user_original.Email == user_from_mongo.Email &&
                     user_original.Telefone == user_from_mongo.Telefone &&
                     user_original.Passpassword == user_from_mongo.Passpassword;
@@ -389,56 +402,75 @@ namespace SGMI
 
         public static bool Validate_Login(User user)
         {
-            user_logged = users.FirstOrDefault(u => u.Name == user.Name && u.Passpassword == user.Passpassword);
+            user_logged = users.FirstOrDefault(u => u.Nome == user.Nome && u.Passpassword == user.Passpassword);
 
             bool validar = user_logged != null;
 
-            if (validar && !keep_login)
+            if (validar)
             {
-                validar = !user_logged.Credentials.Contains(" em Análise");
+                var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
+                var user_logged_from_mongo = collection_logged_users.Find(filter_id).SingleOrDefault();
 
-                if (!validar)
+                if (!keep_login)
                 {
-                    string situação = Web_Tools.Verify_User_Email(user_logged);
+                    validar = user_logged.Credencial > 0;
 
-                    if (situação.ToUpper().Contains("SIM"))
+                    if (!validar)
                     {
-                        user_logged.Credentials = user_logged.Credentials.Replace(" em Análise", "");
-                        Add_User(user_logged); // update
+                        string situação = Web_Tools.Verify_User_Email(user_logged);
 
-                        validar = true;
+                        if (situação.ToUpper().Contains("SIM"))
+                        {
+                            user_logged.Credencial = Math.Abs(user_logged.Credencial);
+                            Add_User(user_logged); // update
+
+                            validar = true;
+                        }
+                        else if (situação.ToUpper().Contains("NÃO"))
+                        {
+                            Remove_User(user_logged);
+                            MessageBox.Show("Seu acesso não foi liberado!", "Info:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Este usuário ainda\nnão foi verificado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
-                    else if(situação.ToUpper().Contains("NÃO"))
+
+                    if (validar)
                     {
-                        Remove_User(user_logged);
-                        MessageBox.Show("Seu acesso não foi liberado!");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Este usuário ainda\nnão foi verificado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        validar = user_logged_from_mongo == null;
+
+                        if (!validar)
+                        {
+                            MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            BsonDocument login_user = new BsonDocument();
+                            login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
+                            login_user.SetElement(new BsonElement("ultimo_acesso", DateTime.Now));
+
+                            collection_logged_users.InsertOne(login_user);
+                        }
                     }
                 }
-
-                if (validar)
+                else
                 {
-                    var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
-                    var docs = collection_logged_users.Find(filter_id).ToEnumerable();
-
-                    validar = !(docs.Count() > 0);
-
-                    if (docs.Count() > 0)
+                    if (user_logged_from_mongo != null)
                     {
-                        MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        BsonDocument login_user = new BsonDocument();
-                        login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
+                        DateTime data_limite = DateTime.Now.AddDays(-3).ToUniversalTime();
+                        validar = user_logged_from_mongo["ultimo_acesso"].ToUniversalTime() >= data_limite;
 
-                        collection_logged_users.InsertOne(login_user);
+                        if (validar)
+                        {
+                            user_logged_from_mongo["ultimo_acesso"] = DateTime.Now;
+                            collection_logged_users.ReplaceOne(filter_id, user_logged_from_mongo);
+                        }
                     }
                 }
             }
+            else { MessageBox.Show("Não foi possível realizar o login!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
             return validar;
         }
@@ -534,7 +566,7 @@ namespace SGMI
                         {
                             try
                             {
-                                while (result.Last() == '.' || result.Last() == '-' || result.Last() == '(' || result.Last() == ')' ||result.Last() == ' ')
+                                while (result.Last() == '.' || result.Last() == '-' || result.Last() == '(' || result.Last() == ')' || result.Last() == ' ')
                                 {
                                     result = result.Remove(result.LastIndexOf(result.Last()));
                                 }
@@ -594,16 +626,16 @@ namespace SGMI
                 MessageBox.Show("Enviando solicitação\nde acesso!", "Enviando...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
-                    MailMessage e_mail = new MailMessage("sysGI@hotmail.com", email_destino);
+                    MailMessage e_mail = new MailMessage(Data_Controller.Sys_Email.email, email_destino);
                     e_mail.Subject = assunto;
                     e_mail.SubjectEncoding = Encoding.UTF8;
                     e_mail.IsBodyHtml = false;
-                    e_mail.Body = "Usuário: " + user.Name + "\nContato: " + user.Email + "\nCategoria: " + user.Credentials.Replace(" em Análise", "") + "\n\n" + descrição;
+                    e_mail.Body = "Usuário: " + user.Nome + "\nContato: " + user.Email + "\nCategoria: " + Data_Controller.Credenciais[Math.Abs(user.Credencial)] + "\n\n" + descrição;
                     e_mail.BodyEncoding = Encoding.UTF8;
                     e_mail.Priority = System.Net.Mail.MailPriority.High;
                     SmtpClient smtp = new SmtpClient("smtp.outlook.com", 587);
                     smtp.EnableSsl = true;
-                    smtp.Credentials = new NetworkCredential("sysGI@hotmail.com", "@d1minL0gin");
+                    smtp.Credentials = new NetworkCredential(Data_Controller.Sys_Email.email, Data_Controller.Sys_Email.senha);
 
                     await smtp.SendMailAsync(e_mail);
                     enviada = true;
@@ -627,8 +659,8 @@ namespace SGMI
             try
             {
                 MailServer oServer = new MailServer("imap-mail.outlook.com",
-                        "sysGI@hotmail.com",
-                        "@d1minL0gin",
+                        Data_Controller.Sys_Email.email,
+                        Data_Controller.Sys_Email.senha,
                         ServerProtocol.Imap4);
 
                 oServer.SSLConnection = true;
@@ -647,9 +679,6 @@ namespace SGMI
                     if (oMail.Subject.Contains(user.Id))
                     {
                         result = oMail.TextBody.ToUpper().Contains("SIM") ? "SIM" : "NÃO";
-                        //if (oMail.HtmlBody.ToUpper().Contains("SIM")) { user.Credentials.Replace(" em Análise", ""); }
-                        //else { /* Eliminar usuário */ }
-
                         oClient.Delete(info);
                         break;
                     }

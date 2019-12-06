@@ -10,17 +10,16 @@ namespace SGMI
 {
     public class User
     {
-        private string name, email, telefone, credentials, passpassword;
-
-        private string id;
+        private string id, nome, email, telefone, passpassword;
+        private int credencial;
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get => id; set => id = value; }
-        public string Name { get => name; set => name = value; }
+        public string Nome { get => nome; set => nome = value; }
         public string Email { get => email; set => email = value; }
         public string Telefone { get => telefone; set => telefone = value; }
-        public string Credentials { get => credentials; set => credentials = value; }
+        public int Credencial { get => credencial; set => credencial = value; }
         public string Passpassword { get => passpassword; set => passpassword = value; }        
     }
 }
