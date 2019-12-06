@@ -102,6 +102,9 @@ namespace SGMI
             responsaveis = new List<Responsavel>();
             responsaveis.Add(new Responsavel() { categoria = 1, email = "adreildeveloper@hotmail.com" });
             responsaveis.Add(new Responsavel() { categoria = 2, email = "lucasrobert994@gmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 3, email = "adreildeveloper@hotmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 4, email = "lucasrobert994@gmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 5, email = "adreildeveloper@hotmail.com" });
         }
 
         private static void Connect_To_Mongo()
@@ -164,29 +167,38 @@ namespace SGMI
                 return null;
             }
         }
-        public static void Add_User(User user)
+        public static bool Add_User(User user)
         {
-            if (!Exists_User(user))
+            bool result = false;
+            try
             {
-                collection_users.InsertOne(user);
-                Web_Tools.Send_Email(user, "adrieldeveloper@hotmail.com", "Verificação de Usuário - " + user.Id.ToString(), "Deseja liberar o acesso para este usuário?");
-
-                MessageBox.Show("Usuário Salvo!");
-            }
-            else
-            {
-                User user_from_mongo = collection_users.Find(u => u.Id == user.Id).SingleOrDefault();
-                if (isEquals(user_from_mongo, user))
+                if (!Exists_User(user))
                 {
-                    collection_users.ReplaceOne(u => u.Id == user.Id, user);
-                    MessageBox.Show("Usuário Liberado!");
+                    collection_users.InsertOne(user);
+                    Web_Tools.Send_Email(user, responsaveis.FirstOrDefault(r => r.categoria == Math.Abs(user.Credencial)).email, "Verificação de Usuário - " + user.Id.ToString(), "Deseja liberar o acesso para este usuário?");
+
+                    MessageBox.Show("Usuário Salvo!");
+                    result = true;
                 }
                 else
                 {
-                    MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    User user_from_mongo = collection_users.Find(u => u.Id == user.Id).SingleOrDefault();
+                    if (isEquals(user_from_mongo, user))
+                    {
+                        collection_users.ReplaceOne(u => u.Id == user.Id, user);
+                        MessageBox.Show("Usuário Liberado!");
+                        result = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
+                if (!users.Contains(user)) { users.Add(user); }
+
+                return result;
             }
-            if (!users.Contains(user)) { users.Add(user); }
+            catch { return false; }
         }
         public static void Remove_User(User user)
         {
@@ -415,9 +427,7 @@ namespace SGMI
                         if (situação.ToUpper().Contains("SIM"))
                         {
                             user_logged.Credencial = Math.Abs(user_logged.Credencial);
-                            Add_User(user_logged); // update
-
-                            validar = true;
+                            validar = Add_User(user_logged); // update;
                         }
                         else if (situação.ToUpper().Contains("NÃO"))
                         {
@@ -433,7 +443,7 @@ namespace SGMI
                                 {
                                     if (user_logged != null)
                                     {
-                                        Web_Tools.Send_Email(user_logged, "adrieldeveloper@hotmail.com", "Verificação de Usuário - " + user_logged.Id.ToString(), "Deseja liberar o acesso para este usuário?");
+                                        Web_Tools.Send_Email(user_logged, responsaveis.FirstOrDefault(r => r.categoria == Math.Abs(user_logged.Credencial)).email, "Verificação de Usuário - " + user_logged.Id.ToString(), "Deseja liberar o acesso para este usuário?");
 
                                         last_recheck = DateTime.Now;
                                         Save_Infos_To_Storage();
@@ -663,6 +673,45 @@ namespace SGMI
                 {
                     MessageBox.Show("Não foi possivel solicitar.\nVerifique sua conexão com a internet." +
                         "Tente novamente mais tarde!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        static public async Task Send_Verification(string cod, string email_destino)
+        {
+            bool enviada;
+            if (!Conectado_A_Internet())
+            {
+                MessageBox.Show("Verifique sua conexão\ncom a internet.", "Sem internet!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Enviando código\nde verificação!", "Enviando...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                try
+                {
+                    MailMessage e_mail = new MailMessage(Data_Controller.Sys_Email.email, email_destino);
+                    e_mail.Subject = "Código de Verificação";
+                    e_mail.SubjectEncoding = Encoding.UTF8;
+                    e_mail.IsBodyHtml = false;
+                    e_mail.Body = "CÓDIGO: " + cod;
+                    e_mail.BodyEncoding = Encoding.UTF8;
+                    e_mail.Priority = System.Net.Mail.MailPriority.High;
+                    SmtpClient smtp = new SmtpClient("smtp.outlook.com", 587);
+                    smtp.EnableSsl = true;
+                    smtp.Credentials = new NetworkCredential(Data_Controller.Sys_Email.email, Data_Controller.Sys_Email.senha);
+
+                    await smtp.SendMailAsync(e_mail);
+                    enviada = true;
+                }
+                catch { enviada = false; }
+                if (enviada)
+                {
+                    MessageBox.Show("Código enviado!.\nVerifique sua caixa de e-mails!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Não foi possivel enviar seu código.\nVerifique sua conexão com a internet\nou tente com outro e-mail mais tarde!",
+                        "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

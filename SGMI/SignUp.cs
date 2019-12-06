@@ -55,6 +55,11 @@ namespace SGMI
                 new_user.Passpassword = txt_ConformaSenha.Text;
                 if (!Data_Controller.Exists_User(new_user))
                 {
+                    // aqui verificar email com cod em uma janelinha, só dps de verificado que continua...
+                    // use um form frm_Verificação(new_user).ShowDialog()... e nele crie um cod para verificar, envie atraves do Web_Tools.Send_Verification(cod, user.Email)....
+
+                    // if frm_Verificação.verificado == true... executa o resto aqui...
+
                     Data_Controller.Add_User(new_user);
                     new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
                 }
