@@ -105,7 +105,21 @@ namespace SGMI
             }
             else { Save_Infos_To_Storage(); }
         }
+        public static bool Verific_Existence_Email(string email)
+        {
 
+            bool ja_existe = false;
+            try
+            {
+                ja_existe = collection_users.Find(u =>
+                    u.Email == email
+                ).Any();
+            }
+            catch { }
+
+            return ja_existe;
+
+        }
         private static void Load_Responsaveis()
         {
             responsaveis = new List<Responsavel>();
