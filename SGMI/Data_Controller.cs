@@ -38,9 +38,20 @@ namespace SGMI
         private static IMongoCollection<Infrator> collection_infratores;
         public static IMongoCollection<User> collection_users;
         private static IMongoCollection<BsonDocument> collection_logged_users;
+        public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         public static List<string> Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
-        
+        public enum Credencial:int
+        {
+            Indefinido = 0,
+            Professor = 1,
+            Advogado = 2,
+            Policial = 3,
+            Delegado = 4,
+            Promotor = 5,
+            Juiz = 6
+        }
+
         public struct Sys_Email
         {
             public const string email = "sysGI@hotmail.com", senha = "@d1minL0gin1";
@@ -51,8 +62,6 @@ namespace SGMI
             public int categoria;
         }
         private static List<Responsavel> responsaveis;
-
-        public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         public static void Start_Controller()
         {

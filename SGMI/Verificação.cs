@@ -51,6 +51,8 @@ namespace SGMI
             {
                 codigo_verificação = Get_New_Code();
                 Web_Tools.Send_Verification(codigo_verificação, email);
+
+                txt_Codigo.Text = txt_Codigo.HintText;
             }
         }
 
@@ -77,8 +79,9 @@ namespace SGMI
                 {
                     codigo_verificação = Get_New_Code();
                     Web_Tools.Send_Verification(codigo_verificação, email);
+
+                    txt_Codigo.Text = txt_Codigo.HintText;
                 }
-                else { Close(); }
             }
         }
 
