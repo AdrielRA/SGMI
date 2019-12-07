@@ -100,11 +100,11 @@ namespace SGMI
         private static void Load_Responsaveis()
         {
             responsaveis = new List<Responsavel>();
-            responsaveis.Add(new Responsavel() { categoria = 1, email = "adreildeveloper@hotmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 1, email = "adrieldeveloper@hotmail.com" });
             responsaveis.Add(new Responsavel() { categoria = 2, email = "lucasrobert994@gmail.com" });
-            responsaveis.Add(new Responsavel() { categoria = 3, email = "adreildeveloper@hotmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 3, email = "adrieldeveloper@hotmail.com" });
             responsaveis.Add(new Responsavel() { categoria = 4, email = "lucasrobert994@gmail.com" });
-            responsaveis.Add(new Responsavel() { categoria = 5, email = "adreildeveloper@hotmail.com" });
+            responsaveis.Add(new Responsavel() { categoria = 5, email = "adrieldeveloper@hotmail.com" });
         }
 
         private static void Connect_To_Mongo()
