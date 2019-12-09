@@ -17,11 +17,11 @@ namespace SGMI
     {
         private Infração infração;
 
-        private string[] path_anexos;
         public frm_Detalhes(Infração infração)
         {
             this.infração = infração;
             InitializeComponent();
+
             if (infração != null)
             {
                 date_Registro.Text = infração.Data_registro.ToShortDateString();
@@ -39,24 +39,27 @@ namespace SGMI
 
         private void Load_Anexos()
         {
-            path_anexos = Data_Controller.Read_Anexos(infração.Id);
-
+            new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog();
             lb_Anexos.Items.Clear();
-            foreach (string path in path_anexos)
+            foreach (string path in Data_Controller.paths_anexos_offline)
             {
-                string nome_anexo = path.Split('\\').LastOrDefault();
-                lb_Anexos.Items.Add(nome_anexo);
+                lb_Anexos.Items.Add(path);
             }
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
+            Data_Controller.paths_anexos_offline = null;
             Close();
         }
 
         private void lb_Anexos_DoubleClick(object sender, EventArgs e)
         {
-            Process.Start(path_anexos[lb_Anexos.SelectedIndex]);
+            if (File.Exists(Data_Controller.path_anexos + Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]))
+            {
+                Process.Start(Data_Controller.path_anexos + Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
+            }
+            
         }
 
         private void lb_Anexos_DrawItem(object sender, DrawItemEventArgs e)
@@ -133,7 +136,7 @@ namespace SGMI
                         var reult = MessageBox.Show("Tem certeza?!", "Excluir anexo:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (reult == DialogResult.Yes)
                         {
-                            Data_Controller.Remove_Anexo(infração.Id, path_anexos[lb_Anexos.SelectedIndex]);
+                            Data_Controller.Remove_Anexo(infração.Id, Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
                             lb_Anexos.Items.RemoveAt(lb_Anexos.SelectedIndex);
                         }
                     }

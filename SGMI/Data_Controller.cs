@@ -29,8 +29,8 @@ namespace SGMI
         public static List<Infrator> infratores;
         public static User user_logged;
         public static bool keep_login;
-        public static string user_logged_save;
-        private static string path, path_data, path_anexos, path_infos;
+        public static string user_logged_save, path_anexos;
+        private static string path, path_data, path_infos;
         private static DateTime last_recheck;
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
@@ -41,6 +41,8 @@ namespace SGMI
         private static IMongoCollection<BsonDocument> collection_logged_users;
         private static IMongoCollection<Pdf_> collection_anexos;
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
+
+        public static string[] paths_anexos_offline;
 
         public static List<string> Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
         public enum Credencial:int
@@ -106,24 +108,7 @@ namespace SGMI
                 }
             }
             else { Save_Infos_To_Storage(); }
-
-            //Teste();
         }
-
-        //private static async Task Teste()
-        //{
-        //    var collection = database.GetCollection<BsonDocument>("anexos");
-
-        //    using (var cursor = await collection.FindAsync(new BsonDocument()))
-        //    {
-        //        while (await cursor.MoveNextAsync())
-        //        {
-        //            var batch = cursor.Current;
-        //            foreach (BsonDocument b in batch)
-        //                MessageBox.Show("Anexo: " + b["filename"] + " | Tamanho: " + b.ToBson().Length);
-        //        }
-        //    }
-        //}
 
 
         public static bool Verific_Existence_Email(string email)
@@ -401,15 +386,6 @@ namespace SGMI
             return result;
         }
 
-        //private static void SaveFilesToGridFS(byte[] pdfContent, string newFileName)
-        //{
-        //    var bucket = new GridFSBucket(database, new GridFSBucketOptions { BucketName = "anexos" });
-
-        //    int chunkSize = pdfContent.Length <= 1048576 ? 51200 : 1048576;
-        //    bucket.UploadFromBytesAsync(newFileName, pdfContent, new GridFSUploadOptions { ChunkSizeBytes = chunkSize });
-        //}
-
-
         public static async Task Add_Anexo(ObjectId id_infração, string fileName, string newFileName)
         {
             Pdf_ pdf = new Pdf_()
@@ -422,45 +398,56 @@ namespace SGMI
             if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
 
             string save_path = path_anexos + pdf.Filename;
-            if (!File.Exists(save_path))
-            {
-                byte[] fileArray = pdf.PdfContent;
-                File.WriteAllBytes(save_path, fileArray);
-            }
-
-            //BsonDocument baseDoc = new BsonDocument();
-            //baseDoc.SetElement(new BsonElement("pdfContent", fileBytes));
-
-            //baseDoc.SetElement(new BsonElement("_id", ));
-            //baseDoc.SetElement(new BsonElement("filename", newFileName));
-            //baseDoc.SetElement(new BsonElement("infração_id", id_infração));
+            if (!File.Exists(save_path)) { File.WriteAllBytes(save_path, pdf.PdfContent); }
 
             await collection_anexos.InsertOneAsync(pdf);
 
-            frm_Anexo.instancia.Fechar();
+            if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
         }
-        public static void Remove_Anexo(ObjectId id_infração, string path_anexo)
+        public static void Remove_Anexo(ObjectId id_infração, string filename)
         {
-            string filename = path_anexo.Split('\\').LastOrDefault();
 
-            if (File.Exists(path_anexo)) { File.Delete(path_anexo); }
+            if (File.Exists(path_anexos + filename)) { File.Delete(path_anexos + filename); }
 
-            collection_anexos.DeleteOne(p => p.Infração_id == id_infração && p.Filename == filename);
+            collection_anexos.DeleteOneAsync(p => p.Infração_id == id_infração && p.Filename == filename);
         }
-        public static string[] Read_Anexos(ObjectId infração_id)
+        public static async Task Read_Anexos(ObjectId infração_id)
         {
             List<string> local_files = new List<string>();
             foreach (string full_path  in Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly))
             {
                 local_files.Add(full_path.Split('\\').LastOrDefault());
             }
-            
-            var pdfs = collection_anexos.Find(p => p.Infração_id == infração_id && !local_files.Contains(p.Filename)).ToEnumerable(); // le os pdfs q ñestão salvos offline
-            List<string> paths = collection_anexos.Find(p => p.Infração_id == infração_id && local_files.Contains(p.Filename)).Project(p => p.Filename).ToList(); // pega nome dos q ja estão salvos
+
+            var options = new FindOptions<Pdf_>()
+            {
+                Projection = Builders<Pdf_>.Projection
+                .Include(p => p.Filename)
+            };
+
+            List<string> paths = new List<string>(); // pega nome dos pdf's
+            using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id, options))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    var batch = cursor.Current;
+                    foreach (Pdf_ pdf in batch) paths.Add(pdf.Filename);
+                }
+            }
+
+            List<Pdf_> downloaded_pdfs = new List<Pdf_>(); // faz download dos pdf's
+            using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id && !local_files.Contains(p.Filename)))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    var batch = cursor.Current;
+                    foreach (Pdf_ pdf in batch) downloaded_pdfs.Add(pdf);
+                }
+            }
 
             if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
 
-            foreach (var pdf in pdfs)
+            foreach (var pdf in downloaded_pdfs)
             {
                 string save_path = path_anexos + pdf.Filename;
                 if (!File.Exists(save_path))
@@ -468,10 +455,11 @@ namespace SGMI
                     byte[] fileArray = pdf.PdfContent;
                     File.WriteAllBytes(save_path, fileArray);
                 }
-                paths.Add(save_path);
             }
 
-            return paths.ToArray();
+            paths_anexos_offline = paths.ToArray();
+
+            if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
         }
 
         public static bool Validate_Login(User user)
@@ -821,7 +809,6 @@ namespace SGMI
             return result;
         }
     }
-
 
     public class Pdf_
     {

@@ -23,6 +23,15 @@ namespace SGMI
             Data_Controller.Add_Anexo(id_infração, fileName, newFileName);
         }
 
+        public frm_Anexo(ObjectId id_infração, string frase)
+        {
+            InitializeComponent();
+            instancia = this;
+            lbl_Titulo.Text = frase;
+
+            Data_Controller.Read_Anexos(id_infração);
+        }
+
         public void Fechar()
         {
             btn_Fechar_Click(btn_Fechar, new EventArgs());
