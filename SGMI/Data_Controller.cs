@@ -29,7 +29,7 @@ namespace SGMI
         public static User user_logged;
         public static bool keep_login;
         public static string user_logged_save;
-        private static string path, path_data, path_anexos, path_infos;
+        private static string path, path_data, path_anexos, path_infos; 
         private static DateTime last_recheck;
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
