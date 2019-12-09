@@ -53,10 +53,7 @@ namespace SGMI
                 new_user.Telefone = Data_Formater.Just_Numbers(txt_Telefone.Text);
                 new_user.Email = txt_Email.Text;
                 new_user.Passpassword = txt_ConformaSenha.Text;
-                if (Data_Controller.Verific_Existence_Email(new_user.Email))
-                {
-                    MessageBox.Show("Esse email já foi usado");
-                }
+                if (Data_Controller.Verific_Existence_Email(new_user.Email)) { MessageBox.Show("Esse email já foi usado"); }
                 else
                 {
                     if (!Data_Controller.Exists_User(new_user))
@@ -69,10 +66,7 @@ namespace SGMI
                             Data_Controller.Add_User(new_user);
                             new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
                         }
-                        else
-                        {
-                            MessageBox.Show("Não foi possível verificar seu e-mail!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        else { MessageBox.Show("Não foi possível verificar seu e-mail!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
                     else { MessageBox.Show("Esse usuário já existe"); }
                 }

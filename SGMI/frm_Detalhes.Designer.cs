@@ -41,14 +41,14 @@
             this.dt_Registro = new Bunifu.Framework.UI.BunifuDatepicker();
             this.dt_Ocorrido = new Bunifu.Framework.UI.BunifuDatepicker();
             this.pnl_BG = new System.Windows.Forms.Panel();
+            this.btn_RemAnexo = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.btn_AddAnexo = new Bunifu.Framework.UI.BunifuFlatButton();
             this.lollipopLabel2 = new LollipopLabel();
             this.lb_Anexos = new System.Windows.Forms.ListBox();
             this.date_Ocorrido = new System.Windows.Forms.Label();
             this.date_Registro = new System.Windows.Forms.Label();
             this.elip_BG = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.elip_Anexos = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.btn_RemAnexo = new Bunifu.Framework.UI.BunifuFlatButton();
-            this.btn_AddAnexo = new Bunifu.Framework.UI.BunifuFlatButton();
             this.pnl_BG.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -204,69 +204,6 @@
             this.pnl_BG.Size = new System.Drawing.Size(593, 235);
             this.pnl_BG.TabIndex = 50;
             // 
-            // lollipopLabel2
-            // 
-            this.lollipopLabel2.AutoEllipsis = true;
-            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lollipopLabel2.ForeColor = System.Drawing.Color.Maroon;
-            this.lollipopLabel2.Location = new System.Drawing.Point(333, 105);
-            this.lollipopLabel2.Name = "lollipopLabel2";
-            this.lollipopLabel2.Size = new System.Drawing.Size(103, 20);
-            this.lollipopLabel2.TabIndex = 53;
-            this.lollipopLabel2.Text = "Anexos:";
-            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lb_Anexos
-            // 
-            this.lb_Anexos.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lb_Anexos.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lb_Anexos.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.lb_Anexos.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_Anexos.ForeColor = System.Drawing.Color.DarkRed;
-            this.lb_Anexos.FormattingEnabled = true;
-            this.lb_Anexos.ItemHeight = 16;
-            this.lb_Anexos.Location = new System.Drawing.Point(337, 128);
-            this.lb_Anexos.Name = "lb_Anexos";
-            this.lb_Anexos.Size = new System.Drawing.Size(245, 96);
-            this.lb_Anexos.TabIndex = 52;
-            this.lb_Anexos.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lb_Anexos_DrawItem);
-            this.lb_Anexos.DoubleClick += new System.EventHandler(this.lb_Anexos_DoubleClick);
-            // 
-            // date_Ocorrido
-            // 
-            this.date_Ocorrido.AutoEllipsis = true;
-            this.date_Ocorrido.BackColor = System.Drawing.Color.DarkRed;
-            this.date_Ocorrido.ForeColor = System.Drawing.Color.White;
-            this.date_Ocorrido.Location = new System.Drawing.Point(217, 64);
-            this.date_Ocorrido.Name = "date_Ocorrido";
-            this.date_Ocorrido.Size = new System.Drawing.Size(113, 33);
-            this.date_Ocorrido.TabIndex = 51;
-            this.date_Ocorrido.Text = "00/00/0000";
-            this.date_Ocorrido.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // date_Registro
-            // 
-            this.date_Registro.AutoEllipsis = true;
-            this.date_Registro.BackColor = System.Drawing.Color.DarkRed;
-            this.date_Registro.ForeColor = System.Drawing.Color.White;
-            this.date_Registro.Location = new System.Drawing.Point(52, 64);
-            this.date_Registro.Name = "date_Registro";
-            this.date_Registro.Size = new System.Drawing.Size(113, 33);
-            this.date_Registro.TabIndex = 50;
-            this.date_Registro.Text = "00/00/0000";
-            this.date_Registro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // elip_BG
-            // 
-            this.elip_BG.ElipseRadius = 10;
-            this.elip_BG.TargetControl = this.pnl_BG;
-            // 
-            // elip_Anexos
-            // 
-            this.elip_Anexos.ElipseRadius = 5;
-            this.elip_Anexos.TargetControl = this.lb_Anexos;
-            // 
             // btn_RemAnexo
             // 
             this.btn_RemAnexo.Active = false;
@@ -346,6 +283,69 @@
             this.btn_AddAnexo.Textcolor = System.Drawing.Color.White;
             this.btn_AddAnexo.TextFont = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_AddAnexo.Click += new System.EventHandler(this.btn_AddAnexo_Click);
+            // 
+            // lollipopLabel2
+            // 
+            this.lollipopLabel2.AutoEllipsis = true;
+            this.lollipopLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.lollipopLabel2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lollipopLabel2.ForeColor = System.Drawing.Color.Maroon;
+            this.lollipopLabel2.Location = new System.Drawing.Point(333, 105);
+            this.lollipopLabel2.Name = "lollipopLabel2";
+            this.lollipopLabel2.Size = new System.Drawing.Size(103, 20);
+            this.lollipopLabel2.TabIndex = 53;
+            this.lollipopLabel2.Text = "Anexos:";
+            this.lollipopLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lb_Anexos
+            // 
+            this.lb_Anexos.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lb_Anexos.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lb_Anexos.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lb_Anexos.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Anexos.ForeColor = System.Drawing.Color.DarkRed;
+            this.lb_Anexos.FormattingEnabled = true;
+            this.lb_Anexos.ItemHeight = 16;
+            this.lb_Anexos.Location = new System.Drawing.Point(337, 128);
+            this.lb_Anexos.Name = "lb_Anexos";
+            this.lb_Anexos.Size = new System.Drawing.Size(245, 96);
+            this.lb_Anexos.TabIndex = 52;
+            this.lb_Anexos.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lb_Anexos_DrawItem);
+            this.lb_Anexos.DoubleClick += new System.EventHandler(this.lb_Anexos_DoubleClick);
+            // 
+            // date_Ocorrido
+            // 
+            this.date_Ocorrido.AutoEllipsis = true;
+            this.date_Ocorrido.BackColor = System.Drawing.Color.DarkRed;
+            this.date_Ocorrido.ForeColor = System.Drawing.Color.White;
+            this.date_Ocorrido.Location = new System.Drawing.Point(217, 64);
+            this.date_Ocorrido.Name = "date_Ocorrido";
+            this.date_Ocorrido.Size = new System.Drawing.Size(113, 33);
+            this.date_Ocorrido.TabIndex = 51;
+            this.date_Ocorrido.Text = "00/00/0000";
+            this.date_Ocorrido.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // date_Registro
+            // 
+            this.date_Registro.AutoEllipsis = true;
+            this.date_Registro.BackColor = System.Drawing.Color.DarkRed;
+            this.date_Registro.ForeColor = System.Drawing.Color.White;
+            this.date_Registro.Location = new System.Drawing.Point(52, 64);
+            this.date_Registro.Name = "date_Registro";
+            this.date_Registro.Size = new System.Drawing.Size(113, 33);
+            this.date_Registro.TabIndex = 50;
+            this.date_Registro.Text = "00/00/0000";
+            this.date_Registro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // elip_BG
+            // 
+            this.elip_BG.ElipseRadius = 10;
+            this.elip_BG.TargetControl = this.pnl_BG;
+            // 
+            // elip_Anexos
+            // 
+            this.elip_Anexos.ElipseRadius = 5;
+            this.elip_Anexos.TargetControl = this.lb_Anexos;
             // 
             // frm_Detalhes
             // 

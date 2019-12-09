@@ -93,6 +93,16 @@ namespace SGMI.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gif_load {
+            get {
+                object obj = ResourceManager.GetObject("gif_load", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap lupa__2_ {
             get {
                 object obj = ResourceManager.GetObject("lupa (2)", resourceCulture);

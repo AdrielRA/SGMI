@@ -93,12 +93,23 @@ namespace SGMI
                 {
                     FileInfo fileInfo = new FileInfo(dialog.FileName);
 
-                    int tam_max = 1; // tamanho em MB
+                    int tam_max = 16; // tamanho em MB
 
                     if (fileInfo.Length / 1024 <= tam_max * 1024)
                     {
                         btn_Fechar.Click -= Btn_Fechar_Click;
-                        Data_Controller.Add_Anexo(infração.Id, dialog.FileName, "Anexo - " + DateTime.Now.Ticks + ".pdf");
+
+                        var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        string nome_anexo = "Anexo";
+                        if (res == DialogResult.Yes)
+                        {
+                            frm_Define_Nome def_nome = new frm_Define_Nome();
+                            def_nome.ShowDialog();
+                            nome_anexo = string.IsNullOrEmpty(def_nome.novo_nome) ? nome_anexo : def_nome.novo_nome;
+                        }
+                        
+                        new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
+                        
                         Load_Anexos();
                         btn_Fechar.Click += Btn_Fechar_Click;
                     }
