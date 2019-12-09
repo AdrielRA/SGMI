@@ -383,13 +383,13 @@ namespace SGMI
         {
             var fileBytes = File.ReadAllBytes(fileName);
             var collection = database.GetCollection<BsonDocument>("anexos");
-
             BsonDocument baseDoc = new BsonDocument();
             baseDoc.SetElement(new BsonElement("pdfContent", fileBytes));
 
             baseDoc.SetElement(new BsonElement("_id", Guid.NewGuid()));
             baseDoc.SetElement(new BsonElement("filename", newFileName));
             baseDoc.SetElement(new BsonElement("infração_id", id_infração));
+          
             collection.InsertOne(baseDoc);
         }
         public static void Remove_Anexo(ObjectId id_infração, string path_anexo)

@@ -107,6 +107,12 @@
     </Compile>
     <Compile Include="Data_Controller.cs" />
     <Compile Include="Forms_Controller.cs" />
+    <Compile Include="frm_Anexo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Anexo.Designer.cs">
+      <DependentUpon>frm_Anexo.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_Detalhes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Consulta_Menor.resx">
       <DependentUpon>Consulta_Menor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Anexo.resx">
+      <DependentUpon>frm_Anexo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Detalhes.resx">
       <DependentUpon>frm_Detalhes.cs</DependentUpon>

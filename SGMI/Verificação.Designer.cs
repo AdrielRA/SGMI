@@ -33,11 +33,11 @@
             this.epli_Form = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.elip_BG = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_BG = new System.Windows.Forms.Panel();
-            this.lbl_Tirulo = new LollipopLabel();
+            this.btn_ReenviarCod = new LollipopLabel();
+            this.txt_Codigo = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.btn_Verificar = new Bunifu.Framework.UI.BunifuFlatButton();
             this.btn_Cancelar = new Bunifu.Framework.UI.BunifuThinButton2();
-            this.txt_Codigo = new Bunifu.Framework.UI.BunifuMaterialTextbox();
-            this.btn_ReenviarCod = new LollipopLabel();
+            this.lbl_Tirulo = new LollipopLabel();
             this.pnl_BG.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,18 +67,46 @@
             this.pnl_BG.Size = new System.Drawing.Size(242, 203);
             this.pnl_BG.TabIndex = 51;
             // 
-            // lbl_Tirulo
+            // btn_ReenviarCod
             // 
-            this.lbl_Tirulo.AutoEllipsis = true;
-            this.lbl_Tirulo.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_Tirulo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Tirulo.ForeColor = System.Drawing.Color.Maroon;
-            this.lbl_Tirulo.Location = new System.Drawing.Point(11, 8);
-            this.lbl_Tirulo.Name = "lbl_Tirulo";
-            this.lbl_Tirulo.Size = new System.Drawing.Size(220, 54);
-            this.lbl_Tirulo.TabIndex = 0;
-            this.lbl_Tirulo.Text = "Digite o código recebido em seu e-mail:";
-            this.lbl_Tirulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_ReenviarCod.AutoEllipsis = true;
+            this.btn_ReenviarCod.BackColor = System.Drawing.Color.Transparent;
+            this.btn_ReenviarCod.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_ReenviarCod.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ReenviarCod.ForeColor = System.Drawing.Color.Maroon;
+            this.btn_ReenviarCod.Location = new System.Drawing.Point(11, 115);
+            this.btn_ReenviarCod.Name = "btn_ReenviarCod";
+            this.btn_ReenviarCod.Size = new System.Drawing.Size(220, 22);
+            this.btn_ReenviarCod.TabIndex = 56;
+            this.btn_ReenviarCod.Text = "Não recebi meu código!";
+            this.btn_ReenviarCod.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_ReenviarCod.Click += new System.EventHandler(this.btn_ReenviarCod_Click);
+            // 
+            // txt_Codigo
+            // 
+            this.txt_Codigo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txt_Codigo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txt_Codigo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txt_Codigo.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_Codigo.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_Codigo.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_Codigo.ForeColor = System.Drawing.Color.Maroon;
+            this.txt_Codigo.HintForeColor = System.Drawing.Color.Empty;
+            this.txt_Codigo.HintText = "CÓDIGO";
+            this.txt_Codigo.isPassword = false;
+            this.txt_Codigo.LineFocusedColor = System.Drawing.Color.Maroon;
+            this.txt_Codigo.LineIdleColor = System.Drawing.Color.Silver;
+            this.txt_Codigo.LineMouseHoverColor = System.Drawing.Color.IndianRed;
+            this.txt_Codigo.LineThickness = 3;
+            this.txt_Codigo.Location = new System.Drawing.Point(8, 65);
+            this.txt_Codigo.Margin = new System.Windows.Forms.Padding(0);
+            this.txt_Codigo.MaxLength = 6;
+            this.txt_Codigo.Name = "txt_Codigo";
+            this.txt_Codigo.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_Codigo.Size = new System.Drawing.Size(223, 47);
+            this.txt_Codigo.TabIndex = 55;
+            this.txt_Codigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_Codigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Codigo_KeyPress);
             // 
             // btn_Verificar
             // 
@@ -146,46 +174,18 @@
             this.btn_Cancelar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btn_Cancelar.Click += new System.EventHandler(this.btn_Cancelar_Click);
             // 
-            // txt_Codigo
+            // lbl_Tirulo
             // 
-            this.txt_Codigo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
-            this.txt_Codigo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
-            this.txt_Codigo.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txt_Codigo.characterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.txt_Codigo.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txt_Codigo.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Codigo.ForeColor = System.Drawing.Color.Maroon;
-            this.txt_Codigo.HintForeColor = System.Drawing.Color.Empty;
-            this.txt_Codigo.HintText = "CÓDIGO";
-            this.txt_Codigo.isPassword = false;
-            this.txt_Codigo.LineFocusedColor = System.Drawing.Color.Maroon;
-            this.txt_Codigo.LineIdleColor = System.Drawing.Color.Silver;
-            this.txt_Codigo.LineMouseHoverColor = System.Drawing.Color.IndianRed;
-            this.txt_Codigo.LineThickness = 3;
-            this.txt_Codigo.Location = new System.Drawing.Point(8, 65);
-            this.txt_Codigo.Margin = new System.Windows.Forms.Padding(0);
-            this.txt_Codigo.MaxLength = 6;
-            this.txt_Codigo.Name = "txt_Codigo";
-            this.txt_Codigo.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_Codigo.Size = new System.Drawing.Size(223, 47);
-            this.txt_Codigo.TabIndex = 55;
-            this.txt_Codigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txt_Codigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Codigo_KeyPress);
-            // 
-            // btn_ReenviarCod
-            // 
-            this.btn_ReenviarCod.AutoEllipsis = true;
-            this.btn_ReenviarCod.BackColor = System.Drawing.Color.Transparent;
-            this.btn_ReenviarCod.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_ReenviarCod.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ReenviarCod.ForeColor = System.Drawing.Color.Maroon;
-            this.btn_ReenviarCod.Location = new System.Drawing.Point(11, 115);
-            this.btn_ReenviarCod.Name = "btn_ReenviarCod";
-            this.btn_ReenviarCod.Size = new System.Drawing.Size(220, 22);
-            this.btn_ReenviarCod.TabIndex = 56;
-            this.btn_ReenviarCod.Text = "Não recebi meu código!";
-            this.btn_ReenviarCod.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btn_ReenviarCod.Click += new System.EventHandler(this.btn_ReenviarCod_Click);
+            this.lbl_Tirulo.AutoEllipsis = true;
+            this.lbl_Tirulo.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Tirulo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Tirulo.ForeColor = System.Drawing.Color.Maroon;
+            this.lbl_Tirulo.Location = new System.Drawing.Point(11, 8);
+            this.lbl_Tirulo.Name = "lbl_Tirulo";
+            this.lbl_Tirulo.Size = new System.Drawing.Size(220, 54);
+            this.lbl_Tirulo.TabIndex = 0;
+            this.lbl_Tirulo.Text = "Digite o código recebido em seu e-mail:";
+            this.lbl_Tirulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frm_Verificação
             // 
