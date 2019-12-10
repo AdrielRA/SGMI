@@ -27,8 +27,6 @@ namespace SGMI
                 date_Registro.Text = infração.Data_registro.ToShortDateString();
                 date_Ocorrido.Text = infração.Data_ocorrência.ToShortDateString();
                 txt_Desc.Text = infração.Descrição;
-
-                Load_Anexos();
             }
             else
             {
@@ -40,11 +38,15 @@ namespace SGMI
         private void Load_Anexos()
         {
             new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog();
-            lb_Anexos.Items.Clear();
-            foreach (string path in Data_Controller.paths_anexos_offline)
+            if (Data_Controller.paths_anexos_offline != null)
             {
-                lb_Anexos.Items.Add(path);
+                lb_Anexos.Items.Clear();
+                foreach (string path in Data_Controller.paths_anexos_offline)
+                {
+                    lb_Anexos.Items.Add(path);
+                }
             }
+            else Close();
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
@@ -145,6 +147,14 @@ namespace SGMI
                 else { MessageBox.Show("Selecione uma infração\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
             }
             else { MessageBox.Show("Não existem anexos\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+        }
+
+        private void frm_Detalhes_Load(object sender, EventArgs e)
+        {
+            if (infração != null)
+            {
+                Load_Anexos();
+            }
         }
     }
 }

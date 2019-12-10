@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EAGetMail;
 using MongoDB.Driver.GridFS;
+using System.Threading;
 
 namespace SGMI
 {
@@ -41,6 +42,8 @@ namespace SGMI
         private static IMongoCollection<BsonDocument> collection_logged_users;
         private static IMongoCollection<Pdf_> collection_anexos;
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
+
+        private static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
 
         public static string[] paths_anexos_offline;
 
@@ -388,6 +391,10 @@ namespace SGMI
 
         public static async Task Add_Anexo(ObjectId id_infração, string fileName, string newFileName)
         {
+            tot_up++;
+            frm_Principal.instancia.Transferences_Visible(true);
+            frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
+
             Pdf_ pdf = new Pdf_()
             {
                 Filename = newFileName,
@@ -403,6 +410,24 @@ namespace SGMI
             await collection_anexos.InsertOneAsync(pdf);
 
             if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
+
+            tot_up_ok++;
+            frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
+            frm_Principal.instancia.Lbl_Upload.Refresh();
+            Thread.Sleep(1000);
+
+            if (tot_up == tot_up_ok)
+            {
+                tot_up = tot_up_ok = 0;
+                frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
+                frm_Principal.instancia.Lbl_Upload.Refresh();
+                Thread.Sleep(1000);
+
+                if (tot_dow == 0 && tot_dow_ok == 0)
+                {
+                    frm_Principal.instancia.Transferences_Visible(false);
+                }
+            }
         }
         public static void Remove_Anexo(ObjectId id_infração, string filename)
         {
@@ -413,6 +438,12 @@ namespace SGMI
         }
         public static async Task Read_Anexos(ObjectId infração_id)
         {
+            tot_dow++;
+            frm_Principal.instancia.Transferences_Visible(true);
+            frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
+
+            if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
+
             List<string> local_files = new List<string>();
             foreach (string full_path  in Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly))
             {
@@ -445,8 +476,6 @@ namespace SGMI
                 }
             }
 
-            if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
-
             foreach (var pdf in downloaded_pdfs)
             {
                 string save_path = path_anexos + pdf.Filename;
@@ -458,6 +487,24 @@ namespace SGMI
             }
 
             paths_anexos_offline = paths.ToArray();
+
+            tot_dow_ok++;
+            frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
+            frm_Principal.instancia.Lbl_Download.Refresh();
+            Thread.Sleep(1000);
+
+            if (tot_dow == tot_dow_ok)
+            {
+                tot_dow = tot_dow_ok = 0;
+                frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
+                frm_Principal.instancia.Lbl_Download.Refresh();
+                Thread.Sleep(1000);
+
+                if (tot_up == 0 && tot_up_ok == 0)
+                {
+                    frm_Principal.instancia.Transferences_Visible(false);
+                }
+            }
 
             if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
         }

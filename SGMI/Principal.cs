@@ -12,11 +12,15 @@ namespace SGMI
 {
     public partial class frm_Principal : Form
     {
+        public static frm_Principal instancia;
+
         public frm_Principal()
         {
             InitializeComponent();
+            instancia = this;
             Forms_Controller.Start_Controller(pnl_Tela);
             Data_Controller.Start_Controller();
+
         }
 
         #region botões_controle_janela
@@ -59,5 +63,25 @@ namespace SGMI
         {
             Forms_Controller.Abrir(new frm_Login());
         }
+
+        public void Transferences_Visible(bool visibility)
+        {
+            pnl_Transferências.Visible = visibility;
+        }
+
+        public void Update_Status_Upload(int concluido, int total)
+        {
+            lbl_Upload.Text = "⮝ " + concluido + " de " + total;
+        }
+
+        public void Update_Status_Download(int concluido, int total)
+        {
+            lbl_Download.Text = "⮟ " + concluido + " de " + total;
+        }
+
+        public Panel Pnl_Transferences { get => pnl_Transferências; }
+
+        public Label Lbl_Upload { get => lbl_Upload; }
+        public Label Lbl_Download { get => lbl_Download; }
     }
 }

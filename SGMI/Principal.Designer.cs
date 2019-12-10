@@ -38,13 +38,18 @@
             this.pnl_Tela = new Bunifu.Framework.UI.BunifuGradientPanel();
             this.drag_Login = new AdrielDev.DragControl();
             this.elip_Tela = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.pnl_Transferências = new System.Windows.Forms.Panel();
+            this.lbl_Upload = new System.Windows.Forms.Label();
+            this.lbl_Download = new System.Windows.Forms.Label();
             this.pnl_Titulo.SuspendLayout();
+            this.pnl_Transferências.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_Titulo
             // 
             this.pnl_Titulo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Titulo.BackgroundImage")));
             this.pnl_Titulo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pnl_Titulo.Controls.Add(this.pnl_Transferências);
             this.pnl_Titulo.Controls.Add(this.btn_Fechar);
             this.pnl_Titulo.Controls.Add(this.lbl_Titulo);
             this.pnl_Titulo.Controls.Add(this.btn_MaxRes);
@@ -178,6 +183,41 @@
             this.elip_Tela.ElipseRadius = 20;
             this.elip_Tela.TargetControl = this;
             // 
+            // pnl_Transferências
+            // 
+            this.pnl_Transferências.BackColor = System.Drawing.Color.Transparent;
+            this.pnl_Transferências.Controls.Add(this.lbl_Download);
+            this.pnl_Transferências.Controls.Add(this.lbl_Upload);
+            this.pnl_Transferências.Location = new System.Drawing.Point(575, 4);
+            this.pnl_Transferências.Name = "pnl_Transferências";
+            this.pnl_Transferências.Size = new System.Drawing.Size(100, 30);
+            this.pnl_Transferências.TabIndex = 3;
+            this.pnl_Transferências.Visible = false;
+            // 
+            // lbl_Upload
+            // 
+            this.lbl_Upload.AutoEllipsis = true;
+            this.lbl_Upload.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbl_Upload.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Upload.Location = new System.Drawing.Point(0, 0);
+            this.lbl_Upload.Name = "lbl_Upload";
+            this.lbl_Upload.Size = new System.Drawing.Size(100, 15);
+            this.lbl_Upload.TabIndex = 0;
+            this.lbl_Upload.Text = "⮝ 0 de 0";
+            this.lbl_Upload.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Download
+            // 
+            this.lbl_Download.AutoEllipsis = true;
+            this.lbl_Download.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbl_Download.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Download.Location = new System.Drawing.Point(0, 15);
+            this.lbl_Download.Name = "lbl_Download";
+            this.lbl_Download.Size = new System.Drawing.Size(100, 15);
+            this.lbl_Download.TabIndex = 1;
+            this.lbl_Download.Text = "⮟ 0 de 0";
+            this.lbl_Download.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frm_Principal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -194,6 +234,7 @@
             this.Load += new System.EventHandler(this.frm_Principal_Load);
             this.pnl_Titulo.ResumeLayout(false);
             this.pnl_Titulo.PerformLayout();
+            this.pnl_Transferências.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -208,5 +249,8 @@
         private Bunifu.Framework.UI.BunifuGradientPanel pnl_Tela;
         private AdrielDev.DragControl drag_Login;
         private Bunifu.Framework.UI.BunifuElipse elip_Tela;
+        private System.Windows.Forms.Panel pnl_Transferências;
+        private System.Windows.Forms.Label lbl_Download;
+        private System.Windows.Forms.Label lbl_Upload;
     }
 }
