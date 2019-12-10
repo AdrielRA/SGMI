@@ -37,7 +37,9 @@ namespace SGMI
 
         private void Load_Anexos()
         {
-            new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog();
+            try { new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog(); }
+            catch { }
+            
             if (Data_Controller.paths_anexos_offline != null)
             {
                 lb_Anexos.Items.Clear();

@@ -44,6 +44,7 @@ namespace SGMI
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         private static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
+        public static List<string> uploading = new List<string>(), downloading = new List<string>();
 
         public static string[] paths_anexos_offline;
 
@@ -391,43 +392,47 @@ namespace SGMI
 
         public static async Task Add_Anexo(ObjectId id_infração, string fileName, string newFileName)
         {
-            tot_up++;
-            frm_Principal.instancia.Transferences_Visible(true);
-            frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
-
-            Pdf_ pdf = new Pdf_()
+            if (!uploading.Contains(newFileName))
             {
-                Filename = newFileName,
-                Infração_id = id_infração,
-                PdfContent = File.ReadAllBytes(fileName)
-            };
+                uploading.Add(newFileName);
+                tot_up++;
+                frm_Principal.instancia.Transferences_Visible(true);
+                frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
 
-            if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
+                Pdf_ pdf = new Pdf_()
+                {
+                    Filename = newFileName,
+                    Infração_id = id_infração,
+                    PdfContent = File.ReadAllBytes(fileName)
+                };
 
-            string save_path = path_anexos + pdf.Filename;
-            if (!File.Exists(save_path)) { File.WriteAllBytes(save_path, pdf.PdfContent); }
+                if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
 
-            await collection_anexos.InsertOneAsync(pdf);
+                string save_path = path_anexos + pdf.Filename;
+                if (!File.Exists(save_path)) { File.WriteAllBytes(save_path, pdf.PdfContent); }
+
+                await collection_anexos.InsertOneAsync(pdf);
+                
+                tot_up_ok++;
+                frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
+                frm_Principal.instancia.Lbl_Upload.Refresh();
+
+                if (tot_up == tot_up_ok)
+                {
+                    tot_up = tot_up_ok = 0;
+                    frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
+                    frm_Principal.instancia.Lbl_Upload.Refresh();
+
+                    if (tot_dow == 0 && tot_dow_ok == 0)
+                    {
+                        frm_Principal.instancia.Transferences_Visible(false);
+                    }
+                }
+                uploading.Remove(newFileName);
+            }
 
             if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
 
-            tot_up_ok++;
-            frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
-            frm_Principal.instancia.Lbl_Upload.Refresh();
-            Thread.Sleep(1000);
-
-            if (tot_up == tot_up_ok)
-            {
-                tot_up = tot_up_ok = 0;
-                frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
-                frm_Principal.instancia.Lbl_Upload.Refresh();
-                Thread.Sleep(1000);
-
-                if (tot_dow == 0 && tot_dow_ok == 0)
-                {
-                    frm_Principal.instancia.Transferences_Visible(false);
-                }
-            }
         }
         public static void Remove_Anexo(ObjectId id_infração, string filename)
         {
@@ -438,75 +443,89 @@ namespace SGMI
         }
         public static async Task Read_Anexos(ObjectId infração_id)
         {
-            tot_dow++;
-            frm_Principal.instancia.Transferences_Visible(true);
-            frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
-
-            if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
-
-            List<string> local_files = new List<string>();
-            foreach (string full_path  in Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly))
+            if (!downloading.Contains(infração_id.ToString()))
             {
-                local_files.Add(full_path.Split('\\').LastOrDefault());
-            }
+                downloading.Add(infração_id.ToString());
 
-            var options = new FindOptions<Pdf_>()
-            {
-                Projection = Builders<Pdf_>.Projection
-                .Include(p => p.Filename)
-            };
+                if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
 
-            List<string> paths = new List<string>(); // pega nome dos pdf's
-            using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id, options))
-            {
-                while (await cursor.MoveNextAsync())
+                List<string> local_files = new List<string>();
+                foreach (string full_path in Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly))
                 {
-                    var batch = cursor.Current;
-                    foreach (Pdf_ pdf in batch) paths.Add(pdf.Filename);
+                    local_files.Add(full_path.Split('\\').LastOrDefault());
                 }
-            }
 
-            List<Pdf_> downloaded_pdfs = new List<Pdf_>(); // faz download dos pdf's
-            using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id && !local_files.Contains(p.Filename)))
-            {
-                while (await cursor.MoveNextAsync())
+                var options = new FindOptions<Pdf_>()
                 {
-                    var batch = cursor.Current;
-                    foreach (Pdf_ pdf in batch) downloaded_pdfs.Add(pdf);
-                }
-            }
+                    Projection = Builders<Pdf_>.Projection
+                    .Include(p => p.Filename)
+                };
 
-            foreach (var pdf in downloaded_pdfs)
-            {
-                string save_path = path_anexos + pdf.Filename;
-                if (!File.Exists(save_path))
+                List<string> paths = new List<string>(); // pega nome dos pdf's
+                using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id, options))
                 {
-                    byte[] fileArray = pdf.PdfContent;
-                    File.WriteAllBytes(save_path, fileArray);
+                    while (await cursor.MoveNextAsync())
+                    {
+                        var batch = cursor.Current;
+                        foreach (Pdf_ pdf in batch) paths.Add(pdf.Filename);
+                    }
                 }
-            }
 
-            paths_anexos_offline = paths.ToArray();
-
-            tot_dow_ok++;
-            frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
-            frm_Principal.instancia.Lbl_Download.Refresh();
-            Thread.Sleep(1000);
-
-            if (tot_dow == tot_dow_ok)
-            {
-                tot_dow = tot_dow_ok = 0;
+                tot_dow += paths.Count - local_files.Where(p => paths.Contains(p)).Count();
+                frm_Principal.instancia.Transferences_Visible(true);
                 frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
-                frm_Principal.instancia.Lbl_Download.Refresh();
-                Thread.Sleep(1000);
 
-                if (tot_up == 0 && tot_up_ok == 0)
+                List<Pdf_> downloaded_pdfs = new List<Pdf_>(); // faz download dos pdf's um por um...
+                foreach (string file_to_download in paths.Where(p => !local_files.Contains(p)))
                 {
-                    frm_Principal.instancia.Transferences_Visible(false);
+                    using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id && p.Filename == file_to_download))
+                    {
+                        while (await cursor.MoveNextAsync())
+                        {
+                            var batch = cursor.Current;
+                            foreach (Pdf_ pdf in batch)
+                            {
+                                downloaded_pdfs.Add(pdf);
+                                tot_dow_ok++;
+                                frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
+                                frm_Principal.instancia.Lbl_Download.Refresh();
+                            }
+                        }
+                    }
                 }
-            }
 
-            if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
+                foreach (var pdf in downloaded_pdfs)
+                {
+                    string save_path = path_anexos + pdf.Filename;
+                    if (!File.Exists(save_path))
+                    {
+                        byte[] fileArray = pdf.PdfContent;
+                        File.WriteAllBytes(save_path, fileArray);
+                    }
+                }
+
+                paths_anexos_offline = paths.ToArray();
+
+                if (tot_dow == tot_dow_ok)
+                {
+                    tot_dow = tot_dow_ok = 0;
+                    frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
+                    frm_Principal.instancia.Lbl_Download.Refresh();
+
+                    if (tot_up == 0 && tot_up_ok == 0)
+                    {
+                        frm_Principal.instancia.Transferences_Visible(false);
+                    }
+                }
+
+                downloading.Remove(infração_id.ToString());
+
+                if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
+            }
+            else 
+            {
+                MessageBox.Show("Aguarde a sincronização dos\nanexos ser concluída!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public static bool Validate_Login(User user)
