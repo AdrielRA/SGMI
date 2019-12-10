@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -91,8 +92,10 @@ namespace SGMI
                 infrator.Infrações.Add(inf);
             }
 
+            List<ObjectId> limpar_anexos_infrações = new List<ObjectId>();
             for (int i = 0; i < infrações_to_remove.Count; i++)
             {
+                limpar_anexos_infrações.Add(infrator.Infrações[infrações_to_remove[i]].Id);
                 infrator.Infrações.RemoveAt(infrações_to_remove[i]);
             }
             var filter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
@@ -105,6 +108,12 @@ namespace SGMI
             else
             {
                 Data_Controller.Add_Infrator(infrator, infrator_original);
+
+                foreach (ObjectId id in limpar_anexos_infrações)
+                {
+                    Data_Controller.Remove_Todos_Anexos(id);
+                }
+
                 new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
             }
         }

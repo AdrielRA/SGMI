@@ -443,6 +443,31 @@ namespace SGMI
 
             collection_anexos.DeleteOneAsync(p => p.Infração_id == id_infração && p.Filename == filename);
         }
+        public static async Task Remove_Todos_Anexos(ObjectId id_infração)
+        {
+            var options = new FindOptions<Pdf_>()
+            {
+                Projection = Builders<Pdf_>.Projection
+                    .Include(p => p.Filename)
+            };
+
+            List<string> paths_to_delete = new List<string>(); // pega nome dos pdf's
+            using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == id_infração, options))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    var batch = cursor.Current;
+                    foreach (Pdf_ pdf in batch) paths_to_delete.Add(pdf.Filename);
+                }
+            }
+
+            foreach (string file in paths_to_delete)
+            {
+                if (File.Exists(path_anexos + file)) { File.Delete(path_anexos + file); }
+                collection_anexos.DeleteOneAsync(p => p.Infração_id == id_infração && p.Filename == file);
+            }
+        }
+
         public static async Task Read_Anexos(ObjectId infração_id)
         {
             if (!downloading.Contains(infração_id.ToString()))
