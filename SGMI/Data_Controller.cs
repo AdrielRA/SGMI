@@ -433,7 +433,7 @@ namespace SGMI
             }
 
             if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
-            if (frm_Detalhes.instancia != null) { frm_Detalhes.instancia.lb_Anexos_Update(); }
+            if (frm_Detalhes.instancia != null) { frm_Detalhes.instancia.lb_Anexos_Update(id_infração); }
 
         }
         public static void Remove_Anexo(ObjectId id_infração, string filename)

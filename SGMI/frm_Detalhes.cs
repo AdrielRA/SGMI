@@ -43,19 +43,16 @@ namespace SGMI
             try { new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog(); }
             catch { }
             
-            if (Data_Controller.tot_dow == 0 && Data_Controller.paths_anexos_offline != null)
-            {
-                lb_Anexos_Update();
-            }
+            if (Data_Controller.tot_dow == 0 && Data_Controller.paths_anexos_offline != null) { lb_Anexos_Update(infração.Id); }
             else Close();
         }
 
-        public void lb_Anexos_Update()
+        public void lb_Anexos_Update(ObjectId id_infração)
         {
-            lb_Anexos.Items.Clear();
-            foreach (string path in Data_Controller.paths_anexos_offline)
+            if (id_infração == infração.Id)
             {
-                lb_Anexos.Items.Add(path);
+                lb_Anexos.Items.Clear();
+                foreach (string path in Data_Controller.paths_anexos_offline) { lb_Anexos.Items.Add(path); }
             }
         }
 
