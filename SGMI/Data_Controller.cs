@@ -43,10 +43,10 @@ namespace SGMI
         private static IMongoCollection<Pdf_> collection_anexos;
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
-        private static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
+        public static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
         public static List<string> uploading = new List<string>(), downloading = new List<string>();
 
-        public static string[] paths_anexos_offline;
+        public static List<string> paths_anexos_offline;
 
         public static List<string> Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
         public enum Credencial:int
@@ -410,6 +410,7 @@ namespace SGMI
 
                 string save_path = path_anexos + pdf.Filename;
                 if (!File.Exists(save_path)) { File.WriteAllBytes(save_path, pdf.PdfContent); }
+                paths_anexos_offline.Add(pdf.Filename);
 
                 await collection_anexos.InsertOneAsync(pdf);
                 
@@ -432,12 +433,13 @@ namespace SGMI
             }
 
             if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
+            if (frm_Detalhes.instancia != null) { frm_Detalhes.instancia.lb_Anexos_Update(); }
 
         }
         public static void Remove_Anexo(ObjectId id_infração, string filename)
         {
-
             if (File.Exists(path_anexos + filename)) { File.Delete(path_anexos + filename); }
+            if (paths_anexos_offline.Contains(filename)) { paths_anexos_offline.Remove(filename); }
 
             collection_anexos.DeleteOneAsync(p => p.Infração_id == id_infração && p.Filename == filename);
         }
@@ -504,7 +506,7 @@ namespace SGMI
                     }
                 }
 
-                paths_anexos_offline = paths.ToArray();
+                paths_anexos_offline = paths;
 
                 if (tot_dow == tot_dow_ok)
                 {

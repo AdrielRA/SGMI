@@ -15,12 +15,15 @@ namespace SGMI
 {
     public partial class frm_Detalhes : Form
     {
+        public static frm_Detalhes instancia;
+
         private Infração infração;
 
         public frm_Detalhes(Infração infração)
         {
             this.infração = infração;
             InitializeComponent();
+            instancia = this;
 
             if (infração != null)
             {
@@ -40,20 +43,26 @@ namespace SGMI
             try { new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog(); }
             catch { }
             
-            if (Data_Controller.paths_anexos_offline != null)
+            if (Data_Controller.tot_dow == 0 && Data_Controller.paths_anexos_offline != null)
             {
-                lb_Anexos.Items.Clear();
-                foreach (string path in Data_Controller.paths_anexos_offline)
-                {
-                    lb_Anexos.Items.Add(path);
-                }
+                lb_Anexos_Update();
             }
             else Close();
+        }
+
+        public void lb_Anexos_Update()
+        {
+            lb_Anexos.Items.Clear();
+            foreach (string path in Data_Controller.paths_anexos_offline)
+            {
+                lb_Anexos.Items.Add(path);
+            }
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
             Data_Controller.paths_anexos_offline = null;
+            instancia = null;
             Close();
         }
 
@@ -62,6 +71,11 @@ namespace SGMI
             if (File.Exists(Data_Controller.path_anexos + Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]))
             {
                 Process.Start(Data_Controller.path_anexos + Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
+            }
+            else
+            {
+                var res = MessageBox.Show("O arquivo não foi encontrado!\n\nDeseja tentar recarregá-lo?", "Falha:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (res == DialogResult.Yes) { Load_Anexos(); }
             }
             
         }
@@ -116,8 +130,8 @@ namespace SGMI
                         }
                         
                         new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
-                        
-                        Load_Anexos();
+
+                        //lb_Anexos_Update();
                         btn_Fechar.Click += Btn_Fechar_Click;
                     }
                     else
