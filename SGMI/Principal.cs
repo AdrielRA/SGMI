@@ -26,12 +26,19 @@ namespace SGMI
         #region botões_controle_janela
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
-            if (!Data_Controller.keep_login)
+            bool sair = true;
+
+            if (Data_Controller.tot_dow > 0 || Data_Controller.tot_up > 0)
             {
-                Data_Controller.Reset_Saved_Login();
+                var res = MessageBox.Show("Você tem trasferências\nem segundo plano.\n\nDeseja realmente sair?","Atenção:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                sair = res == DialogResult.Yes;
             }
 
-            Application.Exit();
+            if (sair)
+            {
+                if (!Data_Controller.keep_login) { Data_Controller.Reset_Saved_Login(); }
+                Application.Exit();
+            }
         }
         private void Btn_Minimizar_Click(object sender, EventArgs e)
         {
