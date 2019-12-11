@@ -45,53 +45,47 @@ namespace SGMI
 
         private void btn_Salvar_Click(object sender, EventArgs e)
         {
-            try
+            if (Web_Tools.Conectado_A_Internet())
             {
-                User new_user = new User();
-                new_user.Nome = txt_UserName.Text;
-                new_user.Credencial = (cmb_Credencial.SelectedIndex) * -1;
-                new_user.Telefone = Data_Formater.Just_Numbers(txt_Telefone.Text);
-                new_user.Email = txt_Email.Text;
-                new_user.Passpassword = txt_ConformaSenha.Text;
-                if (Data_Controller.Verific_Existence_Email(new_user.Email)) { MessageBox.Show("Esse email já foi usado"); }
-                else
+                try
                 {
-                    if (!Data_Controller.Exists_User(new_user))
+                    User new_user = new User();
+                    new_user.Nome = txt_UserName.Text;
+                    new_user.Credencial = (cmb_Credencial.SelectedIndex) * -1;
+                    new_user.Telefone = Data_Formater.Just_Numbers(txt_Telefone.Text);
+                    new_user.Email = txt_Email.Text;
+                    new_user.Passpassword = txt_ConformaSenha.Text;
+                    if (Data_Controller.Verific_Existence_Email(new_user.Email)) { MessageBox.Show("Esse email já foi usado"); }
+                    else
                     {
-                        frm_Verificação verifica = new frm_Verificação(new_user.Email);
-                        verifica.ShowDialog();
-
-                        if (verifica.verificado)
+                        if (!Data_Controller.Exists_User(new_user))
                         {
-                            Data_Controller.Add_User(new_user);
-                            new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
+                            frm_Verificação verifica = new frm_Verificação(new_user.Email);
+                            verifica.ShowDialog();
+
+                            if (verifica.verificado)
+                            {
+                                Data_Controller.Add_User(new_user);
+                                new Thread(() => Btn_Fechar_Click(btn_Fechar, new EventArgs())).Start();
+                            }
+                            else { MessageBox.Show("Não foi possível verificar seu e-mail!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                         }
-                        else { MessageBox.Show("Não foi possível verificar seu e-mail!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        else { MessageBox.Show("Esse usuário já existe"); }
                     }
-                    else { MessageBox.Show("Esse usuário já existe"); }
                 }
+                catch (Exception ex) { MessageBox.Show("Usuário Não Foi Salvo!"); }
             }
-            catch (Exception ex) { MessageBox.Show("Usuário Não Foi Salvo!"); }
+            else { Web_Tools.Show_Net_Error(); }
         }
         
         private void txt_Email_Changed(object sender, EventArgs e) { Validar(); }
         private void txt_Senha_Changed(object sender, EventArgs e) { Validar(); }
         private void txt_Nome_Changed(object sender, EventArgs e) { Validar(); }
         private void cmb_Credential_Changed(object sender, EventArgs e) { Validar();  }
-
-        private void Validar()
-        {
-            btn_Salvar.Visible = !string.IsNullOrEmpty(txt_UserName.Text) && cmb_Credencial.SelectedIndex > 0
-                && Data_Validate.Email(txt_Email.Text)
-                && txt_Email.Text == txt_ConfirmaEmail.Text && !string.IsNullOrEmpty(txt_Senha.Text)
-                && !string.IsNullOrEmpty(txt_ConformaSenha.Text) && txt_Senha.Text == txt_ConformaSenha.Text;
-        }
-
         private void txt_Telefone_KeyPress(object sender, KeyPressEventArgs e)
         {
             Data_Formater.Limiter_Number(txt_Telefone, e);
         }
-
         private void txt_Telefone_OnValueChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txt_Telefone.Text))
@@ -101,6 +95,14 @@ namespace SGMI
                 SendKeys.Send("{END}");
                 txt_Telefone.OnValueChanged += txt_Telefone_OnValueChanged;
             }
+        }
+
+        private void Validar()
+        {
+            btn_Salvar.Visible = !string.IsNullOrEmpty(txt_UserName.Text) && cmb_Credencial.SelectedIndex > 0
+                && Data_Validate.Email(txt_Email.Text)
+                && txt_Email.Text == txt_ConfirmaEmail.Text && !string.IsNullOrEmpty(txt_Senha.Text)
+                && !string.IsNullOrEmpty(txt_ConformaSenha.Text) && txt_Senha.Text == txt_ConformaSenha.Text;
         }
     }
 }

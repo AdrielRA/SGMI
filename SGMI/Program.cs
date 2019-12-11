@@ -18,12 +18,14 @@ namespace SGMI
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new frm_Principal());
+                if (Web_Tools.Conectado_A_Internet()) { Application.Run(new frm_Principal()); }
+                else
+                {
+                    Web_Tools.Show_Net_Start_Error();
+                    Application.Exit();
+                }
             }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
+            catch(Exception e) { MessageBox.Show(e.ToString()); }
         }
     }
 }

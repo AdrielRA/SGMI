@@ -17,9 +17,10 @@ namespace SGMI
         public frm_Principal()
         {
             InitializeComponent();
+            
             instancia = this;
             Forms_Controller.Start_Controller(pnl_Tela);
-            Data_Controller.Start_Controller();
+            Data_Controller.Start_Controller();            
 
         }
 

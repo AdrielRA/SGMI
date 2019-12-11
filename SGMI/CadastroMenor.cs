@@ -65,61 +65,65 @@ namespace SGMI
 
         private void btn_Salvar_Click(object sender, EventArgs e)
         {
-            if (new_infrator || Security_Controller.podem_salvar_edição.Contains(Data_Controller.user_logged.Credencial))
+            if (Web_Tools.Conectado_A_Internet())
             {
-                Infrator infrator_original = null;
-                if (!new_infrator)
+                if (new_infrator || Security_Controller.podem_salvar_edição.Contains(Data_Controller.user_logged.Credencial))
                 {
-                    infrator_original = Data_Controller.Clone<Infrator>(infrator);
-                    infrator_original.Infrações = infrator.Infrações.ToList();
-                }
-                else infrator.Data_registro = DateTime.Now;
-
-                infrator.Nome = txt_Nome.Text;
-                infrator.Rg = Data_Formater.Just_Numbers(txt_RG.Text);
-                infrator.Cpf = Data_Formater.Just_Numbers(txt_CPF.Text);
-                infrator.Data_nascimento = date_Niver.Value;
-
-                infrator.Sexo = txt_Sexo.Text != "" ? txt_Sexo.Text.ToUpper()[0] : '-';
-                infrator.Mãe = txt_Mãe.Text;
-                infrator.Logradouro = txt_Logradouro.Text;
-                infrator.Num_residência = txt_NumRes.Text;
-                infrator.Bairro = txt_Bairro.Text;
-                infrator.Cidade = txt_Cidade.Text;
-                infrator.Uf = txt_UF.Text.ToUpper();
-
-                infrator.Infrações = new List<Infração>();
-                foreach (Infração inf in infrações_to_add)
-                {
-                    infrator.Infrações.Add(inf);
-                }
-
-                List<ObjectId> limpar_anexos_infrações = new List<ObjectId>();
-                for (int i = 0; i < infrações_to_remove.Count; i++)
-                {
-                    limpar_anexos_infrações.Add(infrator.Infrações[infrações_to_remove[i]].Id);
-                    infrator.Infrações.RemoveAt(infrações_to_remove[i]);
-                }
-                var filter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
-                Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
-
-                if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator_original))
-                {
-                    MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    Data_Controller.Add_Infrator(infrator, infrator_original);
-
-                    foreach (ObjectId id in limpar_anexos_infrações)
+                    Infrator infrator_original = null;
+                    if (!new_infrator)
                     {
-                        Data_Controller.Remove_Todos_Anexos(id);
+                        infrator_original = Data_Controller.Clone<Infrator>(infrator);
+                        infrator_original.Infrações = infrator.Infrações.ToList();
+                    }
+                    else infrator.Data_registro = DateTime.Now;
+
+                    infrator.Nome = txt_Nome.Text;
+                    infrator.Rg = Data_Formater.Just_Numbers(txt_RG.Text);
+                    infrator.Cpf = Data_Formater.Just_Numbers(txt_CPF.Text);
+                    infrator.Data_nascimento = date_Niver.Value;
+
+                    infrator.Sexo = txt_Sexo.Text != "" ? txt_Sexo.Text.ToUpper()[0] : '-';
+                    infrator.Mãe = txt_Mãe.Text;
+                    infrator.Logradouro = txt_Logradouro.Text;
+                    infrator.Num_residência = txt_NumRes.Text;
+                    infrator.Bairro = txt_Bairro.Text;
+                    infrator.Cidade = txt_Cidade.Text;
+                    infrator.Uf = txt_UF.Text.ToUpper();
+
+                    infrator.Infrações = new List<Infração>();
+                    foreach (Infração inf in infrações_to_add)
+                    {
+                        infrator.Infrações.Add(inf);
                     }
 
-                    new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
+                    List<ObjectId> limpar_anexos_infrações = new List<ObjectId>();
+                    for (int i = 0; i < infrações_to_remove.Count; i++)
+                    {
+                        limpar_anexos_infrações.Add(infrator.Infrações[infrações_to_remove[i]].Id);
+                        infrator.Infrações.RemoveAt(infrações_to_remove[i]);
+                    }
+                    var filter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
+                    Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
+
+                    if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator_original))
+                    {
+                        MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        Data_Controller.Add_Infrator(infrator, infrator_original);
+
+                        foreach (ObjectId id in limpar_anexos_infrações)
+                        {
+                            Data_Controller.Remove_Todos_Anexos(id);
+                        }
+
+                        new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
+                    }
                 }
+                else { Security_Controller.Show_Alert(); }
             }
-            else { Security_Controller.Show_Alert(); }
+            else { Web_Tools.Show_Net_Error(); }
         }
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração,bool verificar)
@@ -186,7 +190,11 @@ namespace SGMI
             {
                 if (Security_Controller.podem_ver_anexos.Contains(Data_Controller.user_logged.Credencial))
                 {
-                    new frm_Detalhes(infrações_to_add[lb_Infrações.SelectedIndex]).ShowDialog();
+                    if (Web_Tools.Conectado_A_Internet())
+                    {
+                        new frm_Detalhes(infrações_to_add[lb_Infrações.SelectedIndex]).ShowDialog();
+                    }
+                    else { Web_Tools.Show_Net_Error(); }
                 }
                 else { Security_Controller.Show_Alert(); }
             }

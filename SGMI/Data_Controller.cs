@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EAGetMail;
+using System.Net.NetworkInformation;
 
 namespace SGMI
 {
@@ -48,7 +49,7 @@ namespace SGMI
         public static User user_logged;
         public static bool keep_login;
         public static string user_logged_save, path_anexos;
-        private static string path, path_data, path_infos;
+        private static string path, path_data, path_infos, id_user_to_remove;
         private static DateTime last_recheck;
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
@@ -98,8 +99,15 @@ namespace SGMI
                         keep_login = data.keep_login;
                         user_logged_save = data.user_logged_save;
                         last_recheck = data.last_recheck;
+                        id_user_to_remove = data.id_user_to_remove;
 
-                        user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save);
+                        if (!string.IsNullOrEmpty(id_user_to_remove))
+                        {
+                            user_logged = users.FirstOrDefault(u => u.Id == id_user_to_remove);
+                            r.Close();
+                            Reset_Saved_Login();
+                        }
+                        else { user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save); }
                     }
                     catch
                     {
@@ -162,14 +170,16 @@ namespace SGMI
         public static void Reset_Saved_Login()
         {
             keep_login = false;
-            user_logged_save = "";
-            Save_Infos_To_Storage();
+            user_logged_save = id_user_to_remove = "";
 
-            if (user_logged != null)
+            if (user_logged != null && Web_Tools.Conectado_A_Internet())
             {
                 var deleteFilter = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
                 collection_logged_users.DeleteOne(deleteFilter);
             }
+            else if (user_logged != null) { id_user_to_remove = user_logged.Id; }
+
+            Save_Infos_To_Storage();
         }
         public static void Save_Infos_To_Storage()
         {
@@ -177,6 +187,7 @@ namespace SGMI
             json.Add("keep_login", keep_login);
             json.Add("user_logged_save", user_logged_save);
             json.Add("last_recheck", last_recheck);
+            json.Add("id_user_to_remove", id_user_to_remove);
             Create_Dir_data();
             if (!File.Exists(path_data + @"\infos.json")) { FileStream file = File.Create(path_data + @"\infos.json"); file.Close(); }
             FileInfo myFile = new FileInfo(path_data + @"\infos.json");
@@ -553,96 +564,100 @@ namespace SGMI
 
         public static bool Validate_Login(User user)
         {
-            user_logged = collection_users.Find(u => u.Nome == user.Nome && u.Passpassword == user.Passpassword).SingleOrDefault();
-
-            bool validar = user_logged != null;
-
-            if (validar)
+            if (Web_Tools.Conectado_A_Internet())
             {
-                var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
-                var user_logged_from_mongo = collection_logged_users.Find(filter_id).SingleOrDefault();
+                user_logged = collection_users.Find(u => u.Nome == user.Nome && u.Passpassword == user.Passpassword).SingleOrDefault();
 
-                if (!keep_login)
+                bool validar = user_logged != null;
+
+                if (validar)
                 {
-                    validar = user_logged.Credencial > 0;
+                    var filter_id = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
+                    var user_logged_from_mongo = collection_logged_users.Find(filter_id).SingleOrDefault();
 
-                    if (!validar)
+                    if (!keep_login)
                     {
-                        string situação = Web_Tools.Verify_User_Email(user_logged);
-
-                        if (situação.ToUpper().Contains("SIM"))
-                        {
-                            user_logged.Credencial = Math.Abs(user_logged.Credencial);
-                            validar = Add_User(user_logged); // update;
-                        }
-                        else if (situação.ToUpper().Contains("NÃO"))
-                        {
-                            Remove_User(user_logged);
-                            MessageBox.Show("Seu acesso não foi liberado!", "Info:", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            if(last_recheck.ToUniversalTime() <= DateTime.Now.AddDays(-1).ToUniversalTime())
-                            {
-                                var resp = MessageBox.Show("Este usuário ainda\nnão foi verificado!\n\nSolicitar reverificação?", "Alerta:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                if (resp == DialogResult.Yes)
-                                {
-                                    if (user_logged != null)
-                                    {
-                                        Web_Tools.Send_Email(user_logged, responsaveis.FirstOrDefault(r => r.categoria == Math.Abs(user_logged.Credencial)).email, "Verificação de Usuário - " + user_logged.Id.ToString(), "Deseja liberar o acesso para este usuário?");
-
-                                        last_recheck = DateTime.Now;
-                                        Save_Infos_To_Storage();
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Não foi possivel solicitar\nsua reverificação pois este\nusúario não consta mais\nna base de dados!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show("Este usuário ainda\nnão foi verificado!\n\nTente uma reverificação amanhã!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                        }
-                    }
-
-                    if (validar)
-                    {
-                        validar = user_logged_from_mongo == null;
+                        validar = user_logged.Credencial > 0;
 
                         if (!validar)
                         {
-                            MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else
-                        {
-                            BsonDocument login_user = new BsonDocument();
-                            login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
-                            login_user.SetElement(new BsonElement("ultimo_acesso", DateTime.Now));
+                            string situação = Web_Tools.Verify_User_Email(user_logged);
 
-                            collection_logged_users.InsertOne(login_user);
+                            if (situação.ToUpper().Contains("SIM"))
+                            {
+                                user_logged.Credencial = Math.Abs(user_logged.Credencial);
+                                validar = Add_User(user_logged); // update;
+                            }
+                            else if (situação.ToUpper().Contains("NÃO"))
+                            {
+                                Remove_User(user_logged);
+                                MessageBox.Show("Seu acesso não foi liberado!", "Info:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                if (last_recheck.ToUniversalTime() <= DateTime.Now.AddDays(-1).ToUniversalTime())
+                                {
+                                    var resp = MessageBox.Show("Este usuário ainda\nnão foi verificado!\n\nSolicitar reverificação?", "Alerta:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                    if (resp == DialogResult.Yes)
+                                    {
+                                        if (user_logged != null)
+                                        {
+                                            Web_Tools.Send_Email(user_logged, responsaveis.FirstOrDefault(r => r.categoria == Math.Abs(user_logged.Credencial)).email, "Verificação de Usuário - " + user_logged.Id.ToString(), "Deseja liberar o acesso para este usuário?");
+
+                                            last_recheck = DateTime.Now;
+                                            Save_Infos_To_Storage();
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Não foi possivel solicitar\nsua reverificação pois este\nusúario não consta mais\nna base de dados!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Este usuário ainda\nnão foi verificado!\n\nTente uma reverificação amanhã!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            }
                         }
-                    }
-                }
-                else
-                {
-                    if (user_logged_from_mongo != null)
-                    {
-                        DateTime data_limite = DateTime.Now.AddDays(-3).ToUniversalTime();
-                        validar = user_logged_from_mongo["ultimo_acesso"].ToUniversalTime() >= data_limite;
 
                         if (validar)
                         {
-                            user_logged_from_mongo["ultimo_acesso"] = DateTime.Now;
-                            collection_logged_users.ReplaceOne(filter_id, user_logged_from_mongo);
+                            validar = user_logged_from_mongo == null;
+
+                            if (!validar)
+                            {
+                                MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                BsonDocument login_user = new BsonDocument();
+                                login_user.SetElement(new BsonElement("id_usuario", user_logged.Id));
+                                login_user.SetElement(new BsonElement("ultimo_acesso", DateTime.Now));
+
+                                collection_logged_users.InsertOne(login_user);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (user_logged_from_mongo != null)
+                        {
+                            DateTime data_limite = DateTime.Now.AddDays(-3).ToUniversalTime();
+                            validar = user_logged_from_mongo["ultimo_acesso"].ToUniversalTime() >= data_limite;
+
+                            if (validar)
+                            {
+                                user_logged_from_mongo["ultimo_acesso"] = DateTime.Now;
+                                collection_logged_users.ReplaceOne(filter_id, user_logged_from_mongo);
+                            }
                         }
                     }
                 }
-            }
-            else { MessageBox.Show("Não foi possível realizar o login!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MessageBox.Show("Não foi possível realizar o login!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
-            return validar;
+                return validar;
+            }
+            else { Web_Tools.Show_Net_Error(); return false; }
         }
 
         public static void Create_Dir_data()
@@ -764,33 +779,30 @@ namespace SGMI
 
     public class Web_Tools
     {
-        #region check_Connection
-        [DllImport("wininet.dll")]
-        public extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
-        #endregion
         public static bool Conectado_A_Internet()
         {
-            bool returnValue;
+            HttpWebRequest myWebRequest = (HttpWebRequest)WebRequest.Create("http://www.google.com");
+
             try
             {
-                int Desc;
-                returnValue = InternetGetConnectedState(out Desc, 0);
+                using (var response = myWebRequest.GetResponse()) { }
+                return true;
             }
-            catch
-            {
-                returnValue = false;
-            }
-            return returnValue;
+            catch { return false; }
+        }
+        public static void Show_Net_Error()
+        {
+            MessageBox.Show("Sua conexão caiu!\n\nVerifique sua internet\ne tente novamente...", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static void Show_Net_Start_Error()
+        {
+            MessageBox.Show("Não foi possível se conectar!\n\nVerifique sua conexão...", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         static public async Task Send_Email(User user, string email_destino, string assunto, string descrição)
         {
             bool enviada;
-            if (!Conectado_A_Internet())
-            {
-                MessageBox.Show("Verifique sua conexão\ncom a internet.", "Sem internet!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
+            if (Conectado_A_Internet())
             {
                 MessageBox.Show("Enviando solicitação\nde acesso!", "Enviando...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
@@ -820,16 +832,13 @@ namespace SGMI
                         "Tente novamente mais tarde!", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else { Show_Net_Error(); }
         }
 
         static public async Task Send_Verification(string cod, string email_destino)
         {
             bool enviada;
-            if (!Conectado_A_Internet())
-            {
-                MessageBox.Show("Verifique sua conexão\ncom a internet.", "Sem internet!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
+            if (Conectado_A_Internet())
             {
                 MessageBox.Show("Enviando código\nde verificação!", "Enviando...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
@@ -859,6 +868,7 @@ namespace SGMI
                         "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else { Show_Net_Error(); }
         }
 
         public static string Verify_User_Email(User user)

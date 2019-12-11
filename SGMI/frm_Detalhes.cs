@@ -98,43 +98,50 @@ namespace SGMI
         {
             if (Security_Controller.podem_editar_anexos.Contains(Data_Controller.user_logged.Credencial))
             {
-                using (OpenFileDialog dialog = new OpenFileDialog())
+                if (Web_Tools.Conectado_A_Internet())
                 {
-                    dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    dialog.Filter = "Pdf Files|*.pdf";
-                    dialog.RestoreDirectory = true;
-
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        FileInfo fileInfo = new FileInfo(dialog.FileName);
+                        dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        dialog.Filter = "Pdf Files|*.pdf";
+                        dialog.RestoreDirectory = true;
 
-                        int tam_max = 16; // tamanho em MB
-
-                        if (fileInfo.Length / 1024 <= tam_max * 1024)
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            btn_Fechar.Click -= Btn_Fechar_Click;
+                            FileInfo fileInfo = new FileInfo(dialog.FileName);
 
-                            var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            string nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace(".pdf", "");
-                            if (res == DialogResult.Yes)
+                            int tam_max = 16; // tamanho em MB
+
+                            if (fileInfo.Length / 1024 <= tam_max * 1024)
                             {
-                                frm_Define_Nome def_nome = new frm_Define_Nome();
-                                def_nome.ShowDialog();
-                                nome_anexo = string.IsNullOrEmpty(def_nome.novo_nome) ? nome_anexo : def_nome.novo_nome;
+                                btn_Fechar.Click -= Btn_Fechar_Click;
+
+                                var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                string nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace(".pdf", "");
+                                if (res == DialogResult.Yes)
+                                {
+                                    frm_Define_Nome def_nome = new frm_Define_Nome();
+                                    def_nome.ShowDialog();
+                                    nome_anexo = string.IsNullOrEmpty(def_nome.novo_nome) ? nome_anexo : def_nome.novo_nome;
+                                }
+                                if (Web_Tools.Conectado_A_Internet())
+                                {
+                                    new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
+                                }
+                                else { Web_Tools.Show_Net_Error(); }
+
+                                //lb_Anexos_Update();
+                                btn_Fechar.Click += Btn_Fechar_Click;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Arquivo grande!\n\nLimite de " + tam_max + "MB.", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
 
-                            new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
-
-                            //lb_Anexos_Update();
-                            btn_Fechar.Click += Btn_Fechar_Click;
                         }
-                        else
-                        {
-                            MessageBox.Show("Arquivo grande!\n\nLimite de " + tam_max + "MB.", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-
                     }
                 }
+                else { Web_Tools.Show_Net_Error(); }
             }
             else { Security_Controller.Show_Alert(); }
             
@@ -153,11 +160,15 @@ namespace SGMI
                             var reult = MessageBox.Show("Tem certeza?!", "Excluir anexo:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                             if (reult == DialogResult.Yes)
                             {
-                                Data_Controller.Remove_Anexo(infração.Id, Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
-                                lb_Anexos.Items.RemoveAt(lb_Anexos.SelectedIndex);
+                                if (Web_Tools.Conectado_A_Internet())
+                                {
+                                    Data_Controller.Remove_Anexo(infração.Id, Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
+                                    lb_Anexos.Items.RemoveAt(lb_Anexos.SelectedIndex);
+                                }
+                                else { Web_Tools.Show_Net_Error(); }
                             }
                         }
-                        catch { MessageBox.Show("Não foi possível\nremover o anexo!", "Erro:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        catch { MessageBox.Show("Não foi possível\nremover o anexo!", "Erro:", MessageBoxButtons.OK, MessageBoxIcon.Error); }                        
                     }
                     else { MessageBox.Show("Selecione uma infração\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
                 }

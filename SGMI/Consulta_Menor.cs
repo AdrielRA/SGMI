@@ -43,34 +43,38 @@ namespace SGMI
         {
             if (!string.IsNullOrEmpty(Data_Formater.Just_Numbers(txtRG.Text)))
             {
-                infrator = Reload_Infrator(infrator);
-
-                Controle_UI(infrator != null);
-                if (infrator != null)
+                if (Web_Tools.Conectado_A_Internet())
                 {
-                    Infração ultima_infração = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList().FirstOrDefault();
-                    if (ultima_infração != null)
+                    infrator = Reload_Infrator(infrator);
+
+                    Controle_UI(infrator != null);
+                    if (infrator != null)
                     {
-                        lbl_DataUltima.Text = ultima_infração.Data_ocorrência.ToString("dd/MM/yyyy");
+                        Infração ultima_infração = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList().FirstOrDefault();
+                        if (ultima_infração != null)
+                        {
+                            lbl_DataUltima.Text = ultima_infração.Data_ocorrência.ToString("dd/MM/yyyy");
+                        }
+                        else
+                        {
+                            lbl_DataUltima.Text = "--/--/----";
+                        }
+
+                        lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : infrator.Infrações.Count < 1 ? "Nada Consta" : "Incidente";
+                        lbl_Nome.Text = infrator.Nome;
+                        lbl_CPF.Text = Data_Formater.Mask_CPF(infrator.Cpf);
+                        lbl_RG.Text = Data_Formater.Mask_RG(infrator.Rg);
+                        //Mudando Cor do Panel
+                        pnl_InfInfra.Controls.Clear();
+                        pnl_InfInfra.BackColor = Color.White;
+                        foreach (Infração i in infrator.Infrações)
+                        {
+                            Cria_Item_Infração(i);
+                        }
                     }
-                    else
-                    {
-                        lbl_DataUltima.Text = "--/--/----";
-                    }
-                    
-                    lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : infrator.Infrações.Count < 1 ? "Nada Consta" : "Incidente";
-                    lbl_Nome.Text = infrator.Nome;
-                    lbl_CPF.Text = Data_Formater.Mask_CPF(infrator.Cpf);
-                    lbl_RG.Text = Data_Formater.Mask_RG(infrator.Rg);
-                    //Mudando Cor do Panel
-                    pnl_InfInfra.Controls.Clear();
-                    pnl_InfInfra.BackColor = Color.White;
-                    foreach (Infração i in infrator.Infrações)
-                    {
-                        Cria_Item_Infração(i);
-                    }
+                    else MessageBox.Show("Infrator não encontrado!");
                 }
-                else MessageBox.Show("Infrator não encontrado!");
+                else { Web_Tools.Show_Net_Error(); }
             }
         }
        
@@ -166,7 +170,8 @@ namespace SGMI
         {
             if (Security_Controller.podem_ver_anexos.Contains(Data_Controller.user_logged.Credencial))
             {
-                new frm_Detalhes(infração).ShowDialog();
+                if (Web_Tools.Conectado_A_Internet()) { new frm_Detalhes(infração).ShowDialog(); }
+                else { Web_Tools.Show_Net_Error(); }
             }
             else { Security_Controller.Show_Alert(); }
         }
@@ -175,13 +180,18 @@ namespace SGMI
         {
             if (Security_Controller.podem_ver_perfil.Contains(Data_Controller.user_logged.Credencial))
             {
-                infrator = Reload_Infrator(infrator);
-
-                if (infrator != null)
+                if (Web_Tools.Conectado_A_Internet())
                 {
-                    Forms_Controller.Esconder(this);
-                    Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
+                    infrator = Reload_Infrator(infrator);
+
+                    if (infrator != null)
+                    {
+                        Forms_Controller.Esconder(this);
+                        Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
+                    }
                 }
+                else { Web_Tools.Show_Net_Error(); }
+                
             }
             else { Security_Controller.Show_Alert(); }
             
