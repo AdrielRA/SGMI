@@ -69,6 +69,7 @@
             this.panelT1 = new AdrielDev.PanelT();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.panelT2 = new AdrielDev.PanelT();
+            this.btn_Remover = new System.Windows.Forms.Label();
             this.bunifuGradientPanel2.SuspendLayout();
             this.pnl_Tela.SuspendLayout();
             this.SuspendLayout();
@@ -138,6 +139,7 @@
             this.bunifuGradientPanel2.BackColor = System.Drawing.Color.Transparent;
             this.bunifuGradientPanel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel2.BackgroundImage")));
             this.bunifuGradientPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bunifuGradientPanel2.Controls.Add(this.btn_Remover);
             this.bunifuGradientPanel2.Controls.Add(this.btn_Voltar);
             this.bunifuGradientPanel2.Controls.Add(this.label1);
             this.bunifuGradientPanel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -757,6 +759,22 @@
             this.panelT2.TabIndex = 34;
             this.panelT2.Transparency = 75;
             // 
+            // btn_Remover
+            // 
+            this.btn_Remover.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Remover.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Remover.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Remover.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Remover.Location = new System.Drawing.Point(647, 0);
+            this.btn_Remover.Name = "btn_Remover";
+            this.btn_Remover.Padding = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.btn_Remover.Size = new System.Drawing.Size(43, 40);
+            this.btn_Remover.TabIndex = 11;
+            this.btn_Remover.Text = "🗑";
+            this.btn_Remover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_Remover.Visible = false;
+            this.btn_Remover.Click += new System.EventHandler(this.btn_Remover_Click);
+            // 
             // frm_CadastroMenor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -815,5 +833,6 @@
         private Bunifu.Framework.UI.BunifuFlatButton btn_RemInfra;
         private Bunifu.Framework.UI.BunifuFlatButton btn_AddInfra;
         private System.Windows.Forms.ListBox lb_Infrações;
+        private System.Windows.Forms.Label btn_Remover;
     }
 }
