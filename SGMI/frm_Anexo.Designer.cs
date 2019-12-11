@@ -32,10 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Anexo));
             this.elip_Form = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_BG = new System.Windows.Forms.Panel();
-            this.lbl_Titulo = new LollipopLabel();
-            this.elip_BG = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
+            this.lbl_Titulo = new LollipopLabel();
+            this.elip_BG = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnl_BG.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -57,24 +57,6 @@
             this.pnl_BG.Name = "pnl_BG";
             this.pnl_BG.Size = new System.Drawing.Size(498, 58);
             this.pnl_BG.TabIndex = 0;
-            // 
-            // lbl_Titulo
-            // 
-            this.lbl_Titulo.AutoEllipsis = true;
-            this.lbl_Titulo.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_Titulo.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Titulo.ForeColor = System.Drawing.Color.Maroon;
-            this.lbl_Titulo.Location = new System.Drawing.Point(72, 2);
-            this.lbl_Titulo.Name = "lbl_Titulo";
-            this.lbl_Titulo.Size = new System.Drawing.Size(328, 52);
-            this.lbl_Titulo.TabIndex = 7;
-            this.lbl_Titulo.Text = "Anexando arquivo...";
-            this.lbl_Titulo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // elip_BG
-            // 
-            this.elip_BG.ElipseRadius = 10;
-            this.elip_BG.TargetControl = this.pnl_BG;
             // 
             // pictureBox1
             // 
@@ -114,6 +96,24 @@
             this.btn_Fechar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btn_Fechar.Click += new System.EventHandler(this.btn_Fechar_Click);
             // 
+            // lbl_Titulo
+            // 
+            this.lbl_Titulo.AutoEllipsis = true;
+            this.lbl_Titulo.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Titulo.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Titulo.ForeColor = System.Drawing.Color.Maroon;
+            this.lbl_Titulo.Location = new System.Drawing.Point(72, 2);
+            this.lbl_Titulo.Name = "lbl_Titulo";
+            this.lbl_Titulo.Size = new System.Drawing.Size(328, 52);
+            this.lbl_Titulo.TabIndex = 7;
+            this.lbl_Titulo.Text = "Anexando arquivo...";
+            this.lbl_Titulo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // elip_BG
+            // 
+            this.elip_BG.ElipseRadius = 10;
+            this.elip_BG.TargetControl = this.pnl_BG;
+            // 
             // frm_Anexo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -124,6 +124,8 @@
             this.ForeColor = System.Drawing.Color.DarkRed;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frm_Anexo";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "frm_Anexo";
             this.pnl_BG.ResumeLayout(false);

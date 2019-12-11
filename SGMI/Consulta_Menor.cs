@@ -164,18 +164,27 @@ namespace SGMI
         }
         private void Ver_Mais_Infra_Click(object sender, EventArgs e, Infração infração)
         {
-            new frm_Detalhes(infração).ShowDialog();
+            if (Security_Controller.podem_ver_anexos.Contains(Data_Controller.user_logged.Credencial))
+            {
+                new frm_Detalhes(infração).ShowDialog();
+            }
+            else { Security_Controller.Show_Alert(); }
         }
 
         private void pic_Editar_Click(object sender, EventArgs e)
         {
-            infrator = Reload_Infrator(infrator);
-
-            if (infrator != null)
+            if (Security_Controller.podem_ver_perfil.Contains(Data_Controller.user_logged.Credencial))
             {
-                Forms_Controller.Esconder(this);
-                Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
+                infrator = Reload_Infrator(infrator);
+
+                if (infrator != null)
+                {
+                    Forms_Controller.Esconder(this);
+                    Forms_Controller.Abrir(new frm_CadastroMenor(infrator));
+                }
             }
+            else { Security_Controller.Show_Alert(); }
+            
         }
 
         private void txtRG_KeyDown(object sender, KeyEventArgs e)

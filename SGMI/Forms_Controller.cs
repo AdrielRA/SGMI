@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,6 +16,8 @@ namespace SGMI
         
         public static void Start_Controller(Panel container_)
         {
+            Process[] processos = Process.GetProcessesByName(Application.ProductName);
+            foreach (Process p in processos) { if (p.StartTime != Process.GetCurrentProcess().StartTime) { p.Kill(); } }
             forms_abertos = new Stack<Form>();
             container = container_;
         }

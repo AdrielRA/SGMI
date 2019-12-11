@@ -1,14 +1,9 @@
 ﻿using MongoDB.Bson;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SGMI
@@ -101,65 +96,74 @@ namespace SGMI
 
         private void btn_AddAnexo_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            if (Security_Controller.podem_editar_anexos.Contains(Data_Controller.user_logged.Credencial))
             {
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                dialog.Filter = "Pdf Files|*.pdf";
-                dialog.RestoreDirectory = true;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    FileInfo fileInfo = new FileInfo(dialog.FileName);
+                    dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    dialog.Filter = "Pdf Files|*.pdf";
+                    dialog.RestoreDirectory = true;
 
-                    int tam_max = 16; // tamanho em MB
-
-                    if (fileInfo.Length / 1024 <= tam_max * 1024)
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        btn_Fechar.Click -= Btn_Fechar_Click;
+                        FileInfo fileInfo = new FileInfo(dialog.FileName);
 
-                        var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        string nome_anexo = "Anexo";
-                        if (res == DialogResult.Yes)
+                        int tam_max = 16; // tamanho em MB
+
+                        if (fileInfo.Length / 1024 <= tam_max * 1024)
                         {
-                            frm_Define_Nome def_nome = new frm_Define_Nome();
-                            def_nome.ShowDialog();
-                            nome_anexo = string.IsNullOrEmpty(def_nome.novo_nome) ? nome_anexo : def_nome.novo_nome;
-                        }
-                        
-                        new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
+                            btn_Fechar.Click -= Btn_Fechar_Click;
 
-                        //lb_Anexos_Update();
-                        btn_Fechar.Click += Btn_Fechar_Click;
+                            var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            string nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace(".pdf", "");
+                            if (res == DialogResult.Yes)
+                            {
+                                frm_Define_Nome def_nome = new frm_Define_Nome();
+                                def_nome.ShowDialog();
+                                nome_anexo = string.IsNullOrEmpty(def_nome.novo_nome) ? nome_anexo : def_nome.novo_nome;
+                            }
+
+                            new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
+
+                            //lb_Anexos_Update();
+                            btn_Fechar.Click += Btn_Fechar_Click;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Arquivo grande!\n\nLimite de " + tam_max + "MB.", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+
                     }
-                    else
-                    {
-                        MessageBox.Show("Arquivo grande!\n\nLimite de " + tam_max + "MB.", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    
                 }
             }
+            else { Security_Controller.Show_Alert(); }
+            
         }
 
         private void btn_RemAnexo_Click(object sender, EventArgs e)
         {
-            if(lb_Anexos.Items.Count > 0)
+            if (Security_Controller.podem_editar_anexos.Contains(Data_Controller.user_logged.Credencial))
             {
-                if (lb_Anexos.SelectedIndex >= 0)
+                if (lb_Anexos.Items.Count > 0)
                 {
-                    try
+                    if (lb_Anexos.SelectedIndex >= 0)
                     {
-                        var reult = MessageBox.Show("Tem certeza?!", "Excluir anexo:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (reult == DialogResult.Yes)
+                        try
                         {
-                            Data_Controller.Remove_Anexo(infração.Id, Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
-                            lb_Anexos.Items.RemoveAt(lb_Anexos.SelectedIndex);
+                            var reult = MessageBox.Show("Tem certeza?!", "Excluir anexo:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (reult == DialogResult.Yes)
+                            {
+                                Data_Controller.Remove_Anexo(infração.Id, Data_Controller.paths_anexos_offline[lb_Anexos.SelectedIndex]);
+                                lb_Anexos.Items.RemoveAt(lb_Anexos.SelectedIndex);
+                            }
                         }
+                        catch { MessageBox.Show("Não foi possível\nremover o anexo!", "Erro:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
-                    catch { MessageBox.Show("Não foi possível\nremover o anexo!", "Erro:", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    else { MessageBox.Show("Selecione uma infração\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
                 }
-                else { MessageBox.Show("Selecione uma infração\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+                else { MessageBox.Show("Não existem anexos\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
             }
-            else { MessageBox.Show("Não existem anexos\npara remover!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+            else { Security_Controller.Show_Alert(); }
         }
 
         private void frm_Detalhes_Load(object sender, EventArgs e)

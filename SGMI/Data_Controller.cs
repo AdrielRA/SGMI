@@ -1,31 +1,48 @@
-﻿using Bunifu.Framework.UI;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EAGetMail;
-using MongoDB.Driver.GridFS;
-using System.Threading;
 
 namespace SGMI
 {
     public class Data_Controller
     {
+        #region definições
+        public enum Credencial : int
+        {
+            Indefinido = 0,
+            Professor = 1,
+            Advogado = 2,
+            Policial = 3,
+            Delegado = 4,
+            Promotor = 5,
+            Juiz = 6
+        }
+        public struct Sys_Email
+        {
+            public const string email = "sysGI@hotmail.com", senha = "@d1minL0gin1";
+        }
+        private struct Responsavel
+        {
+            public string email;
+            public int categoria;
+        }
+        #endregion
+        
+        #region variáveis
         public static List<User> users;
         public static List<Infrator> infratores;
         public static User user_logged;
@@ -44,32 +61,12 @@ namespace SGMI
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         public static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
-        public static List<string> uploading = new List<string>(), downloading = new List<string>();
-
-        public static List<string> paths_anexos_offline;
-
-        public static List<string> Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
-        public enum Credencial:int
-        {
-            Indefinido = 0,
-            Professor = 1,
-            Advogado = 2,
-            Policial = 3,
-            Delegado = 4,
-            Promotor = 5,
-            Juiz = 6
-        }
-
-        public struct Sys_Email
-        {
-            public const string email = "sysGI@hotmail.com", senha = "@d1minL0gin1";
-        }
-        private struct Responsavel
-        {
-            public string email;
-            public int categoria;
-        }
+        public static List<string> paths_anexos_offline,
+            uploading = new List<string>(),
+            downloading = new List<string>(), 
+            Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
         private static List<Responsavel> responsaveis;
+        #endregion
 
         public static void Start_Controller()
         {
@@ -113,7 +110,6 @@ namespace SGMI
             }
             else { Save_Infos_To_Storage(); }
         }
-
 
         public static bool Verific_Existence_Email(string email)
         {
@@ -766,7 +762,6 @@ namespace SGMI
         }
     }
 
-
     public class Web_Tools
     {
         #region check_Connection
@@ -914,4 +909,68 @@ namespace SGMI
         public byte[] PdfContent { get => pdfContent; set => pdfContent = value; }
         public string Filename { get => filename; set => filename = value; }
     }
+
+    public class Security_Controller
+    {
+        public static int[] podem_cadastrar = new int[3]
+        {
+            //(int)Data_Controller.Credencial.Professor,
+            //(int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Policial,
+            (int)Data_Controller.Credencial.Delegado,
+            //(int)Data_Controller.Credencial.Promotor,
+            (int)Data_Controller.Credencial.Juiz,
+        };
+        public static int[] podem_consultar = new int[6]
+        {
+            (int)Data_Controller.Credencial.Professor,
+            (int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Policial,
+            (int)Data_Controller.Credencial.Delegado,
+            (int)Data_Controller.Credencial.Promotor,
+            (int)Data_Controller.Credencial.Juiz,
+        };
+        public static int[] podem_ver_perfil = new int[5]
+        {
+            //(int)Data_Controller.Credencial.Professor,
+            (int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Policial,
+            (int)Data_Controller.Credencial.Delegado,
+            (int)Data_Controller.Credencial.Promotor,
+            (int)Data_Controller.Credencial.Juiz,
+        };
+        public static int[] podem_salvar_edição = new int[3]
+        {
+            //(int)Data_Controller.Credencial.Professor,
+            //(int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Policial,
+            (int)Data_Controller.Credencial.Delegado,
+            //(int)Data_Controller.Credencial.Promotor,
+            (int)Data_Controller.Credencial.Juiz,
+        };
+        public static int[] podem_ver_anexos = new int[5]
+        {
+            //(int)Data_Controller.Credencial.Professor,
+            (int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Policial,
+            (int)Data_Controller.Credencial.Delegado,
+            (int)Data_Controller.Credencial.Promotor,
+            (int)Data_Controller.Credencial.Juiz,
+        };
+        public static int[] podem_editar_anexos = new int[4]
+        {
+            //(int)Data_Controller.Credencial.Professor,
+            //(int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Policial,
+            (int)Data_Controller.Credencial.Delegado,
+            (int)Data_Controller.Credencial.Promotor,
+            (int)Data_Controller.Credencial.Juiz,
+        };
+
+        public static void Show_Alert()
+        {
+            MessageBox.Show("Infelizmente você não tem\npermissão para acessar\neste recurso no momento!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+    }
+
 }
