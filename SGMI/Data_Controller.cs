@@ -288,8 +288,7 @@ namespace SGMI
             }
             else
             {
-                var filter = Builders<Infrator>.Filter.Eq("_id", infrator.Id);
-                Infrator infrator_from_mongo = collection_infratores.Find(filter).FirstOrDefault();
+                Infrator infrator_from_mongo = collection_infratores.Find(i => i.Id == infrator.Id).FirstOrDefault();
 
                 if (isEquals(infrator_from_mongo, infrator_original))
                 {
@@ -321,7 +320,7 @@ namespace SGMI
                             .Set("Data_registro", infrator.Data_registro)
                             .Set("Infrações", infracoes_);
 
-                        collection_infratores.UpdateOne(filter, update);
+                        collection_infratores.UpdateOne(i => i.Id == infrator.Id, update);
 
                         MessageBox.Show("Infrator salvo!");
                     }
@@ -345,7 +344,7 @@ namespace SGMI
         }
         public static bool isEquals(Infrator infrator_from_mongo, Infrator infrator_original)
         {
-            bool result = infrator_original != null &&
+            bool result = infrator_original != null && infrator_from_mongo != null &&
                     infrator_original.Nome == infrator_from_mongo.Nome &&
                     infrator_original.Cpf == infrator_from_mongo.Cpf &&
                     infrator_original.Rg == infrator_from_mongo.Rg &&
