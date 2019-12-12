@@ -39,7 +39,7 @@ namespace SGMI
         private void Load_Infos()
         {
             txt_Nome.Text = infrator.Nome;
-            txt_RG.Text = infrator.Rg/*Data_Formater.Mask_RG(infrator.Rg)*/;
+            txt_RG.Text = Data_Formater.Mask_RG(infrator.Rg);
             txt_CPF.Text = infrator.Cpf;
             date_Niver.Value = infrator.Data_nascimento;
             txt_Sexo.Text = infrator.Sexo.ToString();

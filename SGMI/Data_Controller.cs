@@ -730,7 +730,7 @@ namespace SGMI
         }
 
         public static string Mask_CPF(string cpf) { return Dynamic_Mask(cpf, "000.000.000-00", 11); }
-        public static string Mask_RG(string rg) { return Dynamic_Mask(rg, "00.000.000", 7); }
+        public static string Mask_RG(string rg) { return Dynamic_Mask(rg, "00.000.000", 8); }
         public static string Mask_Tel(string tel)
         {
             return Dynamic_Mask(tel, "(00) 0 0000-0000", 11);
