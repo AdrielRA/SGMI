@@ -80,14 +80,32 @@ namespace SGMI
 
             try
             {
-                var filter = Builders<Infrator>.Filter.Eq("_id", infrator.Id);
-                Infrator infrator_from_mongo = Data_Controller.Collection_Infratores.Find(filter).FirstOrDefault();
+                Infrator infrator_from_mongo = null;
+
+                if (infrator == null)
+                {
+                    infrator_from_mongo = Data_Controller.Collection_Infratores.Find(i => i.Rg == Data_Formater.Just_Numbers(txtRG.Text)).FirstOrDefault();
+                }
+                else
+                {
+                    infrator_from_mongo = Data_Controller.Collection_Infratores.Find(i => i.Id == infrator.Id).FirstOrDefault();
+                }
 
                 if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator))
                 {
                     int index = Data_Controller.infratores.IndexOf(infrator);
                     infrator = infrator_from_mongo;
                     Data_Controller.infratores[index] = infrator_from_mongo;
+                }
+                else if (infrator == null && infrator_from_mongo != null)
+                {
+                    if (!Data_Controller.infratores.Contains(infrator_from_mongo)) { Data_Controller.infratores.Add(infrator_from_mongo); }
+                    infrator = infrator_from_mongo;
+                }
+                else if (infrator_from_mongo == null && infrator != null)
+                {
+                    if (Data_Controller.infratores.Contains(infrator)) { Data_Controller.infratores.Remove(infrator); }
+                    infrator = null;
                 }
             }
             catch { }
