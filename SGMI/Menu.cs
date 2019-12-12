@@ -16,6 +16,8 @@ namespace SGMI
         {
             InitializeComponent();
             lbl_Bemvindo.Text = lbl_Bemvindo.Text.Replace("USER", Data_Controller.user_logged.Nome.ToUpper());
+
+            if (Web_Tools.Conectado_A_Internet()) { Data_Controller.Clear_Anexos(); }
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)

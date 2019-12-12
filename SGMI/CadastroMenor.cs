@@ -135,30 +135,25 @@ namespace SGMI
 
         private void btn_Remover_Click(object sender, EventArgs e)
         {
-            if (Web_Tools.Conectado_A_Internet())
+            
+            if (Security_Controller.podem_salvar_edição.Contains(Data_Controller.user_logged.Credencial))
             {
-                if (Security_Controller.podem_salvar_edição.Contains(Data_Controller.user_logged.Credencial))
+                var res = MessageBox.Show("Você tem certeza?", "Atenção:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (res == DialogResult.Yes)
                 {
-                    string string_dir = @"C:\Users\Usuario\Downloads\Faculdade\4º Período\Atividades Integradoras\SysGI\SGMI\bin\Debug\files\anexos";
-                    DirectoryInfo dir = new DirectoryInfo(string_dir);
-                    
-                    if (Directory.Exists(string_dir))
+                    if (Web_Tools.Conectado_A_Internet())
                     {
-                        try
-                        {
-                            Data_Controller.Clear(dir);
-                            
-                        }
-                        catch (IOException error)
-                        {
-                            Console.WriteLine(error.Message);
-                            return;
-                        }
+                        Data_Controller.Remove_Infrator(infrator);
+                        MessageBox.Show("Infrator removido com sucesso!");
+
+                        new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
                     }
+                    else { Web_Tools.Show_Net_Error(); }
                 }
-                else { Security_Controller.Show_Alert(); }
+                    
             }
-            else { Web_Tools.Show_Net_Error(); }
+            else { Security_Controller.Show_Alert(); }
+            
         }
 
         private void btn_AddInfra_Click(object sender, EventArgs e, Infração infração,bool verificar)

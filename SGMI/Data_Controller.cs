@@ -118,22 +118,7 @@ namespace SGMI
             }
             else { Save_Infos_To_Storage(); }
         }
-        public static void Clear(DirectoryInfo dir)
-        {
-            List<string> list = new List<string>();
-            foreach (FileInfo file in dir.GetFiles())
-            {
-                list.Add(file.Name);
-            }
-            foreach (string str in list)
-            {
-                var filter = Builders < Pdf_>.Filter.Eq("filename", str);
-                if (filter == null)
-                {
-                   
-                }
-            }
-        }
+        
         public static bool Verific_Existence_Email(string email)
         {
 
@@ -355,12 +340,8 @@ namespace SGMI
         }
         public static void Remove_Infrator(Infrator infrator)
         {
-            bool exists = !collection_infratores.Find(Builders<Infrator>.Filter.Eq("Rg", infrator.Rg)).Any();
-            if (exists)
-            {
-                var deleteFilter = Builders<Infrator>.Filter.Eq("Rg", infrator.Rg);
-                collection_infratores.DeleteOne(deleteFilter);
-            }
+            if (infrator != null) { collection_infratores.DeleteOneAsync(i => i.Id == infrator.Id); }
+            if (infratores.Contains(infrator)) { infratores.Remove(infrator); }
         }
         public static bool isEquals(Infrator infrator_from_mongo, Infrator infrator_original)
         {
@@ -487,6 +468,27 @@ namespace SGMI
             {
                 if (File.Exists(path_anexos + file)) { File.Delete(path_anexos + file); }
                 collection_anexos.DeleteOneAsync(p => p.Infração_id == id_infração && p.Filename == file);
+            }
+        }
+        public static async Task Clear_Anexos()
+        {
+            List<string> local_files = Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly).ToList(); // pega nome completo dos pdf's do PC
+            local_files = local_files.Select(s => s.Replace(path_anexos, "")).ToList(); // apaga o C://... e deixa só o nome.pdf
+
+            List<string> paths_from_mongo = new List<string>(); // pega nome dos pdf's do mongo
+            using (var cursor = await collection_anexos.FindAsync(new BsonDocument()))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    foreach (Pdf_ pdf in cursor.Current) paths_from_mongo.Add(pdf.Filename);
+                }
+            }
+
+            List<string> files_to_clear = local_files.Except(paths_from_mongo).ToList(); // pega todos os nomes que estão no PC, exceto os q ainda estão no mongo
+
+            foreach (string file_name in files_to_clear) // exclui os que tem que ser deletados
+            {
+                if (File.Exists(path_anexos + file_name)) { File.Delete(path_anexos + file_name); }
             }
         }
 
