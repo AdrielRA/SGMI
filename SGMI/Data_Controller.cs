@@ -54,11 +54,11 @@ namespace SGMI
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
         private static MongoClient client;
-        private static IMongoDatabase database;
+        public static IMongoDatabase database;
         private static IMongoCollection<Infrator> collection_infratores;
         public static IMongoCollection<User> collection_users;
         private static IMongoCollection<BsonDocument> collection_logged_users;
-        private static IMongoCollection<Pdf_> collection_anexos;
+        public static IMongoCollection<Pdf_> collection_anexos;
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         public static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
@@ -118,7 +118,22 @@ namespace SGMI
             }
             else { Save_Infos_To_Storage(); }
         }
-
+        public static void Clear(DirectoryInfo dir)
+        {
+            List<string> list = new List<string>();
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                list.Add(file.Name);
+            }
+            foreach (string str in list)
+            {
+                var filter = Builders < Pdf_>.Filter.Eq("filename", str);
+                if (filter == null)
+                {
+                   
+                }
+            }
+        }
         public static bool Verific_Existence_Email(string email)
         {
 
@@ -922,10 +937,10 @@ namespace SGMI
 
     public class Security_Controller
     {
-        public static int[] podem_cadastrar = new int[3]
+        public static int[] podem_cadastrar = new int[4]
         {
             //(int)Data_Controller.Credencial.Professor,
-            //(int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Advogado,
             (int)Data_Controller.Credencial.Policial,
             (int)Data_Controller.Credencial.Delegado,
             //(int)Data_Controller.Credencial.Promotor,
@@ -949,10 +964,10 @@ namespace SGMI
             (int)Data_Controller.Credencial.Promotor,
             (int)Data_Controller.Credencial.Juiz,
         };
-        public static int[] podem_salvar_edição = new int[3]
+        public static int[] podem_salvar_edição = new int[4]
         {
             //(int)Data_Controller.Credencial.Professor,
-            //(int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Advogado,
             (int)Data_Controller.Credencial.Policial,
             (int)Data_Controller.Credencial.Delegado,
             //(int)Data_Controller.Credencial.Promotor,
@@ -967,10 +982,10 @@ namespace SGMI
             (int)Data_Controller.Credencial.Promotor,
             (int)Data_Controller.Credencial.Juiz,
         };
-        public static int[] podem_editar_anexos = new int[4]
+        public static int[] podem_editar_anexos = new int[5]
         {
             //(int)Data_Controller.Credencial.Professor,
-            //(int)Data_Controller.Credencial.Advogado,
+            (int)Data_Controller.Credencial.Advogado,
             (int)Data_Controller.Credencial.Policial,
             (int)Data_Controller.Credencial.Delegado,
             (int)Data_Controller.Credencial.Promotor,

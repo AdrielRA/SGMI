@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -138,7 +139,22 @@ namespace SGMI
             {
                 if (Security_Controller.podem_salvar_edição.Contains(Data_Controller.user_logged.Credencial))
                 {
-                    MessageBox.Show("Recurso não implementado!");
+                    string string_dir = @"C:\Users\Usuario\Downloads\Faculdade\4º Período\Atividades Integradoras\SysGI\SGMI\bin\Debug\files\anexos";
+                    DirectoryInfo dir = new DirectoryInfo(string_dir);
+                    
+                    if (Directory.Exists(string_dir))
+                    {
+                        try
+                        {
+                            Data_Controller.Clear(dir);
+                            
+                        }
+                        catch (IOException error)
+                        {
+                            Console.WriteLine(error.Message);
+                            return;
+                        }
+                    }
                 }
                 else { Security_Controller.Show_Alert(); }
             }
