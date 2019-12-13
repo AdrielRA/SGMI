@@ -50,7 +50,7 @@ namespace SGMI
         public static User user_logged;
         public static bool keep_login;
         public static string user_logged_save, path_anexos;
-        private static string path, path_data, path_infos, id_user_to_remove;
+        private static string path, path_data, path_infos, id_user_logged;
         private static DateTime last_recheck;
 
         public const string str_Connection = "mongodb+srv://SGMI_User:SGMI2019@sgmicluster-boq9i.gcp.mongodb.net/test?retryWrites=true&w=majority";
@@ -68,6 +68,10 @@ namespace SGMI
             downloading = new List<string>(),
             Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
         private static List<Responsavel> responsaveis;
+
+        public static List<Thread> threads_running = new List<Thread>();
+        private static bool keep_running = true;
+
         #endregion
 
         public static void Start_Controller()
@@ -119,9 +123,6 @@ namespace SGMI
             }
             else { Save_Infos_To_Storage(); }
             
-            Start_Thread(new Thread(() => Start_Infrator_Insert_Watch()));
-            Start_Thread(new Thread(() => Start_Infrator_Delete_Watch()));
-
             if (user_logged != null)
             {
                 Start_Thread(new Thread(() => Start_UserLogged_Delete_Watch()));
@@ -130,13 +131,21 @@ namespace SGMI
 
         public static void Start_Thread(Thread thread)
         {
+            keep_running = true;
+            if (!threads_running.Contains(thread)) threads_running.Add(thread);
             thread.IsBackground = true;
             thread.Start();
         }
         public static void Stop_Thread(Thread thread)
         {
+            if (threads_running.Contains(thread)) threads_running.Remove(thread);
             thread.Interrupt();
             thread.Abort();
+        }
+        public static void Stop_All_Threads()
+        {
+            keep_running = false;
+            //for (int i = 0; i < threads_running.Count; i++) { Stop_Thread(threads_running[i]); }
         }
 
         public static void Start_Infrator_Insert_Watch()
@@ -150,7 +159,7 @@ namespace SGMI
             {
                 try
                 {
-                    while (cursor.MoveNext() && cursor.Current.Count() == 0) { }
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
                     var infrator_inserido = cursor.Current.First().FullDocument;
 
                     frm_Principal.instancia.Show_Notify("Infrator inserido!", "Nome: " + infrator_inserido.Nome, ToolTipIcon.Info);
@@ -159,7 +168,7 @@ namespace SGMI
                 }
                 catch { }
 
-                Start_Thread(new Thread(() => Start_Infrator_Insert_Watch()));
+                if (keep_running) { Start_Thread(new Thread(() => Start_Infrator_Insert_Watch())); }
                 Stop_Thread(Thread.CurrentThread);
             }
         }
@@ -175,7 +184,7 @@ namespace SGMI
             {
                 try
                 {
-                    while (cursor.MoveNext() && cursor.Current.Count() == 0) { }
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
 
                     Infrator infrator_removido = infratores.FirstOrDefault(i => i.Id.ToString().Contains(cursor.Current.First().DocumentKey["_id"].ToString()));
 
@@ -186,7 +195,7 @@ namespace SGMI
                     }
                 }
                 catch { }
-                Start_Thread(new Thread(() => Start_Infrator_Delete_Watch()));
+                if (keep_running) { Start_Thread(new Thread(() => Start_Infrator_Delete_Watch())); }
                 Stop_Thread(Thread.CurrentThread);
             }
         }
@@ -199,15 +208,15 @@ namespace SGMI
             {
                 try
                 {
-                    while (cursor.MoveNext() && cursor.Current.Count() == 0) { }
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
 
-                    MessageBox.Show("Seu usuário foi desconectado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    frm_Menu.instancia.Btn_Fechar_Click(frm_Menu.instancia, new EventArgs());
+                    if (cursor.Current.First().DocumentKey["_id"].ToString() == id_user_logged)
+                    {
+                        frm_Menu.instancia.Desconectar();
+                    }
                 }
                 catch { }
-
-                Start_Thread(new Thread(() => Start_UserLogged_Delete_Watch()));
+                if (keep_running) { Start_Thread(new Thread(() => Start_UserLogged_Delete_Watch())); }
                 Stop_Thread(Thread.CurrentThread);
             }
         }
@@ -263,7 +272,7 @@ namespace SGMI
         public static void Reset_Saved_Login()
         {
             keep_login = false;
-            user_logged_save = /*id_user_to_remove =*/ "";
+            user_logged_save = id_user_logged = "";
 
             if (user_logged != null && Web_Tools.Conectado_A_Internet())
             {
@@ -736,7 +745,7 @@ namespace SGMI
                             if (!validar)
                             {
                                 var res = MessageBox.Show("Este usuário já está logado!\n\nDeseja desconectar de\ntodos os dispositivos?", "Alerta:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
+                                
                                 if (res == DialogResult.Yes)
                                 {
                                     if (user_logged != null)
@@ -756,6 +765,8 @@ namespace SGMI
                                 login_user.SetElement(new BsonElement("ultimo_acesso", DateTime.Now));
 
                                 collection_logged_users.InsertOne(login_user);
+
+                                id_user_logged = login_user["_id"].ToString();
                             }
                         }
                     }
@@ -763,6 +774,8 @@ namespace SGMI
                     {
                         if (user_logged_from_mongo != null)
                         {
+                            id_user_logged = user_logged_from_mongo["_id"].ToString();
+
                             DateTime data_limite = DateTime.Now.AddDays(-3).ToUniversalTime();
                             validar = user_logged_from_mongo["ultimo_acesso"].ToUniversalTime() >= data_limite;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SGMI
@@ -15,17 +16,28 @@ namespace SGMI
             lbl_Bemvindo.Text = lbl_Bemvindo.Text.Replace("USER", Data_Controller.user_logged.Nome.ToUpper());
 
             if (Web_Tools.Conectado_A_Internet()) { Data_Controller.Clear_Anexos(); }
+
+            Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Insert_Watch()));
+            Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Delete_Watch()));
         }
 
-        public void Btn_Fechar_Click(object sender, EventArgs e)
+
+        public void Desconectar()
         {
             Invoke((MethodInvoker)delegate
             {
-                Data_Controller.Reset_Saved_Login();
-                Forms_Controller.Fechar_Recente();
-                Forms_Controller.Abrir_Anterior();
+                MessageBox.Show("Seu usuário foi desconectado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Btn_Fechar_Click(this, new EventArgs());
             });
-            
+        }
+
+
+        private void Btn_Fechar_Click(object sender, EventArgs e)
+        {
+            Data_Controller.Stop_All_Threads();
+            Data_Controller.Reset_Saved_Login();
+            Forms_Controller.Fechar_Recente();
+            Forms_Controller.Abrir_Anterior();
         }
 
         private void Btn_Cadastrar_Click(object sender, EventArgs e)
