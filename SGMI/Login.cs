@@ -41,6 +41,7 @@ namespace SGMI
                 if (Data_Controller.Validate_Login(user))
                 {
                     if (cb_KeepConnection.Checked) { Data_Controller.Save_Logged_User(user); }
+                    Data_Controller.Start_Thread(new System.Threading.Thread(() => Data_Controller.Start_UserLogged_Delete_Watch()));
                     Forms_Controller.Esconder(this);
                     Forms_Controller.Abrir(new frm_Menu());
                 }

@@ -20,8 +20,8 @@ namespace SGMI
             
             instancia = this;
             Forms_Controller.Start_Controller(pnl_Tela);
-            Data_Controller.Start_Controller();            
-
+            Data_Controller.Start_Controller();
+            FormClosing += on_Close;
         }
 
         #region botões_controle_janela
@@ -35,12 +35,16 @@ namespace SGMI
                 sair = res == DialogResult.Yes;
             }
 
-            if (sair)
-            {
-                if (!Data_Controller.keep_login) { Data_Controller.Reset_Saved_Login(); }
-                Application.Exit();
-            }
+            if (sair) { Application.Exit(); }
         }
+        private void on_Close(object sender, EventArgs e)
+        {
+            if (!Data_Controller.keep_login) { Data_Controller.Reset_Saved_Login(); }
+            notfy_Principal.Visible = false;
+            notfy_Principal.Dispose();
+            notfy_Principal = null;
+        }
+
         private void Btn_Minimizar_Click(object sender, EventArgs e)
         {
             WindowState = WindowState == FormWindowState.Normal ? FormWindowState.Minimized : FormWindowState.Normal;
@@ -76,19 +80,21 @@ namespace SGMI
         {
             pnl_Transferências.Visible = visibility;
         }
-
         public void Update_Status_Upload(int concluido, int total)
         {
             lbl_Upload.Text = "⮝ " + concluido + " de " + total;
         }
-
         public void Update_Status_Download(int concluido, int total)
         {
             lbl_Download.Text = "⮟ " + concluido + " de " + total;
         }
 
-        public Panel Pnl_Transferences { get => pnl_Transferências; }
+        public void Show_Notify(string title, string text, ToolTipIcon icon)
+        {
+            notfy_Principal.ShowBalloonTip(10, title, text, icon);
+        }
 
+        public Panel Pnl_Transferences { get => pnl_Transferências; }
         public Label Lbl_Upload { get => lbl_Upload; }
         public Label Lbl_Download { get => lbl_Download; }
     }

@@ -16,7 +16,8 @@ namespace SGMI
             if (!string.IsNullOrEmpty(email))
             {
                 codigo_verificação = Get_New_Code();
-                Web_Tools.Send_Verification(codigo_verificação, email);
+                if (Web_Tools.Conectado_A_Internet()) { Web_Tools.Send_Verification(codigo_verificação, email); }
+                else { Web_Tools.Show_Net_Error(); }
             }
             else { Close(); }
         }
@@ -42,10 +43,14 @@ namespace SGMI
 
             if (res == DialogResult.Yes)
             {
-                codigo_verificação = Get_New_Code();
-                Web_Tools.Send_Verification(codigo_verificação, email);
+                if (Web_Tools.Conectado_A_Internet())
+                {
+                    codigo_verificação = Get_New_Code();
+                    Web_Tools.Send_Verification(codigo_verificação, email);
 
-                txt_Codigo.Text = txt_Codigo.HintText;
+                    txt_Codigo.Text = txt_Codigo.HintText;
+                }
+                else { Web_Tools.Show_Net_Error(); }
             }
         }
 
@@ -70,10 +75,13 @@ namespace SGMI
 
                 if (res == DialogResult.Yes)
                 {
-                    codigo_verificação = Get_New_Code();
-                    Web_Tools.Send_Verification(codigo_verificação, email);
-
-                    txt_Codigo.Text = txt_Codigo.HintText;
+                    if (Web_Tools.Conectado_A_Internet())
+                    {
+                        codigo_verificação = Get_New_Code();
+                        Web_Tools.Send_Verification(codigo_verificação, email);
+                        txt_Codigo.Text = txt_Codigo.HintText;
+                    }
+                    else { Web_Tools.Show_Net_Error(); }
                 }
             }
         }

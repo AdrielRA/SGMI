@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EAGetMail;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace SGMI
 {
@@ -42,7 +43,7 @@ namespace SGMI
             public int categoria;
         }
         #endregion
-        
+
         #region variáveis
         public static List<User> users;
         public static List<Infrator> infratores;
@@ -64,7 +65,7 @@ namespace SGMI
         public static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
         public static List<string> paths_anexos_offline,
             uploading = new List<string>(),
-            downloading = new List<string>(), 
+            downloading = new List<string>(),
             Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
         private static List<Responsavel> responsaveis;
         #endregion
@@ -99,15 +100,15 @@ namespace SGMI
                         keep_login = data.keep_login;
                         user_logged_save = data.user_logged_save;
                         last_recheck = data.last_recheck;
-                        id_user_to_remove = data.id_user_to_remove;
+                        //id_user_to_remove = data.id_user_to_remove;
 
-                        if (!string.IsNullOrEmpty(id_user_to_remove))
-                        {
-                            user_logged = users.FirstOrDefault(u => u.Id == id_user_to_remove);
-                            r.Close();
-                            Reset_Saved_Login();
-                        }
-                        else { user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save); }
+                        //if (!string.IsNullOrEmpty(id_user_to_remove))
+                        //{
+                        //    user_logged = users.FirstOrDefault(u => u.Id == id_user_to_remove);
+                        //    r.Close();
+                        //    Reset_Saved_Login();
+                        //}
+                        /*else { */user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save); /*}*/
                     }
                     catch
                     {
@@ -117,8 +118,100 @@ namespace SGMI
                 }
             }
             else { Save_Infos_To_Storage(); }
+            
+            Start_Thread(new Thread(() => Start_Infrator_Insert_Watch()));
+            Start_Thread(new Thread(() => Start_Infrator_Delete_Watch()));
+
+            if (user_logged != null)
+            {
+                Start_Thread(new Thread(() => Start_UserLogged_Delete_Watch()));
+            }
         }
-        
+
+        public static void Start_Thread(Thread thread)
+        {
+            thread.IsBackground = true;
+            thread.Start();
+        }
+        public static void Stop_Thread(Thread thread)
+        {
+            thread.Interrupt();
+            thread.Abort();
+        }
+
+        public static void Start_Infrator_Insert_Watch()
+        {
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<Infrator>>()
+                .Match(change =>
+                    change.FullDocument.Nome != "" &&
+                    change.OperationType == ChangeStreamOperationType.Insert);
+            
+            using (var cursor = collection_infratores.Watch(pipeline))
+            {
+                try
+                {
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0) { }
+                    var infrator_inserido = cursor.Current.First().FullDocument;
+
+                    frm_Principal.instancia.Show_Notify("Infrator inserido!", "Nome: " + infrator_inserido.Nome, ToolTipIcon.Info);
+
+                    infratores.Add(infrator_inserido);
+                }
+                catch { }
+
+                Start_Thread(new Thread(() => Start_Infrator_Insert_Watch()));
+                Stop_Thread(Thread.CurrentThread);
+            }
+        }
+        public static void Start_Infrator_Delete_Watch()
+        {
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<Infrator>>()
+                .Match(change =>
+                    change.FullDocument.Nome != "" &&
+                    change.OperationType == ChangeStreamOperationType.Delete);
+
+
+            using (var cursor = collection_infratores.Watch(pipeline))
+            {
+                try
+                {
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0) { }
+
+                    Infrator infrator_removido = infratores.FirstOrDefault(i => i.Id.ToString().Contains(cursor.Current.First().DocumentKey["_id"].ToString()));
+
+                    if (infrator_removido != null)
+                    {
+                        frm_Principal.instancia.Show_Notify("Infrator removido!", "Nome: " + infrator_removido.Nome, ToolTipIcon.Info);
+                        infratores.Remove(infrator_removido);
+                    }
+                }
+                catch { }
+                Start_Thread(new Thread(() => Start_Infrator_Delete_Watch()));
+                Stop_Thread(Thread.CurrentThread);
+            }
+        }
+        public static void Start_UserLogged_Delete_Watch()
+        {
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<BsonDocument>>()
+                .Match(change => change.OperationType == ChangeStreamOperationType.Delete);
+
+            using (var cursor = collection_logged_users.Watch(pipeline))
+            {
+                try
+                {
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0) { }
+
+                    MessageBox.Show("Seu usuário foi desconectado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    frm_Menu.instancia.Btn_Fechar_Click(frm_Menu.instancia, new EventArgs());
+                }
+                catch { }
+
+                Start_Thread(new Thread(() => Start_UserLogged_Delete_Watch()));
+                Stop_Thread(Thread.CurrentThread);
+            }
+        }
+
         public static bool Verific_Existence_Email(string email)
         {
 
@@ -170,14 +263,14 @@ namespace SGMI
         public static void Reset_Saved_Login()
         {
             keep_login = false;
-            user_logged_save = id_user_to_remove = "";
+            user_logged_save = /*id_user_to_remove =*/ "";
 
             if (user_logged != null && Web_Tools.Conectado_A_Internet())
             {
                 var deleteFilter = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
                 collection_logged_users.DeleteOne(deleteFilter);
             }
-            else if (user_logged != null) { id_user_to_remove = user_logged.Id; }
+            //else if (user_logged != null) { id_user_to_remove = user_logged.Id; }
 
             Save_Infos_To_Storage();
         }
@@ -187,7 +280,7 @@ namespace SGMI
             json.Add("keep_login", keep_login);
             json.Add("user_logged_save", user_logged_save);
             json.Add("last_recheck", last_recheck);
-            json.Add("id_user_to_remove", id_user_to_remove);
+            //json.Add("id_user_to_remove", id_user_to_remove);
             Create_Dir_data();
             if (!File.Exists(path_data + @"\infos.json")) { FileStream file = File.Create(path_data + @"\infos.json"); file.Close(); }
             FileInfo myFile = new FileInfo(path_data + @"\infos.json");
@@ -415,7 +508,7 @@ namespace SGMI
                 paths_anexos_offline.Add(pdf.Filename);
 
                 await collection_anexos.InsertOneAsync(pdf);
-                
+
                 tot_up_ok++;
                 frm_Principal.instancia.Update_Status_Upload(tot_up_ok, tot_up);
                 frm_Principal.instancia.Lbl_Upload.Refresh();
@@ -572,7 +665,7 @@ namespace SGMI
 
                 if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Fechar(); }
             }
-            else 
+            else
             {
                 MessageBox.Show("Aguarde a sincronização dos\nanexos ser concluída!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -642,7 +735,19 @@ namespace SGMI
 
                             if (!validar)
                             {
-                                MessageBox.Show("Este usuário já está logado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                var res = MessageBox.Show("Este usuário já está logado!\n\nDeseja desconectar de\ntodos os dispositivos?", "Alerta:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                                if (res == DialogResult.Yes)
+                                {
+                                    if (user_logged != null)
+                                    {
+                                        frm_Verificação verificação = new frm_Verificação(user_logged.Email);
+                                        verificação.ShowDialog();
+
+                                        if (verificação.verificado) { Reset_Saved_Login(); }
+                                    }
+                                }
+                                user_logged = null;
                             }
                             else
                             {
