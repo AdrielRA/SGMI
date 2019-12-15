@@ -1041,7 +1041,6 @@ namespace SGMI
             return result;
         }
     }
-
     public class Pdf_
     {
         private ObjectId id, infração_id;

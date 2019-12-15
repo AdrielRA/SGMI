@@ -103,9 +103,9 @@ namespace SGMI
                     using (OpenFileDialog dialog = new OpenFileDialog())
                     {
                         dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                        dialog.Filter = "Pdf Files|*.pdf";
+                        dialog.Filter = "Pdf Files|*.pdf|Files|*.jpg;*.jpeg;*.png;";
                         dialog.RestoreDirectory = true;
-
+                        string nome_anexo="";
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
                             FileInfo fileInfo = new FileInfo(dialog.FileName);
@@ -117,7 +117,27 @@ namespace SGMI
                                 btn_Fechar.Click -= Btn_Fechar_Click;
 
                                 var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                string nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace(".pdf", "");
+                                string nome_anexo_complete = dialog.FileName.Split('\\').LastOrDefault();
+                                string[] div_nome = nome_anexo_complete.Split('.');
+                                if (div_nome[1] == "pdf")
+                                {
+                                    nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("pdf", "");
+                                }
+                                else
+                                {
+                                    if (div_nome[1] == "jpg")
+                                    {
+                                        nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("jpg", "");
+                                    }
+                                    else if(div_nome[1] == "jpeg")
+                                    {
+                                        nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("jpeg", "");
+                                    }
+                                    else if (div_nome[1] == "png")
+                                    {
+                                        nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("png", "");
+                                    }
+                                }
                                 if (res == DialogResult.Yes)
                                 {
                                     frm_Define_Nome def_nome = new frm_Define_Nome();
@@ -126,7 +146,7 @@ namespace SGMI
                                 }
                                 if (Web_Tools.Conectado_A_Internet())
                                 {
-                                    new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + ".pdf").ShowDialog();
+                                    new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + "."+div_nome[1]).ShowDialog();
                                 }
                                 else { Web_Tools.Show_Net_Error(); }
 
