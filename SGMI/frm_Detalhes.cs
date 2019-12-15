@@ -119,25 +119,9 @@ namespace SGMI
                                 var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 string nome_anexo_complete = dialog.FileName.Split('\\').LastOrDefault();
                                 string[] div_nome = nome_anexo_complete.Split('.');
-                                if (div_nome[1] == "pdf")
-                                {
-                                    nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("pdf", "");
-                                }
-                                else
-                                {
-                                    if (div_nome[1] == "jpg")
-                                    {
-                                        nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("jpg", "");
-                                    }
-                                    else if(div_nome[1] == "jpeg")
-                                    {
-                                        nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("jpeg", "");
-                                    }
-                                    else if (div_nome[1] == "png")
-                                    {
-                                        nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace("png", "");
-                                    }
-                                }
+                               
+                                nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace(div_nome[1], "");
+                               
                                 if (res == DialogResult.Yes)
                                 {
                                     frm_Define_Nome def_nome = new frm_Define_Nome();
