@@ -27,10 +27,12 @@ namespace SGMI
             Invoke((MethodInvoker)delegate
             {
                 MessageBox.Show("Seu usuário foi desconectado!", "Alerta:", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Btn_Fechar_Click(this, new EventArgs());
+                Data_Controller.Stop_All_Threads();
+                Data_Controller.Reset_Saved_Login();
+                Forms_Controller.Fechar_Todos();
+                Forms_Controller.Abrir_Anterior();
             });
         }
-
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {

@@ -355,6 +355,7 @@
             this.Controls.Add(this.pnl_BG);
             this.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "frm_Detalhes";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

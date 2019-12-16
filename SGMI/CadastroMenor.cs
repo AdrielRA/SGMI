@@ -13,7 +13,7 @@ namespace SGMI
     public partial class frm_CadastroMenor : Form
     {
         private Infrator infrator;
-        private bool new_infrator = false;
+        private bool new_infrator = false, isFavorite = false;
         private List<int> infrações_to_remove;
         private List<Infração> infrações_to_add;
 
@@ -31,7 +31,7 @@ namespace SGMI
             else
             {
                 txt_RG.Enabled = false;
-                btn_Remover.Visible = true;
+                btn_Favoritar.Visible = btn_Remover.Visible = true;
                 Load_Infos();
             }
         }
@@ -55,6 +55,13 @@ namespace SGMI
                 btn_AddInfra_Click(btn_AddInfra, new EventArgs(), inf, false);
             });
             infrações_to_add = infrator.Infrações.ToList();
+
+            if (Web_Tools.Conectado_A_Internet())
+            {
+                isFavorite = Data_Controller.isFavorite(infrator.Id);
+                btn_Favoritar.Text = isFavorite ? "★" : "☆";
+                // verificar se é infrator favoritado
+            }
         }
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
@@ -112,7 +119,9 @@ namespace SGMI
 
                         if (infrator_from_mongo != null && !Data_Controller.isEquals(infrator_from_mongo, infrator_original))
                         {
+                            Forms_Controller.pode_desconectar = false;
                             MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Forms_Controller.pode_desconectar = true;
                         }
                         else
                         {
@@ -126,7 +135,12 @@ namespace SGMI
                             new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
                         }
                     }
-                    else { MessageBox.Show("Existem campos com dados inválidos!\nVerifique-os e tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+                    else
+                    {
+                        Forms_Controller.pode_desconectar = false;
+                        MessageBox.Show("Existem campos com dados inválidos!\nVerifique-os e tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Forms_Controller.pode_desconectar = true;
+                    }
                 }
                 else { Security_Controller.Show_Alert(); }
             }
@@ -138,13 +152,18 @@ namespace SGMI
             
             if (Security_Controller.podem_salvar_edição.Contains(Data_Controller.user_logged.Credencial))
             {
+                Forms_Controller.pode_desconectar = false;
                 var res = MessageBox.Show("Você tem certeza?", "Atenção:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                Forms_Controller.pode_desconectar = true;
                 if (res == DialogResult.Yes)
                 {
                     if (Web_Tools.Conectado_A_Internet())
                     {
+                        Data_Controller.Remove_Favorite(infrator.Id, true);
                         Data_Controller.Remove_Infrator(infrator);
+                        Forms_Controller.pode_desconectar = false;
                         MessageBox.Show("Infrator removido com sucesso!");
+                        Forms_Controller.pode_desconectar = true;
 
                         new Thread(() => Btn_Fechar_Click(btn_Voltar, new EventArgs())).Start();
                     }
@@ -177,7 +196,9 @@ namespace SGMI
             }
             else
             {
+                Forms_Controller.pode_desconectar = false;
                 MessageBox.Show("A descrição não deve estar vazia!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Forms_Controller.pode_desconectar = true;
             }
         }
 
@@ -292,6 +313,18 @@ namespace SGMI
                 !string.IsNullOrEmpty(txt_Bairro.Text) && !txt_Bairro.Text.Equals(txt_Bairro.HintText) &&
                 !string.IsNullOrEmpty(txt_Cidade.Text) && !txt_Cidade.Text.Equals(txt_Cidade.HintText) &&
                 !string.IsNullOrEmpty(txt_UF.Text) && !txt_UF.Text.Equals(txt_UF.HintText);
+        }
+
+        private void btn_Notificar_Click(object sender, EventArgs e)
+        {
+            if (infrator != null)
+            {
+                isFavorite = !isFavorite;
+                btn_Favoritar.Text = isFavorite ? "★" : "☆";
+
+                if (isFavorite) { Data_Controller.Add_Favorite(infrator.Id); }
+                else { Data_Controller.Remove_Favorite(infrator.Id, false); }
+            }
         }
     }
 }

@@ -51,7 +51,7 @@ namespace SGMI
             }
         }
 
-        private void Btn_Fechar_Click(object sender, EventArgs e)
+        public void Btn_Fechar_Click(object sender, EventArgs e)
         {
             Data_Controller.paths_anexos_offline = null;
             instancia = null;
@@ -100,12 +100,13 @@ namespace SGMI
             {
                 if (Web_Tools.Conectado_A_Internet())
                 {
+                    Forms_Controller.pode_desconectar = false;
                     using (OpenFileDialog dialog = new OpenFileDialog())
                     {
                         dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                        dialog.Filter = "Pdf Files|*.pdf|Files|*.jpg;*.jpeg;*.png;";
+                        dialog.Filter = "Pdf Files|*.pdf|Image Files|*.jpg;*.jpeg;*.png;";
                         dialog.RestoreDirectory = true;
-                        string nome_anexo="";
+                        string nome_anexo = "";
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
                             FileInfo fileInfo = new FileInfo(dialog.FileName);
@@ -116,11 +117,13 @@ namespace SGMI
                             {
                                 btn_Fechar.Click -= Btn_Fechar_Click;
 
+                                Forms_Controller.pode_desconectar = false;
                                 var res = MessageBox.Show("Deseja definir um\nnome para o anexo?", "Opção:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                Forms_Controller.pode_desconectar = true;
                                 string nome_anexo_complete = dialog.FileName.Split('\\').LastOrDefault();
                                 string[] div_nome = nome_anexo_complete.Split('.');
                                
-                                nome_anexo = dialog.FileName.Split('\\').LastOrDefault().Replace(div_nome[1], "");
+                                nome_anexo = nome_anexo_complete.Replace("." + div_nome.LastOrDefault(), "");
                                
                                 if (res == DialogResult.Yes)
                                 {
@@ -130,7 +133,7 @@ namespace SGMI
                                 }
                                 if (Web_Tools.Conectado_A_Internet())
                                 {
-                                    new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + "."+div_nome[1]).ShowDialog();
+                                    new frm_Anexo(infração.Id, dialog.FileName, nome_anexo + " - " + DateTime.Now.Ticks + "." + div_nome.LastOrDefault()).ShowDialog();
                                 }
                                 else { Web_Tools.Show_Net_Error(); }
 
@@ -144,6 +147,7 @@ namespace SGMI
 
                         }
                     }
+                    Forms_Controller.pode_desconectar = true;
                 }
                 else { Web_Tools.Show_Net_Error(); }
             }
@@ -161,7 +165,9 @@ namespace SGMI
                     {
                         try
                         {
-                            var reult = MessageBox.Show("Tem certeza?!", "Excluir anexo:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            Forms_Controller.pode_desconectar = false;
+                            var reult = MessageBox.Show("Tem certeza?", "Excluir anexo:", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            Forms_Controller.pode_desconectar = true;
                             if (reult == DialogResult.Yes)
                             {
                                 if (Web_Tools.Conectado_A_Internet())

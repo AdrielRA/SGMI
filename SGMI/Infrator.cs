@@ -38,4 +38,16 @@ namespace SGMI
         public List<Infração> Infrações { get => infrações; set => infrações = value; }
         
     }
+
+    public class Infrator_Favorito
+    {
+        private ObjectId id, id_infrator;
+        private List<string> users_watching;
+
+        public Infrator_Favorito() { users_watching = new List<string>(); }
+
+        public ObjectId Id { get => id; set => id = value; }
+        public ObjectId Id_infrator { get => id_infrator; set => id_infrator = value; }
+        public List<string> Users_watching { get => users_watching; set => users_watching = value; }
+    }
 }

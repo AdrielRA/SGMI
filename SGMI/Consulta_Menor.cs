@@ -68,7 +68,12 @@ namespace SGMI
                             Cria_Item_Infração(i);
                         }
                     }
-                    else MessageBox.Show("Infrator não encontrado!");
+                    else
+                    {
+                        Forms_Controller.pode_desconectar = false;
+                        MessageBox.Show("Infrator não encontrado!");
+                        Forms_Controller.pode_desconectar = true;
+                    }
                 }
                 else { Web_Tools.Show_Net_Error(); }
             }

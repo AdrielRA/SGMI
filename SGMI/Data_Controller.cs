@@ -60,13 +60,15 @@ namespace SGMI
         public static IMongoCollection<User> collection_users;
         private static IMongoCollection<BsonDocument> collection_logged_users;
         public static IMongoCollection<Pdf_> collection_anexos;
+        private static IMongoCollection<Infrator_Favorito> collection_infratores_favoritados;
         public static IMongoCollection<Infrator> Collection_Infratores { get => collection_infratores; }
 
         public static int tot_up = 0, tot_dow = 0, tot_up_ok = 0, tot_dow_ok = 0;
         public static List<string> paths_anexos_offline,
             uploading = new List<string>(),
             downloading = new List<string>(),
-            Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" };
+            Credenciais = new List<string>() { "INDEFINIDO", "PROFESSOR", "ADVOGADO", "POLICIAL", "DELEGADO", "PROMOTOR", "JUIZ" },
+            anexo_formats = new List<string>() { ".pdf", ".jpeg", ".jpg", ".png" };
         private static List<Responsavel> responsaveis;
 
         public static List<Thread> threads_running = new List<Thread>();
@@ -104,15 +106,8 @@ namespace SGMI
                         keep_login = data.keep_login;
                         user_logged_save = data.user_logged_save;
                         last_recheck = data.last_recheck;
-                        //id_user_to_remove = data.id_user_to_remove;
-
-                        //if (!string.IsNullOrEmpty(id_user_to_remove))
-                        //{
-                        //    user_logged = users.FirstOrDefault(u => u.Id == id_user_to_remove);
-                        //    r.Close();
-                        //    Reset_Saved_Login();
-                        //}
-                        /*else { */user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save); /*}*/
+                        
+                        user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save);
                     }
                     catch
                     {
@@ -162,8 +157,10 @@ namespace SGMI
                     while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
                     var infrator_inserido = cursor.Current.First().FullDocument;
 
-                    frm_Principal.instancia.Show_Notify("Infrator inserido!", "Nome: " + infrator_inserido.Nome, ToolTipIcon.Info);
-
+                    if (isFavorite(infrator_inserido.Id))
+                    {
+                        frm_Principal.instancia.Show_Notify("Infrator inserido!", "Nome: " + infrator_inserido.Nome, ToolTipIcon.Info);
+                    }
                     infratores.Add(infrator_inserido);
                 }
                 catch { }
@@ -190,7 +187,12 @@ namespace SGMI
 
                     if (infrator_removido != null)
                     {
-                        frm_Principal.instancia.Show_Notify("Infrator removido!", "Nome: " + infrator_removido.Nome, ToolTipIcon.Info);
+                        if (isFavorite(infrator_removido.Id))
+                        {
+                            frm_Principal.instancia.Show_Notify("Infrator removido!", "Nome: " + infrator_removido.Nome, ToolTipIcon.Info);
+                            Remove_Favorite(infrator_removido.Id, true);
+                        }
+                        
                         infratores.Remove(infrator_removido);
                     }
                 }
@@ -212,6 +214,7 @@ namespace SGMI
 
                     if (cursor.Current.First().DocumentKey["_id"].ToString() == id_user_logged)
                     {
+                        while (!Forms_Controller.pode_desconectar);
                         frm_Menu.instancia.Desconectar();
                     }
                 }
@@ -256,6 +259,7 @@ namespace SGMI
                 collection_users = database.GetCollection<User>("users");
                 collection_logged_users = database.GetCollection<BsonDocument>("logged_users");
                 collection_anexos = database.GetCollection<Pdf_>("anexos");
+                collection_infratores_favoritados = database.GetCollection<Infrator_Favorito>("infratores_favoritados");
             }
             catch
             {
@@ -279,7 +283,6 @@ namespace SGMI
                 var deleteFilter = Builders<BsonDocument>.Filter.Eq("id_usuario", user_logged.Id);
                 collection_logged_users.DeleteOne(deleteFilter);
             }
-            //else if (user_logged != null) { id_user_to_remove = user_logged.Id; }
 
             Save_Infos_To_Storage();
         }
@@ -384,7 +387,10 @@ namespace SGMI
                 try
                 {
                     collection_infratores.InsertOne(infrator);
+                    Forms_Controller.pode_desconectar = false;
                     MessageBox.Show("Infrator salvo!");
+                    Forms_Controller.pode_desconectar = true;
+                    if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
                 }
                 catch { }
             }
@@ -424,20 +430,26 @@ namespace SGMI
 
                         collection_infratores.UpdateOne(i => i.Id == infrator.Id, update);
 
-                        MessageBox.Show("Infrator salvo!");
+                        Forms_Controller.pode_desconectar = false;
+                        MessageBox.Show("Infrator atualizado!");
+                        Forms_Controller.pode_desconectar = true;
+
+                        if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
                     }
                     catch
                     {
-                        MessageBox.Show("Não foi possível salvar!\n\nVerifique todos os\ncampos e tente novamente!");
+                        Forms_Controller.pode_desconectar = false;
+                        MessageBox.Show("Não foi possível atualizar!\n\nVerifique todos os\ncampos e tente novamente!");
+                        Forms_Controller.pode_desconectar = true;
                     }
                 }
                 else
                 {
+                    Forms_Controller.pode_desconectar = false;
                     MessageBox.Show("Existem inconsistências na informação\n\nPor favor reinicie o sistema\ne tente novamente!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Forms_Controller.pode_desconectar = true;
                 }
-
             }
-            if (!infratores.Contains(infrator)) { infratores.Add(infrator); }
         }
         public static void Remove_Infrator(Infrator infrator)
         {
@@ -492,6 +504,42 @@ namespace SGMI
                     user_original.Passpassword == user_from_mongo.Passpassword;
 
             return result;
+        }
+
+        public static bool isFavorite(ObjectId id_infrator)
+        { 
+            return collection_infratores_favoritados.Find(i => i.Id_infrator == id_infrator && i.Users_watching.Contains(user_logged.Id)).Any();
+        }
+        public static void Add_Favorite(ObjectId id_infrator)
+        {
+            Infrator_Favorito inf_favorito_from_mongo = collection_infratores_favoritados.Find(i => i.Id_infrator == id_infrator).FirstOrDefault();
+
+            if (inf_favorito_from_mongo == null)
+            {
+                collection_infratores_favoritados.InsertOne(new Infrator_Favorito() { Id_infrator = id_infrator, Users_watching = new List<string>() { user_logged.Id } });
+            }
+            else
+            {
+                if (!inf_favorito_from_mongo.Users_watching.Contains(user_logged.Id)) { inf_favorito_from_mongo.Users_watching.Add(user_logged.Id); }
+                collection_infratores_favoritados.ReplaceOne(i => i.Id_infrator == id_infrator, inf_favorito_from_mongo);
+            }
+        }
+        public static void Remove_Favorite(ObjectId id_infrator, bool clear)
+        {
+            Infrator_Favorito inf_favorito_from_mongo = collection_infratores_favoritados.Find(i => i.Id_infrator == id_infrator).FirstOrDefault();
+
+            if (inf_favorito_from_mongo != null)
+            {
+                if (clear || inf_favorito_from_mongo.Users_watching.Count <= 1)
+                {
+                    collection_infratores_favoritados.DeleteOne(i => i.Id_infrator == id_infrator);
+                }
+                else
+                {
+                    if(inf_favorito_from_mongo.Users_watching.Contains(user_logged.Id)) { inf_favorito_from_mongo.Users_watching.Remove(user_logged.Id); }
+                    collection_infratores_favoritados.ReplaceOne(i => i.Id_infrator == id_infrator, inf_favorito_from_mongo);
+                }
+            }
         }
 
         public static async Task Add_Anexo(ObjectId id_infração, string fileName, string newFileName)
@@ -573,10 +621,13 @@ namespace SGMI
         }
         public static async Task Clear_Anexos()
         {
-            List<string> local_files = Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly).ToList(); // pega nome completo dos pdf's do PC
-            local_files = local_files.Select(s => s.Replace(path_anexos, "")).ToList(); // apaga o C://... e deixa só o nome.pdf
+            List<string> local_files = Directory
+                   .GetFiles(path_anexos)
+                   .Where(file => anexo_formats.Any(file.ToLower().EndsWith))
+                   .Select(file => file.Split('\\').LastOrDefault())
+                   .ToList();
 
-            List<string> paths_from_mongo = new List<string>(); // pega nome dos pdf's do mongo
+            List<string> paths_from_mongo = new List<string>();
             using (var cursor = await collection_anexos.FindAsync(new BsonDocument()))
             {
                 while (await cursor.MoveNextAsync())
@@ -585,14 +636,13 @@ namespace SGMI
                 }
             }
 
-            List<string> files_to_clear = local_files.Except(paths_from_mongo).ToList(); // pega todos os nomes que estão no PC, exceto os q ainda estão no mongo
+            List<string> files_to_clear = local_files.Except(paths_from_mongo).ToList();
 
-            foreach (string file_name in files_to_clear) // exclui os que tem que ser deletados
+            foreach (string file_name in files_to_clear)
             {
                 if (File.Exists(path_anexos + file_name)) { File.Delete(path_anexos + file_name); }
             }
         }
-
         public static async Task Read_Anexos(ObjectId infração_id)
         {
             if (!downloading.Contains(infração_id.ToString()))
@@ -601,11 +651,11 @@ namespace SGMI
 
                 if (!Directory.Exists(path_anexos)) { Directory.CreateDirectory(path_anexos); }
 
-                List<string> local_files = new List<string>();
-                foreach (string full_path in Directory.GetFiles(path_anexos, "*.pdf", SearchOption.TopDirectoryOnly))
-                {
-                    local_files.Add(full_path.Split('\\').LastOrDefault());
-                }
+                List<string> local_files = Directory
+                .GetFiles(path_anexos)
+                .Where(file => anexo_formats.Any(file.ToLower().EndsWith))
+                .Select(file => file.Split('\\').LastOrDefault())
+                .ToList();
 
                 var options = new FindOptions<Pdf_>()
                 {
@@ -613,7 +663,7 @@ namespace SGMI
                     .Include(p => p.Filename)
                 };
 
-                List<string> paths = new List<string>(); // pega nome dos pdf's
+                List<string> paths = new List<string>();
                 using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id, options))
                 {
                     while (await cursor.MoveNextAsync())
@@ -627,7 +677,7 @@ namespace SGMI
                 frm_Principal.instancia.Transferences_Visible(true);
                 frm_Principal.instancia.Update_Status_Download(tot_dow_ok, tot_dow);
 
-                List<Pdf_> downloaded_pdfs = new List<Pdf_>(); // faz download dos pdf's um por um...
+                List<Pdf_> downloaded_pdfs = new List<Pdf_>();
                 foreach (string file_to_download in paths.Where(p => !local_files.Contains(p)))
                 {
                     using (var cursor = await collection_anexos.FindAsync(p => p.Infração_id == infração_id && p.Filename == file_to_download))
@@ -676,7 +726,9 @@ namespace SGMI
             }
             else
             {
+                Forms_Controller.pode_desconectar = false;
                 MessageBox.Show("Aguarde a sincronização dos\nanexos ser concluída!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Forms_Controller.pode_desconectar = true;
             }
         }
 
@@ -926,7 +978,9 @@ namespace SGMI
         }
         public static void Show_Net_Error()
         {
+            Forms_Controller.pode_desconectar = false;
             MessageBox.Show("Sua conexão caiu!\n\nVerifique sua internet\ne tente novamente...", "Falha:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Forms_Controller.pode_desconectar = true;
         }
         public static void Show_Net_Start_Error()
         {
@@ -1053,6 +1107,7 @@ namespace SGMI
         public string Filename { get => filename; set => filename = value; }
     }
 
+
     public class Security_Controller
     {
         public static int[] podem_cadastrar = new int[4]
@@ -1112,7 +1167,9 @@ namespace SGMI
 
         public static void Show_Alert()
         {
+            Forms_Controller.pode_desconectar = false;
             MessageBox.Show("Infelizmente você não tem\npermissão para acessar\neste recurso no momento!", "Atenção:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            Forms_Controller.pode_desconectar = true;
         }
     }
 

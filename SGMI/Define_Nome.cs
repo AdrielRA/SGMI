@@ -13,10 +13,12 @@ namespace SGMI
     public partial class frm_Define_Nome : Form
     {
         public string novo_nome = "";
+        public static frm_Define_Nome instancia;
 
         public frm_Define_Nome()
         {
             InitializeComponent();
+            instancia = this;
         }
 
         private void btn_OK_Click(object sender, EventArgs e)
@@ -24,6 +26,7 @@ namespace SGMI
             if (!string.IsNullOrEmpty(txt_Nome.Text) && txt_Nome.Text != txt_Nome.HintText)
             {
                 novo_nome = txt_Nome.Text;
+                instancia = null;
                 Close();
             }
             else { MessageBox.Show("Nome inválido!"); }

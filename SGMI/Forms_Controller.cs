@@ -8,7 +8,7 @@ namespace SGMI
 {
     public class Forms_Controller
     {
-        public static bool maximizado;
+        public static bool maximizado, pode_desconectar;
         public static Size screen_size;
 
         private static Panel container = null;
@@ -20,6 +20,7 @@ namespace SGMI
             foreach (Process p in processos) { if (p.StartTime != Process.GetCurrentProcess().StartTime) { p.Kill(); } }
             forms_abertos = new Stack<Form>();
             container = container_;
+            pode_desconectar = true;
         }
 
         public static void Abrir(Form form)
@@ -61,12 +62,16 @@ namespace SGMI
 
         public static void Fechar_Todos()
         {
+            if (frm_Define_Nome.instancia != null) { frm_Define_Nome.instancia.Close(); }
+            if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Close(); }
+            if (frm_Detalhes.instancia != null) { frm_Detalhes.instancia.Btn_Fechar_Click(frm_Detalhes.instancia, new EventArgs()); }
+
             if (forms_abertos != null)
             {
                 int cont_forms = forms_abertos.Count;
                 for (int i = 0; i < cont_forms; i++)
                 {
-                    Fechar_Recente();
+                    if (!forms_abertos.Peek().Name.Contains("Login")) { Fechar_Recente(); }
                 }
             }
         }

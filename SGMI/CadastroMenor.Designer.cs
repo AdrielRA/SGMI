@@ -43,6 +43,7 @@
             this.bunifuElipse12 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.bunifuElipse13 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.bunifuGradientPanel2 = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.btn_Remover = new System.Windows.Forms.Label();
             this.btn_Voltar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.label1 = new System.Windows.Forms.Label();
             this.pnl_Tela = new Bunifu.Framework.UI.BunifuGradientPanel();
@@ -69,7 +70,7 @@
             this.panelT1 = new AdrielDev.PanelT();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.panelT2 = new AdrielDev.PanelT();
-            this.btn_Remover = new System.Windows.Forms.Label();
+            this.btn_Favoritar = new System.Windows.Forms.Label();
             this.bunifuGradientPanel2.SuspendLayout();
             this.pnl_Tela.SuspendLayout();
             this.SuspendLayout();
@@ -139,6 +140,7 @@
             this.bunifuGradientPanel2.BackColor = System.Drawing.Color.Transparent;
             this.bunifuGradientPanel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel2.BackgroundImage")));
             this.bunifuGradientPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bunifuGradientPanel2.Controls.Add(this.btn_Favoritar);
             this.bunifuGradientPanel2.Controls.Add(this.btn_Remover);
             this.bunifuGradientPanel2.Controls.Add(this.btn_Voltar);
             this.bunifuGradientPanel2.Controls.Add(this.label1);
@@ -152,6 +154,23 @@
             this.bunifuGradientPanel2.Quality = 100;
             this.bunifuGradientPanel2.Size = new System.Drawing.Size(800, 40);
             this.bunifuGradientPanel2.TabIndex = 0;
+            // 
+            // btn_Remover
+            // 
+            this.btn_Remover.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Remover.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Remover.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Remover.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Remover.Location = new System.Drawing.Point(655, 0);
+            this.btn_Remover.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Remover.Name = "btn_Remover";
+            this.btn_Remover.Padding = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.btn_Remover.Size = new System.Drawing.Size(33, 40);
+            this.btn_Remover.TabIndex = 11;
+            this.btn_Remover.Text = "🗑";
+            this.btn_Remover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_Remover.Visible = false;
+            this.btn_Remover.Click += new System.EventHandler(this.btn_Remover_Click);
             // 
             // btn_Voltar
             // 
@@ -759,21 +778,22 @@
             this.panelT2.TabIndex = 34;
             this.panelT2.Transparency = 75;
             // 
-            // btn_Remover
+            // btn_Favoritar
             // 
-            this.btn_Remover.BackColor = System.Drawing.Color.Transparent;
-            this.btn_Remover.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_Remover.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Remover.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_Remover.Location = new System.Drawing.Point(647, 0);
-            this.btn_Remover.Name = "btn_Remover";
-            this.btn_Remover.Padding = new System.Windows.Forms.Padding(3, 0, 0, 3);
-            this.btn_Remover.Size = new System.Drawing.Size(43, 40);
-            this.btn_Remover.TabIndex = 11;
-            this.btn_Remover.Text = "🗑";
-            this.btn_Remover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btn_Remover.Visible = false;
-            this.btn_Remover.Click += new System.EventHandler(this.btn_Remover_Click);
+            this.btn_Favoritar.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Favoritar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Favoritar.Font = new System.Drawing.Font("Century Gothic", 34F);
+            this.btn_Favoritar.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Favoritar.Location = new System.Drawing.Point(615, -13);
+            this.btn_Favoritar.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Favoritar.Name = "btn_Favoritar";
+            this.btn_Favoritar.Padding = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.btn_Favoritar.Size = new System.Drawing.Size(40, 53);
+            this.btn_Favoritar.TabIndex = 12;
+            this.btn_Favoritar.Text = "☆";
+            this.btn_Favoritar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btn_Favoritar.Visible = false;
+            this.btn_Favoritar.Click += new System.EventHandler(this.btn_Notificar_Click);
             // 
             // frm_CadastroMenor
             // 
@@ -834,5 +854,6 @@
         private Bunifu.Framework.UI.BunifuFlatButton btn_AddInfra;
         private System.Windows.Forms.ListBox lb_Infrações;
         private System.Windows.Forms.Label btn_Remover;
+        private System.Windows.Forms.Label btn_Favoritar;
     }
 }

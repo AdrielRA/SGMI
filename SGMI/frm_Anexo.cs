@@ -32,6 +32,7 @@ namespace SGMI
 
         private void btn_Fechar_Click(object sender, EventArgs e)
         {
+            instancia = null;
             Close();
         }
     }
