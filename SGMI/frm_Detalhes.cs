@@ -33,13 +33,16 @@ namespace SGMI
             }
         }
 
-        private void Load_Anexos()
+        public void Load_Anexos()
         {
-            try { new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog(); }
-            catch { }
-            
-            if (Data_Controller.tot_dow == 0 && Data_Controller.paths_anexos_offline != null) { lb_Anexos_Update(infração.Id); }
-            else Close();
+            Invoke((MethodInvoker)delegate
+            {
+                try { new frm_Anexo(infração.Id, "Baixando anexos...").ShowDialog(); }
+                catch { }
+
+                if (Data_Controller.tot_dow == 0 && Data_Controller.paths_anexos_offline != null) { lb_Anexos_Update(infração.Id); }
+                else Close();
+            });
         }
 
         public void lb_Anexos_Update(ObjectId id_infração)

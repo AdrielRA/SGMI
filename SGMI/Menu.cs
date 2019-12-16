@@ -14,12 +14,15 @@ namespace SGMI
             InitializeComponent();
             instancia = this;
             lbl_Bemvindo.Text = lbl_Bemvindo.Text.Replace("USER", Data_Controller.user_logged.Nome.ToUpper());
+            sw_Notificação.Value = Data_Controller.alow_notification;
 
             if (Web_Tools.Conectado_A_Internet()) { Data_Controller.Clear_Anexos(); }
 
             Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Insert_Watch()));
             Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Update_Watch()));
             Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Delete_Watch()));
+            Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Anexo_Insert_Watch()));
+            Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Anexo_Delete_Watch()));
         }
 
 
@@ -61,6 +64,12 @@ namespace SGMI
                 Forms_Controller.Abrir(new frmConsulta_Menor());
             }
             else { Security_Controller.Show_Alert(); }
+        }
+
+        private void sw_Notificação_Click(object sender, EventArgs e)
+        {
+            Data_Controller.alow_notification = sw_Notificação.Value;
+            Data_Controller.Save_Infos_To_Storage();
         }
     }
 }

@@ -10,10 +10,12 @@ namespace SGMI
     public partial class frmConsulta_Menor : Form
     {
         private Infrator infrator;
+        public static frmConsulta_Menor instancia;
 
         public frmConsulta_Menor()
         {
             InitializeComponent();
+            instancia = this;
             Controle_UI(false);
             VisibleChanged += Refresh_Pesquisa;
             btn_Fechar.BackColor = Color.Transparent;
@@ -32,51 +34,59 @@ namespace SGMI
 
         private void Btn_Fechar_Click(object sender, EventArgs e)
         {
+            instancia = null;
             Forms_Controller.Fechar_Recente();
             Forms_Controller.Abrir_Anterior();
         }
-        private void PictureBox1_Click(object sender, EventArgs e)
+        public void PictureBox1_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(Data_Formater.Just_Numbers(txtRG.Text)))
+            Invoke((MethodInvoker)delegate
             {
-                if (Web_Tools.Conectado_A_Internet())
+                if (!string.IsNullOrEmpty(Data_Formater.Just_Numbers(txtRG.Text)))
                 {
-                    infrator = Reload_Infrator(infrator);
-
-                    Controle_UI(infrator != null);
-                    if (infrator != null)
+                    if (Web_Tools.Conectado_A_Internet())
                     {
-                        Infração ultima_infração = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList().FirstOrDefault();
-                        if (ultima_infração != null)
+                        if (frm_Define_Nome.instancia != null) { frm_Define_Nome.instancia.Close(); }
+                        if (frm_Anexo.instancia != null) { frm_Anexo.instancia.Close(); }
+                        if (frm_Detalhes.instancia != null) { frm_Detalhes.instancia.Btn_Fechar_Click(frm_Detalhes.instancia, new EventArgs()); }
+
+                        infrator = Reload_Infrator(infrator);
+
+                        Controle_UI(infrator != null);
+                        if (infrator != null)
                         {
-                            lbl_DataUltima.Text = ultima_infração.Data_ocorrência.ToString("dd/MM/yyyy");
+                            Infração ultima_infração = infrator.Infrações.OrderByDescending(inf => inf.Data_ocorrência).ToList().FirstOrDefault();
+                            if (ultima_infração != null)
+                            {
+                                lbl_DataUltima.Text = ultima_infração.Data_ocorrência.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                lbl_DataUltima.Text = "--/--/----";
+                            }
+
+                            lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : infrator.Infrações.Count < 1 ? "Nada Consta" : "Incidente";
+                            lbl_Nome.Text = infrator.Nome;
+                            lbl_CPF.Text = Data_Formater.Mask_CPF(infrator.Cpf);
+                            lbl_RG.Text = Data_Formater.Mask_RG(infrator.Rg);
+                            //Mudando Cor do Panel
+                            pnl_InfInfra.Controls.Clear();
+                            pnl_InfInfra.BackColor = Color.White;
+                            foreach (Infração i in infrator.Infrações)
+                            {
+                                Cria_Item_Infração(i);
+                            }
                         }
                         else
                         {
-                            lbl_DataUltima.Text = "--/--/----";
-                        }
-
-                        lbl_Status.Text = infrator.Infrações.Count > 1 ? "Reincidente" : infrator.Infrações.Count < 1 ? "Nada Consta" : "Incidente";
-                        lbl_Nome.Text = infrator.Nome;
-                        lbl_CPF.Text = Data_Formater.Mask_CPF(infrator.Cpf);
-                        lbl_RG.Text = Data_Formater.Mask_RG(infrator.Rg);
-                        //Mudando Cor do Panel
-                        pnl_InfInfra.Controls.Clear();
-                        pnl_InfInfra.BackColor = Color.White;
-                        foreach (Infração i in infrator.Infrações)
-                        {
-                            Cria_Item_Infração(i);
+                            Forms_Controller.pode_desconectar = false;
+                            MessageBox.Show("Infrator não encontrado!");
+                            Forms_Controller.pode_desconectar = true;
                         }
                     }
-                    else
-                    {
-                        Forms_Controller.pode_desconectar = false;
-                        MessageBox.Show("Infrator não encontrado!");
-                        Forms_Controller.pode_desconectar = true;
-                    }
+                    else { Web_Tools.Show_Net_Error(); }
                 }
-                else { Web_Tools.Show_Net_Error(); }
-            }
+            });
         }
        
         private Infrator Reload_Infrator(Infrator infrator)

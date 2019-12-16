@@ -30,12 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Menu));
             this.bunifuGradientPanel1 = new Bunifu.Framework.UI.BunifuGradientPanel();
+            this.lbl_Bemvindo = new System.Windows.Forms.Label();
             this.btn_Fechar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.btn_Consultar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.btn_Cadastrar = new Bunifu.Framework.UI.BunifuThinButton2();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbl_Bemvindo = new System.Windows.Forms.Label();
+            this.sw_Notificação = new Bunifu.Framework.UI.BunifuSwitch();
+            this.label2 = new System.Windows.Forms.Label();
             this.bunifuGradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -47,6 +49,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bunifuGradientPanel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel1.BackgroundImage")));
             this.bunifuGradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bunifuGradientPanel1.Controls.Add(this.label2);
+            this.bunifuGradientPanel1.Controls.Add(this.sw_Notificação);
             this.bunifuGradientPanel1.Controls.Add(this.lbl_Bemvindo);
             this.bunifuGradientPanel1.Controls.Add(this.btn_Fechar);
             this.bunifuGradientPanel1.Controls.Add(this.btn_Consultar);
@@ -63,6 +67,20 @@
             this.bunifuGradientPanel1.Quality = 10;
             this.bunifuGradientPanel1.Size = new System.Drawing.Size(800, 410);
             this.bunifuGradientPanel1.TabIndex = 0;
+            // 
+            // lbl_Bemvindo
+            // 
+            this.lbl_Bemvindo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Bemvindo.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Bemvindo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Bemvindo.ForeColor = System.Drawing.Color.White;
+            this.lbl_Bemvindo.Location = new System.Drawing.Point(209, 42);
+            this.lbl_Bemvindo.Name = "lbl_Bemvindo";
+            this.lbl_Bemvindo.Size = new System.Drawing.Size(378, 23);
+            this.lbl_Bemvindo.TabIndex = 5;
+            this.lbl_Bemvindo.Text = "BEM-VINDO, USER!";
+            this.lbl_Bemvindo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btn_Fechar
             // 
@@ -172,19 +190,36 @@
             this.label1.Text = "INICIO";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbl_Bemvindo
+            // sw_Notificação
             // 
-            this.lbl_Bemvindo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.sw_Notificação.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.sw_Notificação.BorderRadius = 0;
+            this.sw_Notificação.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sw_Notificação.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.sw_Notificação.Location = new System.Drawing.Point(735, 377);
+            this.sw_Notificação.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.sw_Notificação.Name = "sw_Notificação";
+            this.sw_Notificação.Oncolor = System.Drawing.Color.Crimson;
+            this.sw_Notificação.Onoffcolor = System.Drawing.Color.DarkGray;
+            this.sw_Notificação.Size = new System.Drawing.Size(51, 19);
+            this.sw_Notificação.TabIndex = 6;
+            this.sw_Notificação.Textcolor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.sw_Notificação.Value = true;
+            this.sw_Notificação.Click += new System.EventHandler(this.sw_Notificação_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Bemvindo.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_Bemvindo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Bemvindo.ForeColor = System.Drawing.Color.White;
-            this.lbl_Bemvindo.Location = new System.Drawing.Point(209, 42);
-            this.lbl_Bemvindo.Name = "lbl_Bemvindo";
-            this.lbl_Bemvindo.Size = new System.Drawing.Size(378, 23);
-            this.lbl_Bemvindo.TabIndex = 5;
-            this.lbl_Bemvindo.Text = "BEM-VINDO, USER!";
-            this.lbl_Bemvindo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(635, 375);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(97, 23);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Notificações:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frm_Menu
             // 
@@ -210,5 +245,7 @@
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Cadastrar;
         private Bunifu.Framework.UI.BunifuThinButton2 btn_Fechar;
         private System.Windows.Forms.Label lbl_Bemvindo;
+        private System.Windows.Forms.Label label2;
+        private Bunifu.Framework.UI.BunifuSwitch sw_Notificação;
     }
 }

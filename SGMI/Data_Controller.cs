@@ -48,7 +48,7 @@ namespace SGMI
         public static List<User> users;
         public static List<Infrator> infratores;
         public static User user_logged;
-        public static bool keep_login;
+        public static bool keep_login, alow_notification = true;
         public static string user_logged_save, path_anexos;
         private static string path, path_data, path_infos, id_user_logged;
         private static DateTime last_recheck;
@@ -106,7 +106,8 @@ namespace SGMI
                         keep_login = data.keep_login;
                         user_logged_save = data.user_logged_save;
                         last_recheck = data.last_recheck;
-                        
+                        alow_notification = data.alow_notification;
+
                         user_logged = users.FirstOrDefault(u => u.Nome == user_logged_save);
                     }
                     catch
@@ -157,7 +158,7 @@ namespace SGMI
                     while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
                     var infrator_inserido = cursor.Current.First().FullDocument;
 
-                    if (isFavorite(infrator_inserido.Id))
+                    if (alow_notification && isFavorite(infrator_inserido.Id))
                     {
                         frm_Principal.instancia.Show_Notify("Infrator inserido!", "Nome: " + infrator_inserido.Nome, ToolTipIcon.Info);
                     }
@@ -185,9 +186,13 @@ namespace SGMI
                     while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
 
                     Infrator infrator_atualizado = infratores.FirstOrDefault(i => i.Id.ToString().Contains(cursor.Current.First().DocumentKey["_id"].ToString()));
-                    if (isFavorite(infrator_atualizado.Id))
+                    if (alow_notification && isFavorite(infrator_atualizado.Id))
                     {
                         frm_Principal.instancia.Show_Notify("Infrator atualizado!", "Nome: " + infrator_atualizado.Nome, ToolTipIcon.Info);
+                    }
+                    if (frmConsulta_Menor.instancia != null)
+                    {
+                        frmConsulta_Menor.instancia.PictureBox1_Click(frmConsulta_Menor.instancia, new EventArgs());
                     }
                 }
                 catch { }
@@ -216,7 +221,7 @@ namespace SGMI
                     {
                         if (isFavorite(infrator_removido.Id))
                         {
-                            frm_Principal.instancia.Show_Notify("Infrator removido!", "Nome: " + infrator_removido.Nome, ToolTipIcon.Info);
+                            if (alow_notification) { frm_Principal.instancia.Show_Notify("Infrator removido!", "Nome: " + infrator_removido.Nome, ToolTipIcon.Info); }
                             Remove_Favorite(infrator_removido.Id, true);
                         }
                         
@@ -247,6 +252,64 @@ namespace SGMI
                 }
                 catch { }
                 if (keep_running) { Start_Thread(new Thread(() => Start_UserLogged_Delete_Watch())); }
+                Stop_Thread(Thread.CurrentThread);
+            }
+        }
+        public static void Start_Anexo_Insert_Watch()
+        {
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<Pdf_>>()
+                .Match(change => change.OperationType == ChangeStreamOperationType.Insert);
+
+            using (var cursor = collection_anexos.Watch(pipeline))
+            {
+                try
+                {
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
+
+                    var anexo_inserido = cursor.Current.First().FullDocument;
+                    var infrator_relacionado = infratores.FirstOrDefault(i => i.Infrações.Select(infra => infra.Id).Contains(anexo_inserido.Infração_id));
+
+                    if (infrator_relacionado != null && alow_notification && isFavorite(infrator_relacionado.Id))
+                    {
+                        frm_Principal.instancia.Show_Notify("Anexo adicionado!", "Infrator: " + infrator_relacionado.Nome, ToolTipIcon.Info);
+                    }
+                    if (frm_Detalhes.instancia != null)
+                    {
+                        while (!Forms_Controller.pode_desconectar);
+                        frm_Detalhes.instancia.Load_Anexos();
+                    }
+                }
+                catch { }
+
+                if (keep_running) { Start_Thread(new Thread(() => Start_Anexo_Insert_Watch())); }
+                Stop_Thread(Thread.CurrentThread);
+            }
+        }
+        public static void Start_Anexo_Delete_Watch()
+        {
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<Pdf_>>()
+                .Match(change => change.OperationType == ChangeStreamOperationType.Delete);
+
+            using (var cursor = collection_anexos.Watch(pipeline))
+            {
+                try
+                {
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
+
+                    if (alow_notification && Web_Tools.Conectado_A_Internet())
+                    {
+                        Clear_Anexos();
+                        frm_Principal.instancia.Show_Notify("Anexo removido!", "Arquivos desnecessários apagados.", ToolTipIcon.Info);
+                    }
+                    if (frm_Detalhes.instancia != null)
+                    {
+                        while (!Forms_Controller.pode_desconectar); 
+                        frm_Detalhes.instancia.Load_Anexos();
+                    }
+                }
+                catch { }
+
+                if (keep_running) { Start_Thread(new Thread(() => Start_Anexo_Delete_Watch())); }
                 Stop_Thread(Thread.CurrentThread);
             }
         }
@@ -319,7 +382,7 @@ namespace SGMI
             json.Add("keep_login", keep_login);
             json.Add("user_logged_save", user_logged_save);
             json.Add("last_recheck", last_recheck);
-            //json.Add("id_user_to_remove", id_user_to_remove);
+            json.Add("alow_notification", alow_notification);
             Create_Dir_data();
             if (!File.Exists(path_data + @"\infos.json")) { FileStream file = File.Create(path_data + @"\infos.json"); file.Close(); }
             FileInfo myFile = new FileInfo(path_data + @"\infos.json");
