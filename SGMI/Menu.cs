@@ -18,6 +18,7 @@ namespace SGMI
             if (Web_Tools.Conectado_A_Internet()) { Data_Controller.Clear_Anexos(); }
 
             Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Insert_Watch()));
+            Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Update_Watch()));
             Data_Controller.Start_Thread(new Thread(() => Data_Controller.Start_Infrator_Delete_Watch()));
         }
 

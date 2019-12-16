@@ -169,6 +169,33 @@ namespace SGMI
                 Stop_Thread(Thread.CurrentThread);
             }
         }
+        public static void Start_Infrator_Update_Watch()
+        {
+            var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<Infrator>>()
+                .Match(change =>
+                    change.FullDocument.Nome != "" && (
+                    change.OperationType == ChangeStreamOperationType.Replace ||
+                    change.OperationType == ChangeStreamOperationType.Update
+                    ));
+
+            using (var cursor = collection_infratores.Watch(pipeline))
+            {
+                try
+                {
+                    while (cursor.MoveNext() && cursor.Current.Count() == 0 && keep_running) { }
+
+                    Infrator infrator_atualizado = infratores.FirstOrDefault(i => i.Id.ToString().Contains(cursor.Current.First().DocumentKey["_id"].ToString()));
+                    if (isFavorite(infrator_atualizado.Id))
+                    {
+                        frm_Principal.instancia.Show_Notify("Infrator atualizado!", "Nome: " + infrator_atualizado.Nome, ToolTipIcon.Info);
+                    }
+                }
+                catch { }
+
+                if (keep_running) { Start_Thread(new Thread(() => Start_Infrator_Update_Watch())); }
+                Stop_Thread(Thread.CurrentThread);
+            }
+        }
         public static void Start_Infrator_Delete_Watch()
         {
             var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<Infrator>>()
